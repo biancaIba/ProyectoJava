@@ -6,8 +6,10 @@ public class PerfilInstagram {
 	public PerfilInstagram() {
 	    this.listaPublicaciones = new ArrayList<Publicacion>();
 	}
+	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
+		
 	}
 
 }
