@@ -15,7 +15,7 @@ public abstract class Publicacion {
 	  //creo una lista vacia de Etiquetas,Comentarios y Albumes
 	    this.listaEtiquetas = new ArrayList<String>();
 	    this.listaComentarios = new ArrayList<String>();
-	    this.listaAlbumes = new ArrayList<Album>();
+	    this.listaAlbumes = new ArrayList<Album>();// conviene ordenarlo alfabeticamente para poder mostrar
 	 }
 	public String getNombrePublicacion() {
 		return nombrePublicacion;
@@ -41,5 +41,5 @@ public abstract class Publicacion {
 				+ cantMG + "]";
 	}
 	
-
+	
 }
