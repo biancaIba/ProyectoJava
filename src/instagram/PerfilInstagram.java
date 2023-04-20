@@ -9,7 +9,7 @@ public class PerfilInstagram {
 	
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
-		
+		System.out.println("HOLA");
 	}
 	public void confListaReproduccion() {
 		/*Permita la consulta y reproducción de un grupo de publicaciones seleccionadas de acuerdo a
