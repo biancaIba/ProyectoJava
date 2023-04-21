@@ -1,13 +1,14 @@
 package view;
 
-import java.awt.BorderLayout;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import java.awt.Color;
+import javax.swing.border.MatteBorder;
 
-public class PerfilInstagram extends JFrame {
+public class Interfaz extends JFrame {
 
 	private JPanel contentPane;
 
@@ -18,7 +19,7 @@ public class PerfilInstagram extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					PerfilInstagram frame = new PerfilInstagram();
+					Interfaz frame = new Interfaz();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -30,11 +31,14 @@ public class PerfilInstagram extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public PerfilInstagram() {
+	public Interfaz() {
+		setForeground(Color.DARK_GRAY);
+		setBackground(Color.GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+		contentPane.setBackground(Color.GRAY);
+		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 		setContentPane(contentPane);
 	}
