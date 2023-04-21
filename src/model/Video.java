@@ -1,15 +1,14 @@
-package instagram;
+package model;
 
-public class Video extends Multimedia {
+public class Video extends Publicacion implements Durable, Filtrable {
 	private String resolucion;
 	private int cantCuadros;
-	public Video(String nombrePublicacion, String fechaSubida, int cantMG,int duracion, String resolucion,int cantCuadros) {
-		super(nombrePublicacion, fechaSubida, cantMG, duracion);
-		this.resolucion=resolucion;
-		this.cantCuadros=cantCuadros;
+
+	public Video(String nombrePublicacion, String fechaSubida, int cantMG, String resolucion, int cantCuadros) {
+		super(nombrePublicacion, fechaSubida, cantMG);
+		this.resolucion = resolucion;
+		this.cantCuadros = cantCuadros;
 	}
-	
-	
 
 	public String getResolucion() {
 		return resolucion;
@@ -32,24 +31,18 @@ public class Video extends Multimedia {
 		return "Video [resolucion=" + resolucion + ", cantCuadros=" + cantCuadros + "]";
 	}
 
-
-
-	
-	public void aplicarFiltros() {
-	
-	}
-
-	@Override
 	public void avanzar() {
-		// TODO Auto-generated method stub
+		
+
+	}
+
+	public void detener() {
+		
+
+	}
+	
+	public void aplicarFiltro() {
 		
 	}
 
-	@Override
-	public void detener() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	
 }
