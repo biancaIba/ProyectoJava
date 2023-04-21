@@ -1,2 +1,2 @@
 Readme inicial v2
-Crear los inteface y sacar el multimedia
+Crear los intefase y sacar el multimedia
