@@ -1,5 +1,5 @@
 package model;
-
+import java.util.*;
 public class Imagen extends Publicacion implements Filtrable {
 	private String resolucion;
 	private int ancho;

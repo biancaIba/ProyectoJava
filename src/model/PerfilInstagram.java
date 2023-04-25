@@ -4,9 +4,10 @@ import java.util.*;
 
 public class PerfilInstagram {
 	private ArrayList<Publicacion> listaPublicaciones;
-
+	private ArrayList<Album> listaAlbumes;
 	public PerfilInstagram() {
 		this.listaPublicaciones = new ArrayList<Publicacion>();
+		this.listaAlbumes=new ArrayList<Album>();
 	}
 
 	public static void main(String[] args) {
