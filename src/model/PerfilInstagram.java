@@ -14,7 +14,10 @@ public class PerfilInstagram {
 	}
 	
 	public void cargaPublicacionesDeXML() {
-		
+		/*
+		 * Carga en forma ordenada un listado de publicaciones del usuario
+		 * desde un archivo XML en listaPublicaciones
+		 */
 	}
 
 	public void confListaReproduccion() {

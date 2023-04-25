@@ -21,10 +21,14 @@ public class Album {
 	}
 	
 	public void crearAlbum() {
-		
+
 	}
 	
 	public void eliminarAlbum() {
+		/*
+		 * Elimina un álbum y todos sus sub-álbumes
+		 * Las publicaciones son sacadas, pero no eliminadas del Perfil
+		 */
 		
 	}
 

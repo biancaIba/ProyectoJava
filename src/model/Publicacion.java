@@ -8,7 +8,7 @@ public abstract class Publicacion {
 	private int cantMG;
 	private ArrayList<String> listaEtiquetas;
 	private ArrayList<String> listaComentarios;
-	private ArrayList<Album> listaAlbumes; // 0 o mas albumes
+	private ArrayList<Album> listaAlbumesPertenece; // 0 o mas albumes
 
 	public Publicacion(String nombrePublicacion, String fechaSubida, int cantMG) {
 		this.nombrePublicacion = nombrePublicacion;
@@ -17,7 +17,7 @@ public abstract class Publicacion {
 		// creo una lista vacia de Etiquetas,Comentarios y Albumes
 		this.listaEtiquetas = new ArrayList<String>();
 		this.listaComentarios = new ArrayList<String>();
-		this.listaAlbumes = new ArrayList<Album>();// conviene ordenarlo alfabeticamente para poder mostrar
+		this.listaAlbumesPertenece = new ArrayList<Album>();// conviene ordenarlo alfabeticamente para poder mostrar
 	}
 
 	public String getNombrePublicacion() {

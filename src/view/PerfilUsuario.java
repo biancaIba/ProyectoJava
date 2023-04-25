@@ -1,28 +1,19 @@
 package view;
 
 import model.*;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import java.awt.Color;
-import javax.swing.border.MatteBorder;
-import javax.swing.JButton;
-import java.awt.Font;
-import java.awt.event.ActionListener;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-import javax.swing.JPopupMenu;
-import java.awt.Component;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import java.awt.Insets;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class PerfilUsuario extends JFrame {
 
+	GestionAlbumes plGestionAlbumes;
+	JTabbedPane pestanias;
+	
 	private JPanel contentPane;
 
 	/**
@@ -45,6 +36,8 @@ public class PerfilUsuario extends JFrame {
 	 * Create the frame.
 	 */
 	public PerfilUsuario() {
+		setTitle("Perfil del Usuario");
+		setSize(420,250);
 		setForeground(Color.DARK_GRAY);
 		setBackground(Color.GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -55,6 +48,11 @@ public class PerfilUsuario extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 
 		setContentPane(contentPane);
+		inicializar();
+
+	}
+	
+	private void inicializar() {
 		
 		JMenuBar menuPrincipal = new JMenuBar();
 		menuPrincipal.setOpaque(false);
@@ -62,41 +60,46 @@ public class PerfilUsuario extends JFrame {
 		menuPrincipal.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		menuPrincipal.setBorderPainted(true);
 		
-		JMenu agregaPublicacion = new JMenu("Agregar Publicación");
-		agregaPublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
+		JMenu albumes = new JMenu("Álbumes");
+		albumes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		JMenu opciones = new JMenu("Opciones");
 		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
-		menuPrincipal.add(agregaPublicacion);
+		menuPrincipal.add(albumes);
 		menuPrincipal.add(reportes);
 		menuPrincipal.add(opciones);
 		
-		JMenuItem agregaVideo = new JMenuItem ("Agrega Video");
-		agregaVideo.addActionListener(new ActionListener() {
+		pestanias = new JTabbedPane();
+		pestanias.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
+		plGestionAlbumes = new GestionAlbumes();
+		
+		JMenuItem crearAlbum = new JMenuItem ("Crear álbum");
+		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Video nuevoVideo = new Video();
+							}
+		});
+		JMenuItem gestionaAlbum = new JMenuItem ("Gestionar álbumes");
+		gestionaAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				pestanias.add("Gestión de Álbumes", plGestionAlbumes);
 			}
 		});
-		JMenuItem agregaAudio = new JMenuItem ("Agrega Audio");
-		agregaAudio.addActionListener(new ActionListener() {
+		JMenuItem eliminaAlbum = new JMenuItem ("Eliminar álbum");
+		eliminaAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//Audio nuevoAudio = new Audio();
-			}
-		});
-		JMenuItem agregaImagen = new JMenuItem ("Agrega Imagen");
-		agregaImagen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				//Imagen nuevoImagen = new Imagen();
+				
 			}
 		});
 		
-		agregaPublicacion.add(agregaVideo);
-		agregaPublicacion.add(agregaAudio);
-		agregaPublicacion.add(agregaImagen);
+		albumes.add(crearAlbum);
+		albumes.add(gestionaAlbum);
+		albumes.add(eliminaAlbum);
 		
+		getContentPane().add(pestanias);
 		contentPane.add(menuPrincipal);
+		
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {
