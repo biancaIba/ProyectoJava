@@ -1,12 +1,27 @@
 package model;
-
+import java.time.LocalDate;
 public class Audio extends Publicacion implements Durable {
 	private int velocidadBits;
 
-	public Audio(String nombrePublicacion, String fechaSubida, int cantMG, int velocidadBits) {
+
+	@Override
+	public String toString() {
+	    return "Audio{" +
+	        super.toString() +
+	        ", velocidadBits=" + velocidadBits +
+	        '}';
+	}
+
+
+
+
+
+	public Audio(String nombrePublicacion, LocalDate fechaSubida, int cantMG, int velocidadBits) {
 		super(nombrePublicacion, fechaSubida, cantMG);
 		this.velocidadBits = velocidadBits;
 	}
+
+
 
 	public int getVelocidadBits() {
 		return velocidadBits;
