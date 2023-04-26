@@ -32,7 +32,8 @@ public class GestionaAlbumes extends JFrame {
 	 * Create the frame.
 	 */
 	public GestionaAlbumes() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setAlwaysOnTop(true);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
 		contentPane.setVisible(true);
