@@ -1,16 +1,16 @@
 package model;
 
 import java.util.ArrayList;
-
-public abstract class Publicacion {
+import java.time.LocalDate;
+public abstract class Publicacion implements Comparable<Publicacion>{
 	private String nombrePublicacion;
-	private String fechaSubida;
+	private LocalDate fechaSubida;
 	private int cantMG;
 	private ArrayList<String> listaEtiquetas;
 	private ArrayList<String> listaComentarios;
 	private ArrayList<Album> listaAlbumesPertenece; // 0 o mas albumes
 
-	public Publicacion(String nombrePublicacion, String fechaSubida, int cantMG) {
+	public Publicacion(String nombrePublicacion, LocalDate fechaSubida, int cantMG) {
 		this.nombrePublicacion = nombrePublicacion;
 		this.fechaSubida = fechaSubida;
 		this.cantMG = cantMG;
@@ -28,11 +28,11 @@ public abstract class Publicacion {
 		this.nombrePublicacion = nombrePublicacion;
 	}
 
-	public String getFechaSubida() {
+	public LocalDate getFechaSubida() {
 		return fechaSubida;
 	}
 
-	public void setFechaSubida(String fechaSubida) {
+	public void setFechaSubida(LocalDate fechaSubida) {
 		this.fechaSubida = fechaSubida;
 	}
 
@@ -46,12 +46,63 @@ public abstract class Publicacion {
 
 	@Override
 	public String toString() {
-		return "Publicacion [nombrePublicacion=" + nombrePublicacion + ", fechaSubida=" + fechaSubida + ", cantMG="
-				+ cantMG + "]";
+	    return  "nombrePublicacion{='" + nombrePublicacion + '\'' +
+	            ", fechaSubida='" + fechaSubida + '\'' +
+	            ", cantMG=" + cantMG +
+	            ", etiquetas=" + listaEtiquetas +
+	            ", comentarios=" + listaComentarios +
+	            ", albumes=" + listaAlbumesPertenece +
+	            '}';
+	}
+
+	
+	//trim elimina los espacios en blanco al principio y al final de cada palabra
+	public void agregarEtiqueta(String etiqueta) {
+	    if (etiqueta != null && !etiqueta.trim().isEmpty()) {
+	        listaEtiquetas.add(etiqueta.trim());
+	    }
 	}
 	
+	public void agregarComentario(String comentario) {
+	    if (comentario != null && !comentario.trim().isEmpty()) {
+	        listaComentarios.add(comentario.trim());
+	    }
+	}
+	public void agregarAlbum(Album album) {
+	    if (album != null) {
+	    	listaAlbumesPertenece.add(album);
+	    }
+	}
 	public void agregaPublicacion() {
 		
 	}
+
+	public ArrayList<String> getListaEtiquetas() {
+		return listaEtiquetas;
+	}
+
+	public void setListaEtiquetas(ArrayList<String> listaEtiquetas) {
+		this.listaEtiquetas = listaEtiquetas;
+	}
+
+	public ArrayList<String> getListaComentarios() {
+		return listaComentarios;
+	}
+
+	public void setListaComentarios(ArrayList<String> listaComentarios) {
+		this.listaComentarios = listaComentarios;
+	}
+
+	public ArrayList<Album> getListaAlbumesPertenece() {
+		return listaAlbumesPertenece;
+	}
+
+	public void setListaAlbumesPertenece(ArrayList<Album> listaAlbumesPertenece) {
+		this.listaAlbumesPertenece = listaAlbumesPertenece;
+	}
+	@Override
+    public int compareTo(Publicacion otraPublicacion) {
+        return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
+    }
 	
 }

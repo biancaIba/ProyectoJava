@@ -1,11 +1,12 @@
 package model;
 import java.util.*;
+import java.time.LocalDate;
 public class Imagen extends Publicacion implements Filtrable {
 	private String resolucion;
 	private int ancho;
 	private int alto;
 
-	public Imagen(String nombrePublicacion, String fechaSubida, int cantMG, String resolucion, int ancho, int alto) {
+	public Imagen(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int ancho, int alto) {
 		super(nombrePublicacion, fechaSubida, cantMG);
 		this.resolucion = resolucion;
 		this.ancho = ancho;
@@ -38,7 +39,10 @@ public class Imagen extends Publicacion implements Filtrable {
 
 	@Override
 	public String toString() {
-		return "Imagen [resolucion=" + resolucion + ", ancho=" + ancho + ", alto=" + alto + "]";
+	    return "Imagen{" +
+	        super.toString() +
+	        ", Resolucion=" + resolucion +", Ancho=" + ancho +", Alto=" + alto+
+	        '}';
 	}
 	
 	public void aplicarFiltro() {

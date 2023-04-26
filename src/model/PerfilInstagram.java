@@ -1,26 +1,41 @@
 package model;
-
+import parser.CargaXML;
 import java.util.*;
 
 public class PerfilInstagram {
-	private ArrayList<Publicacion> listaPublicaciones;
+	private TreeSet<Publicacion> listaPublicaciones;
 	private ArrayList<Album> listaAlbumes;
 	public PerfilInstagram() {
-		this.listaPublicaciones = new ArrayList<Publicacion>();
+		this.listaPublicaciones = new TreeSet<Publicacion>();
 		this.listaAlbumes=new ArrayList<Album>();
 	}
 
 	public static void main(String[] args) {
-		System.out.println("HOLA");
+		
+		PerfilInstagram perfil=new PerfilInstagram();
+		perfil.cargarPublicaciones();
+		perfil.muestraLista();
+		
 	}
 	
-	public void cargaPublicacionesDeXML() {
-		/*
-		 * Carga en forma ordenada un listado de publicaciones del usuario
-		 * desde un archivo XML en listaPublicaciones
-		 */
+	public void cargarPublicaciones() {
+		CargaXML cargador =new CargaXML();
+	    cargador.cargarPublicacionesXML(this);// es como si le pasara perfil osea la instancia donde se ejecuta el cargarPublicaciones() 
 	}
-
+	
+	public void muestraLista() {
+		for(Publicacion p: listaPublicaciones) {
+			System.out.println(p.toString());
+		}
+	}
+	
+	public void addPublicacion(Publicacion publi) {
+		if(publi!= null) {
+			listaPublicaciones.add(publi);
+	
+		}
+	}
+	
 	public void confListaReproduccion() {
 		/*
 		 * Permita la consulta y reproducción de un grupo de publicaciones seleccionadas
@@ -46,5 +61,10 @@ public class PerfilInstagram {
 		 * la cantidad de comentarios correspondientes a esas publicaciones.(por
 		 * pantalla y en archivos de texto):
 		 */
+	}
+
+	@Override
+	public String toString() {
+		return "PerfilInstagram [listaPublicaciones=" + listaPublicaciones + ", listaAlbumes=" + listaAlbumes + "]";
 	}
 }

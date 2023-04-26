@@ -17,6 +17,11 @@ public class Album {
 		return nombreAlbum;
 	}
 
+	@Override
+	public String toString() {
+		return "nombreAlbum=" + nombreAlbum;
+	}
+
 	public void setNombreAlbum(String nombreAlbum) {
 		this.nombreAlbum = nombreAlbum;
 	}
