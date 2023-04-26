@@ -2,17 +2,15 @@ package view;
 
 import model.*;
 import java.awt.*;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.GroupLayout.Alignment;
 
 public class PerfilUsuario extends JFrame {
-
-	GestionAlbumes plGestionAlbumes;
-	JTabbedPane pestanias;
 	
 	private JPanel contentPane;
 
@@ -42,19 +40,20 @@ public class PerfilUsuario extends JFrame {
 		setBackground(Color.GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 607, 401);
+		
 		contentPane = new JPanel();
 		contentPane.setToolTipText("Agregar ");
 		contentPane.setBackground(Color.GRAY);
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
-
 		setContentPane(contentPane);
+		
 		inicializar();
-
 	}
 	
 	private void inicializar() {
 		
 		JMenuBar menuPrincipal = new JMenuBar();
+		
 		menuPrincipal.setOpaque(false);
 		menuPrincipal.setBackground(Color.LIGHT_GRAY);
 		menuPrincipal.setFont(new Font("Open Sans", Font.PLAIN, 20));
@@ -71,19 +70,17 @@ public class PerfilUsuario extends JFrame {
 		menuPrincipal.add(reportes);
 		menuPrincipal.add(opciones);
 		
-		pestanias = new JTabbedPane();
-		pestanias.setTabLayoutPolicy(JTabbedPane.SCROLL_TAB_LAYOUT);
-		plGestionAlbumes = new GestionAlbumes();
-		
 		JMenuItem crearAlbum = new JMenuItem ("Crear álbum");
 		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-							}
+				
+			}
 		});
 		JMenuItem gestionaAlbum = new JMenuItem ("Gestionar álbumes");
 		gestionaAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				pestanias.add("Gestión de Álbumes", plGestionAlbumes);
+				GestionaAlbumes plGestionaAlbumes = new GestionaAlbumes();
+				plGestionaAlbumes.setVisible(true);
 			}
 		});
 		JMenuItem eliminaAlbum = new JMenuItem ("Eliminar álbum");
@@ -96,8 +93,7 @@ public class PerfilUsuario extends JFrame {
 		albumes.add(crearAlbum);
 		albumes.add(gestionaAlbum);
 		albumes.add(eliminaAlbum);
-		
-		getContentPane().add(pestanias);
+		contentPane.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		contentPane.add(menuPrincipal);
 		
 	}
