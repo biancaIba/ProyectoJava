@@ -1,10 +1,10 @@
 package model;
-
+import java.time.LocalDate;
 public class Video extends Publicacion implements Durable, Filtrable {
 	private String resolucion;
 	private int cantCuadros;
 
-	public Video(String nombrePublicacion, String fechaSubida, int cantMG, String resolucion, int cantCuadros) {
+	public Video(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int cantCuadros) {
 		super(nombrePublicacion, fechaSubida, cantMG);
 		this.resolucion = resolucion;
 		this.cantCuadros = cantCuadros;
@@ -28,7 +28,10 @@ public class Video extends Publicacion implements Durable, Filtrable {
 
 	@Override
 	public String toString() {
-		return "Video [resolucion=" + resolucion + ", cantCuadros=" + cantCuadros + "]";
+	    return "Video{" +
+	        super.toString() +
+	        ", Resolucion=" + resolucion +", Cantidad de cuadros=" + cantCuadros +
+	        '}';
 	}
 
 	public void avanzar() {
