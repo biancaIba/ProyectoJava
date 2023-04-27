@@ -1,308 +1,309 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <publicaciones>
-    <publicacion>
-        <audio>
-            <nombrePublicacion>Musica relajante</nombrePublicacion>
-            <fechaSubida>2023-04-20</fechaSubida>
-            <cantMG>150</cantMG>
-            <velocidadBits>192</velocidadBits>
-            <etiquetas>
-                <etiqueta>audio</etiqueta>
-                <etiqueta>ejemplo</etiqueta>
-            </etiquetas>
-            <comentarios>
-                <comentario>Gran audio</comentario>
-                <comentario>Me encanta la calidad</comentario>
-            </comentarios>
-            <albumes>
-                <album>Album 1</album>
-                <album>Album 3</album>
-            </albumes>
-        </audio>
-    </publicacion>
-    <publicacion>
-        <imagen>
-            <nombrePublicacion>Mar de nubes</nombrePublicacion>
-            <fechaSubida>2023-04-22</fechaSubida>
-            <cantMG>250</cantMG>
-            <resolucion>1080x720</resolucion>
-            <ancho>1080</ancho>
-            <alto>720</alto>
-            <etiquetas>
-                <etiqueta>imagen</etiqueta>
-                <etiqueta>ejemplo</etiqueta>
-            </etiquetas>
-            <comentarios>
-                <comentario>Excelente imagen</comentario>
-                <comentario>Qué colores tan vivos</comentario>
-            </comentarios>
-             <albumes>
-                <album>Album 2</album>
-                <album>Album 3</album>
-            </albumes>
-        </imagen>
-    </publicacion>
-    <publicacion>
-        <video>
-            <nombrePublicacion>Viaje por la naturaleza</nombrePublicacion>
-            <fechaSubida>2023-04-24</fechaSubida>
-            <cantMG>350</cantMG>
-            <resolucion>1920x1080</resolucion>
-            <cantCuadros>60</cantCuadros>
-            <etiquetas>
-                <etiqueta>video</etiqueta>
-                <etiqueta>ejemplo</etiqueta>
-                <etiqueta>calidad</etiqueta>
-            </etiquetas>
-            <comentarios>
-                <comentario>Video increíble</comentario>
-                <comentario>Me encantó</comentario>
-            </comentarios>
-             <albumes>
-                <album>Album 3</album>
-            </albumes>
-        </video>
-    </publicacion>
-    <publicacion>
-	    <audio>
-	        <nombrePublicacion>Meditación guiada</nombrePublicacion>
-	        <fechaSubida>2023-04-21</fechaSubida>
-	        <cantMG>120</cantMG>
-	        <velocidadBits>256</velocidadBits>
-	        <etiquetas>
-	            <etiqueta>audio</etiqueta>
-	            <etiqueta>music</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Buen sonido</comentario>
-	            <comentario>Gran calidad</comentario>
-	        </comentarios>
-	        <albumes>
-	        </albumes>
-	    </audio>
+	<publicacion>
+		<audio>
+			<nombrePublicacion>Musica relajante</nombrePublicacion>
+			<fechaSubida>2023-04-20</fechaSubida>
+			<cantMG>150</cantMG>
+			<velocidadBits>192</velocidadBits>
+			<etiquetas>
+				<etiqueta>audio</etiqueta>
+				<etiqueta>ejemplo</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Gran audio</comentario>
+				<comentario>Me encanta la calidad</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 1</album>
+				<album>Album 3</album>
+			</albumes>
+		</audio>
 	</publicacion>
 	<publicacion>
-	    <audio>
-	        <nombrePublicacion>Noticiero matutino</nombrePublicacion>
-	        <fechaSubida>2023-04-19</fechaSubida>
-	        <cantMG>170</cantMG>
-	        <velocidadBits>320</velocidadBits>
-	        <etiquetas>
-	            <etiqueta>audio</etiqueta>
-	            <etiqueta>music</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Me encanta este audio</comentario>
-	            <comentario>Gran ritmo</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 6</album>
-	            <album>Album 7</album>
-	        </albumes>
-	    </audio>
+		<imagen>
+			<nombrePublicacion>Mar de nubes</nombrePublicacion>
+			<fechaSubida>2023-04-22</fechaSubida>
+			<cantMG>250</cantMG>
+			<resolucion>1080x720</resolucion>
+			<ancho>1080</ancho>
+			<alto>720</alto>
+			<etiquetas>
+				<etiqueta>imagen</etiqueta>
+				<etiqueta>ejemplo</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Excelente imagen</comentario>
+				<comentario>Qué colores tan vivos</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 2</album>
+				<album>Album 3</album>
+			</albumes>
+		</imagen>
 	</publicacion>
 	<publicacion>
-	    <audio>
-	        <nombrePublicacion>Podcast de comedia</nombrePublicacion>
-	        <fechaSubida>2023-04-18</fechaSubida>
-	        <cantMG>190</cantMG>
-	        <velocidadBits>128</velocidadBits>
-	        <etiquetas>
-	            <etiqueta>audio</etiqueta>
-	            <etiqueta>music</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Audio relajante</comentario>
-	            <comentario>Perfecto para trabajar</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 8</album>
-	            <album>Album 9</album>
-	        </albumes>
-	    </audio>
+		<video>
+			<nombrePublicacion>Viaje por la naturaleza</nombrePublicacion>
+			<fechaSubida>2023-04-24</fechaSubida>
+			<cantMG>350</cantMG>
+			<resolucion>1920x1080</resolucion>
+			<cantCuadros>60</cantCuadros>
+			<etiquetas>
+				<etiqueta>video</etiqueta>
+				<etiqueta>ejemplo</etiqueta>
+				<etiqueta>calidad</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Video increíble</comentario>
+				<comentario>Me encantó</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 3</album>
+			</albumes>
+		</video>
 	</publicacion>
 	<publicacion>
-	    <imagen>
-	        <nombrePublicacion>Flores silvestres</nombrePublicacion>
-	        <fechaSubida>2023-04-23</fechaSubida>
-	        <cantMG>210</cantMG>
-	        <resolucion>1280x720</resolucion>
-	        <ancho>1280</ancho>
-	        <alto>720</alto>
-	        <etiquetas>
-	            <etiqueta>imagen</etiqueta>
-	            <etiqueta>arte</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Maravillosa imagen</comentario>
-	            <comentario>Buenos detalles</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 10</album>
-	            <album>Album 11</album>
-	        </albumes>
-	    </imagen>   
+		<audio>
+			<nombrePublicacion>Meditación guiada</nombrePublicacion>
+			<fechaSubida>2023-04-21</fechaSubida>
+			<cantMG>120</cantMG>
+			<velocidadBits>256</velocidadBits>
+			<etiquetas>
+				<etiqueta>audio</etiqueta>
+				<etiqueta>music</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Buen sonido</comentario>
+				<comentario>Gran calidad</comentario>
+			</comentarios>
+			<albumes>
+			</albumes>
+		</audio>
 	</publicacion>
 	<publicacion>
-	    <imagen>
-	        <nombrePublicacion>Puesta de sol</nombrePublicacion>
-	        <fechaSubida>2023-04-25</fechaSubida>
-	        <cantMG>230</cantMG>
-	        <resolucion>800x600</resolucion>
-	        <ancho>800</ancho>
-	        <alto>600</alto>
-	        <etiquetas>
-	            <etiqueta>imagen</etiqueta>
-	            <etiqueta>naturaleza</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Paisaje hermoso</comentario>
-	            <comentario>Me encanta la vista</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 12</album>
-	            <album>Album 13</album>
-	        </albumes>
-    	</imagen>
+		<audio>
+			<nombrePublicacion>Noticiero matutino</nombrePublicacion>
+			<fechaSubida>2023-04-19</fechaSubida>
+			<cantMG>170</cantMG>
+			<velocidadBits>320</velocidadBits>
+			<etiquetas>
+				<etiqueta>audio</etiqueta>
+				<etiqueta>music</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Me encanta este audio</comentario>
+				<comentario>Gran ritmo</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 6</album>
+				<album>Album 7</album>
+			</albumes>
+		</audio>
 	</publicacion>
 	<publicacion>
-	    <imagen>
-	        <nombrePublicacion>Ciudad de noche</nombrePublicacion>
-	        <fechaSubida>2023-04-26</fechaSubida>
-	        <cantMG>240</cantMG>
-	        <resolucion>1024x768</resolucion>
-	        <ancho>1024</ancho>
-	        <alto>768</alto>
-	        <etiquetas>
-	            <etiqueta>imagen</etiqueta>
-	            <etiqueta>ciudad</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Gran foto urbana</comentario>
-	            <comentario>Me gusta el contraste</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 14</album>
-	            <album>Album 15</album>
-	        </albumes>
-	    </imagen>
+		<audio>
+			<nombrePublicacion>Podcast de comedia</nombrePublicacion>
+			<fechaSubida>2023-04-18</fechaSubida>
+			<cantMG>190</cantMG>
+			<velocidadBits>128</velocidadBits>
+			<etiquetas>
+				<etiqueta>audio</etiqueta>
+				<etiqueta>music</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Audio relajante</comentario>
+				<comentario>Perfecto para trabajar</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 8</album>
+				<album>Album 9</album>
+			</albumes>
+		</audio>
 	</publicacion>
 	<publicacion>
-	    <video>
-	        <nombrePublicacion>Video de turismo</nombrePublicacion>
-	        <fechaSubida>2023-04-27</fechaSubida>
-	        <cantMG>400</cantMG>
-	        <resolucion>1280x720</resolucion>
-	        <cantCuadros>30</cantCuadros>
-	        <etiquetas>
-	            <etiqueta>video</etiqueta>
-	            <etiqueta>deporte</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Video emocionante</comentario>
-	            <comentario>Me encanta el deporte</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 16</album>
-	        </albumes>
-	    </video>
+		<imagen>
+			<nombrePublicacion>Flores silvestres</nombrePublicacion>
+			<fechaSubida>2023-04-23</fechaSubida>
+			<cantMG>210</cantMG>
+			<resolucion>1280x720</resolucion>
+			<ancho>1280</ancho>
+			<alto>720</alto>
+			<etiquetas>
+				<etiqueta>imagen</etiqueta>
+				<etiqueta>arte</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Maravillosa imagen</comentario>
+				<comentario>Buenos detalles</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 10</album>
+				<album>Album 11</album>
+			</albumes>
+		</imagen>
 	</publicacion>
 	<publicacion>
-	    <video>
-	        <nombrePublicacion>Vlog de viaje</nombrePublicacion>
-	        <fechaSubida>2023-04-28</fechaSubida>
-	        <cantMG>450</cantMG>
-	        <resolucion>1920x1080</resolucion>
-	        <cantCuadros>24</cantCuadros>
-	        <etiquetas>
-	            <etiqueta>video</etiqueta>
-	            <etiqueta>viaje</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Video inspirador</comentario>
-	            <comentario>Quiero viajar</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 17</album>
-	        </albumes>
-	    </video>
+		<imagen>
+			<nombrePublicacion>Puesta de sol</nombrePublicacion>
+			<fechaSubida>2023-04-25</fechaSubida>
+			<cantMG>230</cantMG>
+			<resolucion>800x600</resolucion>
+			<ancho>800</ancho>
+			<alto>600</alto>
+			<etiquetas>
+				<etiqueta>imagen</etiqueta>
+				<etiqueta>naturaleza</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Paisaje hermoso</comentario>
+				<comentario>Me encanta la vista</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 12</album>
+				<album>Album 13</album>
+			</albumes>
+		</imagen>
 	</publicacion>
 	<publicacion>
-	    <video>
-	        <nombrePublicacion>Animales salvajes</nombrePublicacion>
-	        <fechaSubida>2023-04-29</fechaSubida>
-	        <cantMG>500</cantMG>
-	        <resolucion>3840x2160</resolucion>
-	        <cantCuadros>60</cantCuadros>
-	        <etiquetas>
-	            <etiqueta>video</etiqueta>
-	            <etiqueta>4K</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Impresionante calidad</comentario>
-	            <comentario>Se ve increíble en 4K</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 18</album>
-	        </albumes>
-	    </video>
+		<imagen>
+			<nombrePublicacion>Ciudad de noche</nombrePublicacion>
+			<fechaSubida>2023-04-26</fechaSubida>
+			<cantMG>240</cantMG>
+			<resolucion>1024x768</resolucion>
+			<ancho>1024</ancho>
+			<alto>768</alto>
+			<etiquetas>
+				<etiqueta>imagen</etiqueta>
+				<etiqueta>ciudad</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Gran foto urbana</comentario>
+				<comentario>Me gusta el contraste</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 14</album>
+				<album>Album 15</album>
+			</albumes>
+		</imagen>
 	</publicacion>
 	<publicacion>
-	    <video>
-	        <nombrePublicacion>Documental sobre la vida de una especie en peligro de extinción</nombrePublicacion>
-	        <fechaSubida>2023-04-30</fechaSubida>
-	        <cantMG>550</cantMG>
-	        <resolucion>2560x1440</resolucion>
-	        <cantCuadros>48</cantCuadros>
-	        <etiquetas>
-	            <etiqueta>video</etiqueta>
-	            <etiqueta>documental</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 19</album>
-	        </albumes>
-	    </video>
+		<video>
+			<nombrePublicacion>Video de turismo</nombrePublicacion>
+			<fechaSubida>2023-04-27</fechaSubida>
+			<cantMG>400</cantMG>
+			<resolucion>1280x720</resolucion>
+			<cantCuadros>30</cantCuadros>
+			<etiquetas>
+				<etiqueta>video</etiqueta>
+				<etiqueta>deporte</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Video emocionante</comentario>
+				<comentario>Me encanta el deporte</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 16</album>
+			</albumes>
+		</video>
 	</publicacion>
 	<publicacion>
-	    <video>
-	        <nombrePublicacion>Trailer de pelicula</nombrePublicacion>
-	        <fechaSubida>2023-05-01</fechaSubida>
-	        <cantMG>600</cantMG>
-	        <resolucion>1920x1080</resolucion>
-	        <cantCuadros>120</cantCuadros>
-	        <etiquetas>
-	            <etiqueta>video</etiqueta>
-	            <etiqueta>acción</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Video lleno de acción</comentario>
-	            <comentario>Me mantuvo al borde de mi asiento</comentario>
-	        </comentarios>
-	        <albumes>
-	        </albumes>
-	    </video>
+		<video>
+			<nombrePublicacion>Vlog de viaje</nombrePublicacion>
+			<fechaSubida>2023-04-28</fechaSubida>
+			<cantMG>450</cantMG>
+			<resolucion>1920x1080</resolucion>
+			<cantCuadros>24</cantCuadros>
+			<etiquetas>
+				<etiqueta>video</etiqueta>
+				<etiqueta>viaje</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Video inspirador</comentario>
+				<comentario>Quiero viajar</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 17</album>
+			</albumes>
+		</video>
 	</publicacion>
 	<publicacion>
-	    <imagen>
-	        <nombrePublicacion>Bosque otoñal</nombrePublicacion>
-	        <fechaSubida>2023-05-02</fechaSubida>
-	        <cantMG>700</cantMG>
-	        <resolucion>5120x2880</resolucion>
-	        <ancho>5120</ancho>
-	        <alto>2880</alto>
-	        <etiquetas>
-	            <etiqueta>imagen</etiqueta>
-	            <etiqueta>5K</etiqueta>
-	        </etiquetas>
-	        <comentarios>
-	            <comentario>Impresionante resolución</comentario>
-	            <comentario>Me encantan los detalles</comentario>
-	        </comentarios>
-	        <albumes>
-	            <album>Album 21</album>
-	        </albumes>
-	    </imagen>
+		<video>
+			<nombrePublicacion>Animales salvajes</nombrePublicacion>
+			<fechaSubida>2023-04-29</fechaSubida>
+			<cantMG>500</cantMG>
+			<resolucion>3840x2160</resolucion>
+			<cantCuadros>60</cantCuadros>
+			<etiquetas>
+				<etiqueta>video</etiqueta>
+				<etiqueta>4K</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Impresionante calidad</comentario>
+				<comentario>Se ve increíble en 4K</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 18</album>
+			</albumes>
+		</video>
+	</publicacion>
+	<publicacion>
+		<video>
+			<nombrePublicacion>Documental sobre la vida de una especie en
+				peligro de extinción</nombrePublicacion>
+			<fechaSubida>2023-04-30</fechaSubida>
+			<cantMG>550</cantMG>
+			<resolucion>2560x1440</resolucion>
+			<cantCuadros>48</cantCuadros>
+			<etiquetas>
+				<etiqueta>video</etiqueta>
+				<etiqueta>documental</etiqueta>
+			</etiquetas>
+			<comentarios>
+			</comentarios>
+			<albumes>
+				<album>Album 19</album>
+			</albumes>
+		</video>
+	</publicacion>
+	<publicacion>
+		<video>
+			<nombrePublicacion>Trailer de pelicula</nombrePublicacion>
+			<fechaSubida>2023-05-01</fechaSubida>
+			<cantMG>600</cantMG>
+			<resolucion>1920x1080</resolucion>
+			<cantCuadros>120</cantCuadros>
+			<etiquetas>
+				<etiqueta>video</etiqueta>
+				<etiqueta>acción</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Video lleno de acción</comentario>
+				<comentario>Me mantuvo al borde de mi asiento</comentario>
+			</comentarios>
+			<albumes>
+			</albumes>
+		</video>
+	</publicacion>
+	<publicacion>
+		<imagen>
+			<nombrePublicacion>Bosque otoñal</nombrePublicacion>
+			<fechaSubida>2023-05-02</fechaSubida>
+			<cantMG>700</cantMG>
+			<resolucion>5120x2880</resolucion>
+			<ancho>5120</ancho>
+			<alto>2880</alto>
+			<etiquetas>
+				<etiqueta>imagen</etiqueta>
+				<etiqueta>5K</etiqueta>
+			</etiquetas>
+			<comentarios>
+				<comentario>Impresionante resolución</comentario>
+				<comentario>Me encantan los detalles</comentario>
+			</comentarios>
+			<albumes>
+				<album>Album 21</album>
+			</albumes>
+		</imagen>
 	</publicacion>
 </publicaciones>

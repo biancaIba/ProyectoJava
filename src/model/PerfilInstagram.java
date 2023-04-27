@@ -1,6 +1,8 @@
 package model;
+
 import parser.CargaXML;
 import java.util.*;
+import exception.AlbumNoEncontradoException;
 
 public class PerfilInstagram {
 	private TreeSet<Publicacion> listaPublicaciones;
@@ -12,7 +14,7 @@ public class PerfilInstagram {
 
 	public static void main(String[] args) {
 		
-		PerfilInstagram perfil=new PerfilInstagram();
+		PerfilInstagram perfil = new PerfilInstagram();
 		perfil.cargarPublicaciones();
 		perfil.muestraLista();
 		
@@ -20,7 +22,7 @@ public class PerfilInstagram {
 	
 	public void cargarPublicaciones() {
 		CargaXML cargador =new CargaXML();
-	    cargador.cargarPublicacionesXML(this);// es como si le pasara perfil osea la instancia donde se ejecuta el cargarPublicaciones() 
+	    cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el cargarPublicaciones() 
 	}
 	
 	public void muestraLista() {
@@ -30,10 +32,23 @@ public class PerfilInstagram {
 	}
 	
 	public void addPublicacion(Publicacion publi) {
-		if(publi!= null) {
+		if(publi != null) {
 			listaPublicaciones.add(publi);
 	
 		}
+	}
+	
+	public void addAlbum(Album nuevoAlbum) {
+		if (nuevoAlbum != null)
+			listaAlbumes.add(nuevoAlbum);
+	}
+	
+	public int buscaAlbum(String nombre) throws AlbumNoEncontradoException {
+	    int posicion = listaAlbumes.indexOf(nombre);
+	    if (posicion < 0) {
+	        throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
+	    }
+	    return posicion;
 	}
 	
 	public void confListaReproduccion() {

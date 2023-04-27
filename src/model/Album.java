@@ -26,10 +26,6 @@ public class Album {
 		this.nombreAlbum = nombreAlbum;
 	}
 	
-	public void crearAlbum() {
-
-	}
-	
 	public void eliminarAlbum() {
 		/*
 		 * Elimina un álbum y todos sus sub-álbumes
