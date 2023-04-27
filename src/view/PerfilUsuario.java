@@ -82,12 +82,12 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 		JMenuItem gestionaAlbum = new JMenuItem ("Gestionar álbumes");
-		//gestionaAlbum.addActionListener(new ActionListener() {
-		//	public void actionPerformed(ActionEvent e) {
-		//		GestionaAlbumes plGestionaAlbumes = new GestionaAlbumes();
-		//		plGestionaAlbumes.setVisible(true);
-		//	}
-		//});
+		gestionaAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				GestionaAlbumes plGestionaAlbumes = new GestionaAlbumes();
+				plGestionaAlbumes.setVisible(true);
+			}
+		});
 		JMenuItem eliminaAlbum = new JMenuItem ("Eliminar álbum");
 		eliminaAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -95,20 +95,20 @@ public class PerfilUsuario extends JFrame {
 				// aca debe chequear si el album existe y luego invocar a elimina
 			}
 		});
-		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Album");
-		gaAgregaPubli.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-			}
-		});
 		
-		gestionaAlbum.add(gaAgregaPubli);
+		// La idea es reemplazar el JFrame de GestionaAlbumes por un menu de opciones dentro del JItem, pero NO funciona aun
+		
+		//JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Album");
+		//gaAgregaPubli.addActionListener(new ActionListener() {
+		//	public void actionPerformed(ActionEvent e) {	
+		//	}
+		//});
+		
+		//gestionaAlbum.add(gaAgregaPubli);
 		
 		albumes.add(crearAlbum);
 		albumes.add(gestionaAlbum);
 		albumes.add(eliminaAlbum);
-		
-		
 		
 		
 		/**
