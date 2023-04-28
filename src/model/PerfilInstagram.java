@@ -5,52 +5,81 @@ import java.util.*;
 import exception.AlbumNoEncontradoException;
 
 public class PerfilInstagram {
-	private TreeSet<Publicacion> listaPublicaciones;
-	private ArrayList<Album> listaAlbumes;
-	public PerfilInstagram() {
+	// SINGLETON
+	String nombrePerfil; // BUSCAR COMO PONER EL NOMBRE (SETEAR O SOBRECARGAR GETINSTACE)
+	private static PerfilInstagram perfil;
+	private Set<Publicacion> listaPublicaciones;
+	private List<Album> listaAlbumes;
+
+	private PerfilInstagram() {
 		this.listaPublicaciones = new TreeSet<Publicacion>();
-		this.listaAlbumes=new ArrayList<Album>();
+		this.listaAlbumes = new ArrayList<Album>();
 	}
 
+	public static PerfilInstagram getInstance() {
+		if (perfil == null)
+			perfil = new PerfilInstagram();
+		return perfil;
+	}
+
+	// PARA PRUEBAS LOCALES / BORRAR
 	public static void main(String[] args) {
-		
-		PerfilInstagram perfil = new PerfilInstagram();
-		perfil.cargarPublicaciones();
-		perfil.muestraLista();
-		
+		PerfilInstagram.getInstance();
 	}
-	
+
 	public void cargarPublicaciones() {
-		CargaXML cargador =new CargaXML();
-	    cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el cargarPublicaciones() 
+		CargaXML cargador = new CargaXML();
+		cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el
+												// cargarPublicaciones()
 	}
-	
+
+	// PRUEBAS / BORRAR
 	public void muestraLista() {
-		for(Publicacion p: listaPublicaciones) {
-			System.out.println(p.toString());
-		}
+		// String Buffer;
+		// for(Publicacion p: listaPublicaciones) {
+		// System.out.println(p.toString());
+		// }
 	}
-	
+
 	public void addPublicacion(Publicacion publi) {
-		if(publi != null) {
+		if (publi != null) {
 			listaPublicaciones.add(publi);
-	
 		}
 	}
-	
+
 	public void addAlbum(Album nuevoAlbum) {
 		if (nuevoAlbum != null)
 			listaAlbumes.add(nuevoAlbum);
 	}
-	
-	public int buscaAlbum(String nombre) throws AlbumNoEncontradoException {
-	    int posicion = listaAlbumes.indexOf(nombre);
-	    if (posicion < 0) {
-	        throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
-	    }
-	    return posicion;
+
+	public boolean buscaAlbum(String nombre) throws AlbumNoEncontradoException {
+		// opcion 1: ciclar la lista hasta encontrar un nombre que coincida
+		int i = 0;
+		while (listaAlbumes != null && ((Album) listaAlbumes).getNombreAlbum() != nombre) {
+			i++;
+		}
+		if (listaAlbumes != null && ((Album) listaAlbumes).getNombreAlbum() == nombre)
+			return true;
+		else
+			throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
+
+		// opcion 2: usar indexOf con un objeto album que se cree en PerfilUsuario.java
+		// int posicion = listaAlbumes.indexOf(album);
+		// if (posicion < 0) {
+		// throw new AlbumNoEncontradoException("El álbum no se encuentra en la
+		// lista.");
+		// }
+		// return posicion;
 	}
 	
+	public void eliminaAlbumDeListaAlbumes(String nombreAlbum) {
+		// elimina album de la lista de albumes
+	}
+	
+	public void eliminaAlbumDeListaPublicaciones(String nombreAlbum) {
+		// se mete en la lista de publicaciones --> recorre todas las publicaciones --> elimina el album de la lista de albumes a los que pertenece
+	}
+
 	public void confListaReproduccion() {
 		/*
 		 * Permita la consulta y reproducción de un grupo de publicaciones seleccionadas

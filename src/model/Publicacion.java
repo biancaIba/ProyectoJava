@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
+
 public abstract class Publicacion implements Comparable<Publicacion>{
 	private String nombrePublicacion;
 	private LocalDate fechaSubida;

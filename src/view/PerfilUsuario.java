@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
+import exception.*;
 
 public class PerfilUsuario extends JFrame {
 	
@@ -81,6 +82,7 @@ public class PerfilUsuario extends JFrame {
 				// aca deberia agregarlo al TreeSet de Albumes que hay en PerfilInstagram
 			}
 		});
+		// probar conviertiendolo en JMenu para poder hacer add de los JMenuItems
 		JMenuItem gestionaAlbum = new JMenuItem ("Gestionar álbumes");
 		gestionaAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -93,6 +95,15 @@ public class PerfilUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
 				// aca debe chequear si el album existe y luego invocar a elimina
+				try {
+					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
+					PerfilInstagram.getInstance().eliminaAlbumDeListaAlbumes(nombreAlbum);
+					// mostrar que fue eliminado con exito
+					PerfilInstagram.getInstance().eliminaAlbumDeListaPublicaciones(nombreAlbum);
+					// tiene en cuenta que en Publicacion hay una lista de albumes a los cuales pertenece
+				} catch (AlbumNoEncontradoException e1) {
+					e1.printStackTrace();
+				}
 			}
 		});
 		
