@@ -80,6 +80,8 @@ public class PerfilUsuario extends JFrame {
 				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
 				model.Album nuevoAlbum = new Album(nombreAlbum);
 				// aca deberia agregarlo al TreeSet de Albumes que hay en PerfilInstagram
+				
+				JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
 			}
 		});
 		// probar conviertiendolo en JMenu para poder hacer add de los JMenuItems
@@ -94,15 +96,14 @@ public class PerfilUsuario extends JFrame {
 		eliminaAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
-				// aca debe chequear si el album existe y luego invocar a elimina
 				try {
 					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
 					PerfilInstagram.getInstance().eliminaAlbumDeListaAlbumes(nombreAlbum);
-					// mostrar que fue eliminado con exito
+					JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
 					PerfilInstagram.getInstance().eliminaAlbumDeListaPublicaciones(nombreAlbum);
 					// tiene en cuenta que en Publicacion hay una lista de albumes a los cuales pertenece
 				} catch (AlbumNoEncontradoException e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
 				}
 			}
 		});

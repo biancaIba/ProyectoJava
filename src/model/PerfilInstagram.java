@@ -52,24 +52,15 @@ public class PerfilInstagram {
 			listaAlbumes.add(nuevoAlbum);
 	}
 
-	public boolean buscaAlbum(String nombre) throws AlbumNoEncontradoException {
-		// opcion 1: ciclar la lista hasta encontrar un nombre que coincida
+	public Album buscaAlbum(String nombre) throws AlbumNoEncontradoException {
 		int i = 0;
-		while (listaAlbumes != null && ((Album) listaAlbumes).getNombreAlbum() != nombre) {
+		while (i < listaAlbumes.size()) {
+			Album album = listaAlbumes.get(i);
+			if (album.getNombreAlbum().equalsIgnoreCase(nombre))
+				return album;
 			i++;
 		}
-		if (listaAlbumes != null && ((Album) listaAlbumes).getNombreAlbum() == nombre)
-			return true;
-		else
-			throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
-
-		// opcion 2: usar indexOf con un objeto album que se cree en PerfilUsuario.java
-		// int posicion = listaAlbumes.indexOf(album);
-		// if (posicion < 0) {
-		// throw new AlbumNoEncontradoException("El álbum no se encuentra en la
-		// lista.");
-		// }
-		// return posicion;
+		throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
 	}
 	
 	public void eliminaAlbumDeListaAlbumes(String nombreAlbum) {
