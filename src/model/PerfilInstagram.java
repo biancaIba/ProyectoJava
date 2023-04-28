@@ -2,7 +2,7 @@ package model;
 
 import parser.CargaXML;
 import java.util.*;
-import exception.AlbumNoEncontradoException;
+import exception.*;
 
 public class PerfilInstagram {
 	// SINGLETON
@@ -32,13 +32,9 @@ public class PerfilInstagram {
 		cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el
 												// cargarPublicaciones()
 	}
-
-	// PRUEBAS / BORRAR
-	public void muestraLista() {
-		// String Buffer;
-		// for(Publicacion p: listaPublicaciones) {
-		// System.out.println(p.toString());
-		// }
+	
+	public Set<Publicacion> getPublicaciones() {
+		return listaPublicaciones;
 	}
 
 	public void addPublicacion(Publicacion publi) {
@@ -61,6 +57,20 @@ public class PerfilInstagram {
 			i++;
 		}
 		throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
+	}
+	
+	public Publicacion buscaPubli(String nombre) throws PublicacionNoEncontradaException{
+		Iterator <Publicacion> i = listaPublicaciones.iterator();
+		while (i.hasNext()) {
+			Publicacion publi = i.next();
+			if (publi.getNombrePublicacion().equals(nombre))
+				return publi;
+		}
+		throw new PublicacionNoEncontradaException("La publicación no se encuentra en la lista.");
+	}
+	
+	public void addPubliDentroAlbum(String nombreAlbum, String nombrePubli) {
+		
 	}
 	
 	public void eliminaAlbumDeListaAlbumes(String nombreAlbum) {

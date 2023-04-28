@@ -10,30 +10,21 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
 import exception.*;
+import java.util.*;
 
 public class PerfilUsuario extends JFrame {
 	
 	private JPanel contentPane;
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					PerfilUsuario frame = new PerfilUsuario();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				PerfilUsuario frame = new PerfilUsuario();
+				frame.setVisible(true);
 			}
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public PerfilUsuario() {
 		setTitle("Perfil del Usuario");
 		setSize(420,250);
@@ -47,13 +38,14 @@ public class PerfilUsuario extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 		
-		inicializar();
+		menuTop();
+		publicacionesActuales();
 	}
 	
-	private void inicializar() {
+	public void menuTop() {
 		
 		/**
-		 * Setea el Menu Principal del Perfil
+		 * Setea el Menu Principal de la Interfaz
 		 */
 		
 		JMenuBar menuPrincipal = new JMenuBar();
@@ -63,39 +55,65 @@ public class PerfilUsuario extends JFrame {
 		menuPrincipal.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		menuPrincipal.setBorderPainted(true);
 		
+		menuPrincipal.add(menuTOPalbumes());
+		menuPrincipal.add(menuTOPreportes());
+		menuPrincipal.add(menuTOPopciones());
+		
+		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.add(menuPrincipal, BorderLayout.NORTH);
+	}
+	
+	public JMenu menuTOPalbumes() {
 		JMenu albumes = new JMenu("Álbumes");
 		albumes.setFont(new Font("Open Sans", Font.PLAIN, 15));
-		JMenu reportes = new JMenu("Reportes");
-		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
-		JMenu opciones = new JMenu("Opciones");
-		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
-		
-		menuPrincipal.add(albumes);
-		menuPrincipal.add(reportes);
-		menuPrincipal.add(opciones);
 		
 		JMenuItem crearAlbum = new JMenuItem ("Crear álbum");
 		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
-				model.Album nuevoAlbum = new Album(nombreAlbum);
-				// aca deberia agregarlo al TreeSet de Albumes que hay en PerfilInstagram
-				
+				Album nuevoAlbum = new Album(nombreAlbum);
+				PerfilInstagram.getInstance().addAlbum(nuevoAlbum);				
 				JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
 			}
 		});
-		// probar conviertiendolo en JMenu para poder hacer add de los JMenuItems
-		JMenuItem gestionaAlbum = new JMenuItem ("Gestionar álbumes");
-		gestionaAlbum.addActionListener(new ActionListener() {
+		
+		/**
+		 * Configura Gestionar Albumes
+		 */
+		JMenuItem gestionaAlbum = new JMenu ("Gestionar álbumes");
+		
+		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Album");
+		gaAgregaPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				GestionaAlbumes plGestionaAlbumes = new GestionaAlbumes();
-				plGestionaAlbumes.setVisible(true);
+				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album");
+				String nombrePubli = JOptionPane.showInputDialog("Ingrese el nombre de la Publicación");
+				try {
+					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
+					PerfilInstagram.getInstance().buscaPubli(nombrePubli);
+					PerfilInstagram.getInstance().addPubliDentroAlbum(nombreAlbum, nombrePubli);
+					JOptionPane.showMessageDialog(null, "La publicación fue eliminada con éxito");
+				} catch (AlbumNoEncontradoException e1) {
+					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
+				}
+				catch (PublicacionNoEncontradaException e1) {
+					JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.");
+				}
 			}
 		});
+		gestionaAlbum.add(gaAgregaPubli);
+		
+		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación de un Album");
+		gaEliminaPubli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+			}
+		});
+		gestionaAlbum.add(gaEliminaPubli);
+		
 		JMenuItem eliminaAlbum = new JMenuItem ("Eliminar álbum");
 		eliminaAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
+				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
 				try {
 					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
 					PerfilInstagram.getInstance().eliminaAlbumDeListaAlbumes(nombreAlbum);
@@ -108,57 +126,56 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 		
-		// La idea es reemplazar el JFrame de GestionaAlbumes por un menu de opciones dentro del JItem, pero NO funciona aun
-		
-		//JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Album");
-		//gaAgregaPubli.addActionListener(new ActionListener() {
-		//	public void actionPerformed(ActionEvent e) {	
-		//	}
-		//});
-		
-		//gestionaAlbum.add(gaAgregaPubli);
-		
 		albumes.add(crearAlbum);
 		albumes.add(gestionaAlbum);
 		albumes.add(eliminaAlbum);
 		
+		return albumes;
+	}
+	
+	public JMenu menuTOPreportes() {
+		JMenu reportes = new JMenu("Reportes");
+		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
+		return reportes;
+	}
+	
+	public JMenu menuTOPopciones() {
+		JMenu opciones = new JMenu("Opciones");
+		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
+		
+		JMenuItem cargaDatos = new JMenuItem ("Cargar datos desde XML");
+		cargaDatos.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				PerfilInstagram.getInstance().cargarPublicaciones();				
+				JOptionPane.showMessageDialog(null, "Los datos fueron agregados con éxito");
+				publicacionesActuales();
+			}
+		});
+		
+		opciones.add(cargaDatos);
+		
+		return opciones;
+	}
+	
+	public void publicacionesActuales() {
 		/**
-		 * Setea el espacio donde apareceran las Publicaciones del Usuario
+		 * Setea el espacio donde apareceran las Publicaciones del Perfil
 		 */
 		
 		JPanel jpPublicaciones = new JPanel();
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		
-		// prueba de crear un Label
-		// La idea es que se genere un label por cada elemento del TreeSet de Publicaciones que haya en PerfilInstagram
-		JLabel p1 = new JLabel();
-		p1.setText("SOY LA PUBLICACION 1");
-		jpPublicaciones.add(p1);
-		jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
-		
-		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(menuPrincipal, BorderLayout.NORTH);
-		contentPane.add(jpPublicaciones, BorderLayout.CENTER);
-		
-	}
-
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
+		//PerfilInstagram.getInstance().getPublicaciones();
+		//int i=0;
+		//for (Publicacion p : publicaciones) {
+		//	i++;
+		//	JLabel publi = new JLabel();
+		//	publi.setText("SOY LA PUBLICACION " + i);
+		//	jpPublicaciones.add(publi);
+		//}
+		//jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
+		//contentPane.add(jpPublicaciones, BorderLayout.CENTER);
 	}
 }
