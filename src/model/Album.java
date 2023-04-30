@@ -13,6 +13,23 @@ public class Album {
 		this.listaPublicaciones=new ArrayList<Publicacion>();
 	}
 
+	@Override
+	public int hashCode() {
+		return Objects.hash(nombreAlbum);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
+			return true;
+		}
+		if (!(obj instanceof Album)) {
+			return false;
+		}
+		Album album = (Album) obj;
+		return nombreAlbum.equals(album.nombreAlbum);
+	}
+
 	public String getNombreAlbum() {
 		return nombreAlbum;
 	}
@@ -26,12 +43,18 @@ public class Album {
 		this.nombreAlbum = nombreAlbum;
 	}
 	
-	public void eliminarAlbum() {
-		/*
-		 * Elimina un álbum y todos sus sub-álbumes
-		 * Las publicaciones son sacadas, pero no eliminadas del Perfil
-		 */
-		
+	/**
+	 * Desasocia de manera bidireccional las referencias de las  publicaciones de este album
+	 * y tambien hace esta misma accion para todos los subalbumes asociados.
+	 */
+	public void desasociarReferenciasAPublicaciones() {
+		for (Publicacion publicacion : listaPublicaciones) {
+			publicacion.eliminaAlbum(this);// elimina el album de publicacion--> listaAlbumesPertenece
+		}
+		for(Album subAlbum : sublistaAlbumes) {
+			subAlbum.desasociarReferenciasAPublicaciones();
+		}
+		listaPublicaciones.clear();
 	}
 
 }

@@ -73,14 +73,19 @@ public class PerfilInstagram {
 		
 	}
 	
-	public void eliminaAlbumDeListaAlbumes(String nombreAlbum) {
+	public void eliminaAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
 		// elimina album de la lista de albumes
+		int albumAEliminarIndice = listaAlbumes.indexOf(albumAEliminar);
+		if (albumAEliminarIndice == -1) {
+			throw new AlbumNoEncontradoException("Album no encontrado");
+		} else {
+			Album album = listaAlbumes.get(0);
+			album.desasociarReferenciasAPublicaciones();
+			listaAlbumes.remove(albumAEliminar);
+			// en perfil instagram tenemos una referencia a las subAlbumes??
+		}
 	}
 	
-	public void eliminaAlbumDeListaPublicaciones(String nombreAlbum) {
-		// se mete en la lista de publicaciones --> recorre todas las publicaciones --> elimina el album de la lista de albumes a los que pertenece
-	}
-
 	public void confListaReproduccion() {
 		/*
 		 * Permita la consulta y reproducción de un grupo de publicaciones seleccionadas
@@ -110,6 +115,16 @@ public class PerfilInstagram {
 
 	@Override
 	public String toString() {
-		return "PerfilInstagram [listaPublicaciones=" + listaPublicaciones + ", listaAlbumes=" + listaAlbumes + "]";
+		// return "PerfilInstagram [listaPublicaciones=" + listaPublicaciones + ", listaAlbumes=" + listaAlbumes + "]";
+		StringBuilder sb = new StringBuilder();
+        sb.append("Lista de publicaciones:\n");
+        for (Publicacion publicacion : listaPublicaciones) {
+            sb.append("\t- " + publicacion.toString() + "\n");
+        }
+        sb.append("Lista de álbumes:\n");
+        for (Album album : listaAlbumes) {
+            sb.append("\t- " + album.toString() + "\n");
+        }
+        return sb.toString();
 	}
 }

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
 import exception.*;
@@ -15,8 +17,10 @@ import java.util.*;
 public class PerfilUsuario extends JFrame {
 	
 	private JPanel contentPane;
+	private static PerfilInstagram perfilInstagram;
 
 	public static void main(String[] args) {
+		perfilInstagram = PerfilInstagram.getInstance();
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				PerfilUsuario frame = new PerfilUsuario();
@@ -68,6 +72,7 @@ public class PerfilUsuario extends JFrame {
 		albumes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
 		JMenuItem crearAlbum = new JMenuItem ("Crear álbum");
+		
 		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
@@ -115,10 +120,9 @@ public class PerfilUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
 				try {
-					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
-					PerfilInstagram.getInstance().eliminaAlbumDeListaAlbumes(nombreAlbum);
+					Album albumAEliminar = perfilInstagram.buscaAlbum(nombreAlbum);
+					perfilInstagram.eliminaAlbum(albumAEliminar);
 					JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
-					PerfilInstagram.getInstance().eliminaAlbumDeListaPublicaciones(nombreAlbum);
 					// tiene en cuenta que en Publicacion hay una lista de albumes a los cuales pertenece
 				} catch (AlbumNoEncontradoException e1) {
 					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
