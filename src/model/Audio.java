@@ -38,5 +38,8 @@ public class Audio extends Publicacion implements Durable {
 	public void detener() {
 		
 	}
-
+	
+	public String getTipoPublicacion() {
+		return "Audio";
+	}
 }

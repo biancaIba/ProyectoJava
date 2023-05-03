@@ -104,5 +104,5 @@ public abstract class Publicacion implements Comparable<Publicacion>{
     public int compareTo(Publicacion otraPublicacion) {
         return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
     }
-	
+	public abstract String getTipoPublicacion();
 }
