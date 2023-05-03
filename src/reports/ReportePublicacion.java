@@ -1,8 +1,4 @@
 package reports;
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.*;
 
 public class ReportePublicacion {
 	private String tipoPublicacion;
@@ -44,20 +40,6 @@ public class ReportePublicacion {
 				+ cantidadPublicaciones + ", promedio=" + promedio + "]";
 	}
 
-		public void generarReporte(List<ReportePublicacion> elementos) {
-	        String nombreArchivo = "reporte.txt";
-
-	        try (FileWriter fileWriter = new FileWriter(nombreArchivo);
-	             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
-
-	            for (ReportePublicacion elemento : elementos) {
-	                bufferedWriter.write(elemento.toString());
-	                bufferedWriter.newLine();
-	            }
-
-	        } catch (IOException e) {
-	            System.err.println("Error al escribir en el archivo: " + e.getMessage());
-	        }
-	    }
+	
 	
 }
