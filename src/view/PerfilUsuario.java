@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
 import exception.*;
@@ -75,7 +74,7 @@ public class PerfilUsuario extends JFrame {
 		
 		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreAlbum=JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
+				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
 				Album nuevoAlbum = new Album(nombreAlbum);
 				PerfilInstagram.getInstance().addAlbum(nuevoAlbum);				
 				JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
@@ -123,7 +122,6 @@ public class PerfilUsuario extends JFrame {
 					Album albumAEliminar = perfilInstagram.buscaAlbum(nombreAlbum);
 					perfilInstagram.eliminaAlbum(albumAEliminar);
 					JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
-					// tiene en cuenta que en Publicacion hay una lista de albumes a los cuales pertenece
 				} catch (AlbumNoEncontradoException e1) {
 					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
 				}
@@ -157,7 +155,16 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 		
+		JMenuItem filtraPublicaciones = new JMenuItem("Filtrar publicaciones");
+		filtraPublicaciones.addActionListener(new ActionListener() {
+			public void actionPerformed (ActionEvent e) {
+				FiltraPublicaciones ventanaFiltros = new FiltraPublicaciones();
+				ventanaFiltros.setVisible(true);
+			}
+		});
+		
 		opciones.add(cargaDatos);
+		opciones.add(filtraPublicaciones);
 		
 		return opciones;
 	}

@@ -22,11 +22,6 @@ public class PerfilInstagram {
 		return perfil;
 	}
 
-	// PARA PRUEBAS LOCALES / BORRAR
-	public static void main(String[] args) {
-		PerfilInstagram.getInstance();
-	}
-
 	public void cargarPublicaciones() {
 		CargaXML cargador = new CargaXML();
 		cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el
@@ -35,6 +30,17 @@ public class PerfilInstagram {
 	
 	public Set<Publicacion> getPublicaciones() {
 		return listaPublicaciones;
+	}
+	
+	public String[] getNombresPublicaciones() {
+		// este metodo deberia devolver un array de strings
+		// con los nombres de todas las publicaciones que hay en la lista
+		// se invoca en FiltraPublicaciones.java para que el usuario seleccione
+		// que publicaciones quiere consultar/reproducir
+		String nombres[] = new String[2];
+		nombres[0] = "ESTO ES UNA PRUEBA 1";
+		nombres[1] = "ESTO ES UNA PRUEBA 2";
+		 return nombres;
 	}
 
 	public void addPublicacion(Publicacion publi) {
