@@ -49,4 +49,9 @@ public class Imagen extends Publicacion implements Filtrable {
 		
 	}
 
+	public String getTipoPublicacion() {
+		return "Imagen";
+	}
+	
+	
 }

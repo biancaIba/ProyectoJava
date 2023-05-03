@@ -47,5 +47,9 @@ public class Video extends Publicacion implements Durable, Filtrable {
 	public void aplicarFiltro() {
 		
 	}
+	
+	public String getTipoPublicacion() {
+		return "Video";
+	}
 
 }
