@@ -2,6 +2,7 @@ package model;
 
 import java.util.ArrayList;
 import java.time.LocalDate;
+
 public abstract class Publicacion implements Comparable<Publicacion>{
 	private String nombrePublicacion;
 	private LocalDate fechaSubida;
@@ -104,5 +105,12 @@ public abstract class Publicacion implements Comparable<Publicacion>{
     public int compareTo(Publicacion otraPublicacion) {
         return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
     }
-	
+	public void eliminaAlbum(Album albumAEliminar) {
+		for(Album album :listaAlbumesPertenece) {
+			if (album.equals(albumAEliminar)) {
+				listaAlbumesPertenece.remove(albumAEliminar);
+				break;
+			}
+		}
+	}
 }
