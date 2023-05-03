@@ -9,7 +9,7 @@ import reports.ReportePublicacion;
 public class Sitema {
 
 	public static void main(String[] args) {
-		PerfilInstagram perfil=new PerfilInstagram();
+		PerfilInstagram perfil = new PerfilInstagram();
 		perfil.cargarPublicaciones();
 		List<ReportePublicacion> listaReportes=perfil.cantidadYpromedioDeMg();
 		generarReporteEnPantalla(listaReportes);

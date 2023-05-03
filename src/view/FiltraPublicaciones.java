@@ -30,6 +30,7 @@ public class FiltraPublicaciones extends JDialog {
 
 	public FiltraPublicaciones() {
 		//int cantP;
+		
 		perfil = PerfilInstagram.getInstance();
 		setTitle("Filtrar Publicaciones");
 		setAlwaysOnTop(true);
