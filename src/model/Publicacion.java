@@ -113,4 +113,5 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 			}
 		}
 	}
+	public abstract String getTipoPublicacion();
 }
