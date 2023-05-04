@@ -1,15 +1,13 @@
 package view;
 
 import model.*;
+import sistema.*;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
+import java.io.File;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout.Alignment;
 import exception.*;
 import java.util.*;
 
@@ -42,7 +40,6 @@ public class PerfilUsuario extends JFrame {
 		setContentPane(contentPane);
 		
 		menuTop();
-		publicacionesActuales();
 	}
 	
 	public void menuTop() {
@@ -74,10 +71,14 @@ public class PerfilUsuario extends JFrame {
 		
 		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
-				Album nuevoAlbum = new Album(nombreAlbum);
-				PerfilInstagram.getInstance().addAlbum(nuevoAlbum);				
-				JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+				String nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo Album");
+				if (nombreAlbum.isEmpty())
+					nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo Album");
+				else {
+					Album nuevoAlbum = new Album(nombreAlbum);
+					PerfilInstagram.getInstance().addAlbum(nuevoAlbum);				
+					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+				}
 			}
 		});
 		
@@ -92,9 +93,9 @@ public class PerfilUsuario extends JFrame {
 				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album");
 				String nombrePubli = JOptionPane.showInputDialog("Ingrese el nombre de la Publicación");
 				try {
-					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
-					PerfilInstagram.getInstance().buscaPubli(nombrePubli);
-					PerfilInstagram.getInstance().addPubliDentroAlbum(nombreAlbum, nombrePubli);
+					perfilInstagram.buscaAlbum(nombreAlbum);
+					perfilInstagram.buscaPubli(nombrePubli);
+					perfilInstagram.addPubliDentroAlbum(nombreAlbum, nombrePubli);
 					JOptionPane.showMessageDialog(null, "La publicación fue eliminada con éxito");
 				} catch (AlbumNoEncontradoException e1) {
 					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
@@ -139,6 +140,18 @@ public class PerfilUsuario extends JFrame {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
+		JMenuItem generaTXT = new JMenuItem ("Generar TXT");
+		generaTXT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Sistema.generarReporteEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
+				File reporte = new File("reporte.txt");
+				if (reporte.exists())
+					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
+				else 
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado");		
+			}
+		});
+		
 		return reportes;
 	}
 	
@@ -149,7 +162,7 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem cargaDatos = new JMenuItem ("Cargar datos desde XML");
 		cargaDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PerfilInstagram.getInstance().cargarPublicaciones();				
+				perfilInstagram.cargarPublicaciones();				
 				JOptionPane.showMessageDialog(null, "Los datos fueron agregados con éxito");
 				publicacionesActuales();
 			}
@@ -170,6 +183,7 @@ public class PerfilUsuario extends JFrame {
 	}
 	
 	public void publicacionesActuales() {
+		
 		/**
 		 * Setea el espacio donde apareceran las Publicaciones del Perfil
 		 */
@@ -178,15 +192,17 @@ public class PerfilUsuario extends JFrame {
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		
-		//PerfilInstagram.getInstance().getPublicaciones();
-		//int i=0;
-		//for (Publicacion p : publicaciones) {
-		//	i++;
-		//	JLabel publi = new JLabel();
-		//	publi.setText("SOY LA PUBLICACION " + i);
-		//	jpPublicaciones.add(publi);
-		//}
-		//jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
-		//contentPane.add(jpPublicaciones, BorderLayout.CENTER);
+		try {
+			Set<String> nombresP = perfilInstagram.getNombresPublicaciones();
+			for (String nombre : nombresP) {
+				JLabel publi = new JLabel();
+				publi.setText(nombre);
+				jpPublicaciones.add(publi);
+				jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
+				contentPane.add(jpPublicaciones, BorderLayout.CENTER);
+	        }
+		} catch (SinDatosException e) {
+			jpPublicaciones.setVisible(false);
+		}	
 	}
 }

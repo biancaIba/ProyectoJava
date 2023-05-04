@@ -6,16 +6,19 @@ import java.util.List;
 import model.PerfilInstagram;
 import reports.ReportePublicacion;
 
-public class Sitema {
+public class Sistema {
+	
+	private static PerfilInstagram perfil;
 
 	public static void main(String[] args) {
-		PerfilInstagram perfil = new PerfilInstagram();
+		perfil = PerfilInstagram.getInstance();
 		perfil.cargarPublicaciones();
-		List<ReportePublicacion> listaReportes=perfil.cantidadYpromedioDeMg();
+		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
 		generarReporteEnPantalla(listaReportes);
 		generarReporteEnArchivo(listaReportes);
 		
 	}
+	
 	public static void generarReporteEnPantalla(List<ReportePublicacion> listaReportes) {
 		for(ReportePublicacion rep: listaReportes) {
 			System.out.println("Tipo: "+rep.getTipoPublicacion());
@@ -26,7 +29,7 @@ public class Sitema {
 	
 	public static void generarReporteEnArchivo(List<ReportePublicacion> listaReportes) {
         String nombreArchivo = "reporte.txt";
-
+        
         try (FileWriter fileWriter = new FileWriter(nombreArchivo);
              BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
 
@@ -43,6 +46,7 @@ public class Sitema {
         } catch (IOException e) {
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
         }
+        
     }
 
 }
