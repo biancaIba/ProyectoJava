@@ -138,31 +138,23 @@ public class PerfilInstagram {
 		}
 		return reporte;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	public void addPubliDentroAlbum(String nombreAlbum, String nombrePubli) {
-		
+		Album album;
+		try {
+			Publicacion publicacion = buscaPubli(nombrePubli);
+			album = buscaAlbum(nombreAlbum);
+			publicacion.agregaAlbumPertenece(album);
+			album.agregaPublicacionAalbum(publicacion);
+		} catch (AlbumNoEncontradoException e) {
+			e.printStackTrace();
+		}
+		catch (PublicacionNoEncontradaException e) {
+			e.printStackTrace();
+		}
+
 	}
+
 	
 	public void eliminaAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
 		// elimina album de la lista de albumes
