@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.time.LocalDate;
 
 public abstract class Publicacion implements Comparable<Publicacion>{
@@ -69,13 +70,21 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 	        listaComentarios.add(comentario.trim());
 	    }
 	}
-	public void agregarAlbum(Album album) {
-	    if (album != null) {
+	// verifica si la publicacion ya tiene ese album en la lista album pertenece para que no quede repetido
+	public boolean tieneAlbumPertenece(Album album) {
+	    for (Album a : listaAlbumesPertenece) {
+	        if (a.equals(album)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	// antes de agregar verifica que no sea null y que no este repetido
+    // deberia tener una excepsion por si esta repedido ?
+	public void agregarAlbumPertenece(Album album) {
+	    if (album != null && tieneAlbumPertenece(album)) {
 	    	listaAlbumesPertenece.add(album);
 	    }
-	}
-	public void agregaPublicacion() {
-		
 	}
 
 	public ArrayList<String> getListaEtiquetas() {
@@ -114,4 +123,19 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 		}
 	}
 	public abstract String getTipoPublicacion();
+	@Override
+	public boolean equals(Object obj) {
+		if(obj == this)
+			return true;
+		if (!(obj instanceof Publicacion)) 
+			return false;
+		Publicacion publicacion =(Publicacion)obj;
+		return nombrePublicacion.equals(publicacion.nombrePublicacion);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(nombrePublicacion);
+	}
+	
 }
