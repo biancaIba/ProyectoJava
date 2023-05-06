@@ -1,17 +1,19 @@
 package view;
 
 import model.*;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import javax.swing.border.EmptyBorder;
 import javax.swing.GroupLayout.Alignment;
 import exception.*;
 import java.util.*;
+import java.util.List;
+
 
 public class PerfilUsuario extends JFrame {
 	
@@ -61,9 +63,17 @@ public class PerfilUsuario extends JFrame {
 		menuPrincipal.add(menuTOPalbumes());
 		menuPrincipal.add(menuTOPreportes());
 		menuPrincipal.add(menuTOPopciones());
-		
-		contentPane.setLayout(new BorderLayout(0, 0));
-		contentPane.add(menuPrincipal, BorderLayout.NORTH);
+		menuPrincipal.add(menuTOPestadisticas());
+		GroupLayout gl_contentPane = new GroupLayout(contentPane);
+		gl_contentPane.setHorizontalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(menuPrincipal, GroupLayout.PREFERRED_SIZE, 607, GroupLayout.PREFERRED_SIZE)
+		);
+		gl_contentPane.setVerticalGroup(
+			gl_contentPane.createParallelGroup(Alignment.LEADING)
+				.addComponent(menuPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+		);
+		contentPane.setLayout(gl_contentPane);
 	}
 	
 	public JMenu menuTOPalbumes() {
@@ -139,9 +149,63 @@ public class PerfilUsuario extends JFrame {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
+		JMenuItem mntmReportePublicaciones = new JMenuItem("Reporte de publicaciones");
+		mntmReportePublicaciones.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        JFrame frame = new JFrame("Reporte de publicaciones");
+		        frame.setSize(400, 300);
+		        
+		        DefaultListModel<String> model = new DefaultListModel<>();
+		        Map<String, List<Publicacion>> publicaciones = perfilInstagram.agruparPublicacionesPorTipo();
+		        for (Map.Entry<String, List<Publicacion>> entry : publicaciones.entrySet()) {
+		            String tipoPublicacion = entry.getKey();
+		            List<Publicacion> listaPublicaciones = entry.getValue();
+		            System.out.println("Tipo de publicación: " + tipoPublicacion);
+		            for (Publicacion publicacion : listaPublicaciones) {
+		                System.out.println("- " + publicacion.toString());
+		            }
+		        }
+		        
+		        JList<String> list = new JList<>(model);
+		        list.setFont(new Font("Open Sans", Font.PLAIN, 15));
+		        
+		        frame.getContentPane().add(list);
+		        frame.setVisible(true);
+		    }
+		});
+		
+		JMenuItem mntmReporteDeAlbumes = new JMenuItem("Reporte de Albumes");
+		mntmReporteDeAlbumes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		reportes.add(mntmReporteDeAlbumes);
+		reportes.add(mntmReportePublicaciones);
+		
+		
+		
+		
+			
+	
 		return reportes;
 	}
-	
+	public JMenu menuTOPestadisticas(){
+		JMenu estadisticas = new JMenu("Estadísticas");
+		estadisticas.setFont(new Font("Open Sans", Font.PLAIN, 15));	
+		
+		JMenuItem mntmVerEstadisticas = new JMenuItem("Ver estadisticas");
+		estadisticas.add(mntmVerEstadisticas);
+		estadisticas.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				contentPane = new JPanel();
+				contentPane.setBackground(Color.blue);
+				
+				contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
+				setContentPane(contentPane);
+			}
+		});
+		return estadisticas;
+	}
 	public JMenu menuTOPopciones() {
 		JMenu opciones = new JMenu("Opciones");
 		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
@@ -168,6 +232,9 @@ public class PerfilUsuario extends JFrame {
 		
 		return opciones;
 	}
+	
+	
+
 	
 	public void publicacionesActuales() {
 		/**
