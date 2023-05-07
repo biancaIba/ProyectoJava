@@ -23,6 +23,7 @@ public class PerfilUsuario extends JFrame {
 	
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
+	
 
 	public static void main(String[] args) {
 		perfilInstagram = PerfilInstagram.getInstance();
@@ -100,9 +101,9 @@ public void menuTop() {
 				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album");
 				String nombrePubli = JOptionPane.showInputDialog("Ingrese el nombre de la Publicación");
 				try {
-					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
-					PerfilInstagram.getInstance().buscaPubli(nombrePubli);
-					PerfilInstagram.getInstance().addPubliDentroAlbum(nombreAlbum, nombrePubli);
+					Album album =perfilInstagram.buscaAlbum(nombreAlbum);
+					Publicacion publicacion = perfilInstagram.buscaPubli(nombrePubli);
+					perfilInstagram.addPubliDentroAlbum(album, publicacion);
 					JOptionPane.showMessageDialog(null, "La publicación fue agregada con éxito");
 				} catch (AlbumNoEncontradoException e1) {
 					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
@@ -117,23 +118,33 @@ public void menuTop() {
 		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación de un Album");
 		gaEliminaPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				String nombrePublicacion = JOptionPane.showInputDialog("Ingrese el nombre de la Publicacion");
+				try {
+					Publicacion publicacionAEliminar =perfilInstagram.buscaPubli(nombrePublicacion);
+					perfilInstagram.eliminarPublicacion(publicacionAEliminar);
+				}catch (PublicacionNoEncontradaException e1){
+					JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.");
+				}
 			}
 		});
 		gestionaAlbum.add(gaEliminaPubli);
 		
 		JMenuItem eliminaAlbum = new JMenuItem ("Eliminar álbum");
 		eliminaAlbum.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
-				try {
-					Album albumAEliminar = perfilInstagram.buscaAlbum(nombreAlbum);
-					perfilInstagram.eliminaAlbum(albumAEliminar);
-					JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
-				} catch (AlbumNoEncontradoException e1) {
-					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
-				}
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album a eliminar");
+		        if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
+		            try {
+		                Album albumAEliminar = perfilInstagram.buscaAlbum(nombreAlbum);
+		                perfilInstagram.eliminaAlbum(albumAEliminar);
+		                JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
+		            } catch (AlbumNoEncontradoException e2) {
+		                JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Debe ingresar un nombre de álbum válido.");
+		        }
+		    }
 		});
 		
 		albumes.add(crearAlbum);
@@ -151,7 +162,7 @@ public void menuTop() {
 		ReportePublicaciones.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JFrame frame = new JFrame("Reporte de publicaciones");
-		        frame.setSize(400, 300);
+		        frame.setLocation(500, 200);
 		     // Nombres de columnas
 		        String[] columnNames = { "Nombre", "Tipo de publicacion", "Cantidad de MG","Fecha de Subida","Albumes asociados" };
 
@@ -162,8 +173,11 @@ public void menuTop() {
 		        JTable table = new JTable(model);
 		        table.setEnabled(false);
 		        table.setRowSelectionAllowed(false);
-				
+		        table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		        
 				JScrollPane scrollPane = new JScrollPane(table);
+				scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
+				scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 				
 				JButton btnNewButton = new JButton("Cargar datos ");
 				

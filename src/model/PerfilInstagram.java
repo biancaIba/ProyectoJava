@@ -137,19 +137,9 @@ public class PerfilInstagram {
 		return reporte;
 	}
 
-	public void addPubliDentroAlbum(String nombreAlbum, String nombrePubli) {
-		try {
-			Publicacion publicacion = buscaPubli(nombrePubli);
-			Album album = buscaAlbum(nombreAlbum);
+	public void addPubliDentroAlbum(Album album, Publicacion publicacion) {
 			publicacion.agregaAlbumPertenece(album);
 			album.agregaPublicacionAalbum(publicacion);
-		} catch (AlbumNoEncontradoException e) {
-			e.printStackTrace();
-		}
-		catch (PublicacionNoEncontradaException e) {
-			e.printStackTrace();
-		}
-
 	}
 
 	
@@ -159,13 +149,31 @@ public class PerfilInstagram {
 		if (albumAEliminarIndice == -1) {
 			throw new AlbumNoEncontradoException("Album no encontrado");
 		} else {
-			Album album = listaAlbumes.get(0);
+			Album album = listaAlbumes.get(albumAEliminarIndice);
 			album.desasociarReferenciasAPublicaciones();
 			listaAlbumes.remove(albumAEliminar);
 			// en perfil instagram tenemos una referencia a las subAlbumes??
 		}
 	}
 	
+	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaException {
+	    Iterator<Publicacion> iteradorPublicacion = listaPublicaciones.iterator();
+	    while (iteradorPublicacion.hasNext()) {
+	        Publicacion publicacion = iteradorPublicacion.next();
+	        if (publicacion.equals(publicacionAEliminar)) {
+	            iteradorPublicacion.remove();
+	            break;
+	        }
+	    }
+	    Iterator<Album> iteradorAlbum = listaAlbumes.iterator();
+	    while (iteradorAlbum.hasNext()) {
+	        Album album = iteradorAlbum.next();
+	        if (album.existePublicacion(publicacionAEliminar)) {
+	            album.desasociarReferenciasAPublicaciones();
+	        }
+	    }
+	}
+
 	public void confListaReproduccion() {
 		/*
 		 * Permita la consulta y reproducción de un grupo de publicaciones seleccionadas
