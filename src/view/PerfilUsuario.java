@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import reports.ReportePublicacion;
+import sistema.Sistema;
 
 import java.awt.*;
 import javax.swing.*;
@@ -16,7 +17,7 @@ import java.util.*;
 import java.util.List;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
-
+import java.io.File;
 
 public class PerfilUsuario extends JFrame {
 	
@@ -102,7 +103,7 @@ public void menuTop() {
 					PerfilInstagram.getInstance().buscaAlbum(nombreAlbum);
 					PerfilInstagram.getInstance().buscaPubli(nombrePubli);
 					PerfilInstagram.getInstance().addPubliDentroAlbum(nombreAlbum, nombrePubli);
-					JOptionPane.showMessageDialog(null, "La publicación fue eliminada con éxito");
+					JOptionPane.showMessageDialog(null, "La publicación fue agregada con éxito");
 				} catch (AlbumNoEncontradoException e1) {
 					JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.");
 				}
@@ -226,7 +227,7 @@ public void menuTop() {
 						}
 					}
 				});
-				
+			
 				GroupLayout gl_contentPane = new GroupLayout(contentPane);
 				gl_contentPane.setHorizontalGroup(
 					gl_contentPane.createParallelGroup(Alignment.LEADING)
@@ -307,13 +308,7 @@ public void menuTop() {
 			}
 		});
 		reportes.add(ReporteDeAlbumes);
-		reportes.add(ReportePublicaciones);
-		
-		
-		
-		
-			
-	
+		reportes.add(ReportePublicaciones);	
 		return reportes;
 	}
 	public JMenu menuTOPestadisticas(){

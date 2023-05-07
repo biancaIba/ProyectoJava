@@ -138,10 +138,9 @@ public class PerfilInstagram {
 	}
 
 	public void addPubliDentroAlbum(String nombreAlbum, String nombrePubli) {
-		Album album;
 		try {
 			Publicacion publicacion = buscaPubli(nombrePubli);
-			album = buscaAlbum(nombreAlbum);
+			Album album = buscaAlbum(nombreAlbum);
 			publicacion.agregaAlbumPertenece(album);
 			album.agregaPublicacionAalbum(publicacion);
 		} catch (AlbumNoEncontradoException e) {
