@@ -105,16 +105,14 @@ public class PerfilInstagram {
 	public Map<String,List<Publicacion>> ordenarPublicacionesPorMg() {
 		Map<String,List<Publicacion>> publicacionesPorTipo=this.agruparPublicacionesPorTipo();
 		for(Map.Entry<String, List<Publicacion>> entry: publicacionesPorTipo.entrySet()) {
-			List<Publicacion> publicaciones=entry.getValue();//obtengo la lista completa 
-			
+			List<Publicacion> publicaciones=entry.getValue();//obtengo la lista completa
 			Collections.sort(publicaciones, new Comparator<Publicacion>(){
-			@Override
-		         public int compare(Publicacion p1, Publicacion p2) {
+				@Override
+		        public int compare(Publicacion p1, Publicacion p2) {
 					//al cambiar el orden de p2 y p1 los ordena descendentemente
 		            return Integer.compare(p2.getCantMG(), p1.getCantMG());
-			}
-		});
-		
+				}
+			});
 		}
 		return publicacionesPorTipo;
 	}

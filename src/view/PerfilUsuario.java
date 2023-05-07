@@ -1,6 +1,7 @@
 package view;
 
 import model.*;
+import reports.ReportePublicacion;
 
 import java.awt.*;
 import javax.swing.*;
@@ -13,6 +14,8 @@ import javax.swing.GroupLayout.Alignment;
 import exception.*;
 import java.util.*;
 import java.util.List;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.table.DefaultTableModel;
 
 
 public class PerfilUsuario extends JFrame {
@@ -32,7 +35,7 @@ public class PerfilUsuario extends JFrame {
 
 	public PerfilUsuario() {
 		setTitle("Perfil del Usuario");
-		setSize(420,250);
+		setSize(787,401);
 		setForeground(Color.DARK_GRAY);
 		setBackground(Color.GRAY);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -47,7 +50,7 @@ public class PerfilUsuario extends JFrame {
 		publicacionesActuales();
 	}
 	
-	public void menuTop() {
+public void menuTop() {
 		
 		/**
 		 * Setea el Menu Principal de la Interfaz
@@ -64,16 +67,10 @@ public class PerfilUsuario extends JFrame {
 		menuPrincipal.add(menuTOPreportes());
 		menuPrincipal.add(menuTOPopciones());
 		menuPrincipal.add(menuTOPestadisticas());
-		GroupLayout gl_contentPane = new GroupLayout(contentPane);
-		gl_contentPane.setHorizontalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(menuPrincipal, GroupLayout.PREFERRED_SIZE, 607, GroupLayout.PREFERRED_SIZE)
-		);
-		gl_contentPane.setVerticalGroup(
-			gl_contentPane.createParallelGroup(Alignment.LEADING)
-				.addComponent(menuPrincipal, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-		);
-		contentPane.setLayout(gl_contentPane);
+
+		contentPane.setLayout(new BorderLayout(0, 0));
+		contentPane.add(menuPrincipal, BorderLayout.NORTH);
+       
 	}
 	
 	public JMenu menuTOPalbumes() {
@@ -149,38 +146,168 @@ public class PerfilUsuario extends JFrame {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
-		JMenuItem mntmReportePublicaciones = new JMenuItem("Reporte de publicaciones");
-		mntmReportePublicaciones.addActionListener(new ActionListener() {
+		JMenuItem ReportePublicaciones = new JMenuItem("Reporte de publicaciones");
+		ReportePublicaciones.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JFrame frame = new JFrame("Reporte de publicaciones");
 		        frame.setSize(400, 300);
+		     // Nombres de columnas
+		        String[] columnNames = { "Nombre", "Tipo de publicacion", "Cantidad de MG","Fecha de Subida","Albumes asociados" };
+
+		        // Crear un DefaultTableModel con los datos y nombres de columnas
+		        DefaultTableModel model = new DefaultTableModel(null, columnNames);
+
+		        // Crear un JTable con el DefaultTableModel
+		        JTable table = new JTable(model);
+		        table.setEnabled(false);
+		        table.setRowSelectionAllowed(false);
+				
+				JScrollPane scrollPane = new JScrollPane(table);
+				
+				JButton btnNewButton = new JButton("Cargar datos ");
+				
+				JLabel lblNewLabel = new JLabel("Video");
+				
+				JLabel lblAudio = new JLabel("Audio");
+				
+				JLabel lblImagen = new JLabel("Imagen");
+				
+				JLabel lblNewLabel_1 = new JLabel("Promedio de MG:");
+				
+				JLabel lblNewLabel_1_1 = new JLabel("Cantidad de publicaciones:");
+				lblNewLabel_1_1.setHorizontalAlignment(SwingConstants.RIGHT);
+				
+				JLabel lblPromMGVideo = new JLabel("");
+				
+				JLabel lblCantPubliVideo = new JLabel("");
+				
+				JLabel lblPromMGAudio = new JLabel("");
+				
+				JLabel lblPromMGImagen = new JLabel("");
+				
+				JLabel lblCantPubliAudio = new JLabel("");
+				
+				JLabel lblCantPubliImagen = new JLabel("");
+				
+				
+				btnNewButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						Map<String,List<Publicacion>> listaporMG = perfilInstagram.ordenarPublicacionesPorMg();
+						model.setRowCount(0);
+						for(Map.Entry<String, List<Publicacion>> entry: listaporMG.entrySet()) {
+							List<Publicacion> publicaciones=entry.getValue();
+							for(Publicacion publicacion  : publicaciones ) {
+								String albumesStr = new String();
+								for (Album album : publicacion.getListaAlbumesPertenece() ) {
+									albumesStr+=album.getNombreAlbum()+", ";
+								}
+								model.addRow(new Object[] {publicacion.getNombrePublicacion(), publicacion.getTipoPublicacion(), publicacion.getCantMG(),publicacion.getFechaSubida(),albumesStr});
+							}
+						}
+						List<ReportePublicacion> reportes = perfilInstagram.cantidadYpromedioDeMg();
+						for (ReportePublicacion reporte : reportes) {
+							
+							switch (reporte.getTipoPublicacion().toLowerCase()) {
+								case "video": 
+									lblPromMGVideo.setText(Float.toString(reporte.getPromedio()));
+									lblCantPubliVideo.setText(Integer.toString(reporte.getCantidadPublicaciones()));
+									break;
+								case "audio": 
+									lblPromMGAudio.setText(Float.toString(reporte.getPromedio()));
+									lblCantPubliAudio.setText(Integer.toString(reporte.getCantidadPublicaciones()));
+									break;
+								case "imagen": 
+									lblPromMGImagen.setText(Float.toString(reporte.getPromedio()));
+									lblCantPubliImagen.setText(Integer.toString(reporte.getCantidadPublicaciones()));
+									break;
+							}
+									
+								
+						}
+					}
+				});
+				
+				GroupLayout gl_contentPane = new GroupLayout(contentPane);
+				gl_contentPane.setHorizontalGroup(
+					gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(10)
+							.addComponent(ReportePublicaciones, GroupLayout.PREFERRED_SIZE, 607, GroupLayout.PREFERRED_SIZE))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addGap(10)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.TRAILING)
+								.addComponent(btnNewButton)
+								.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 578, GroupLayout.PREFERRED_SIZE)))
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblNewLabel_1)
+									.addPreferredGap(ComponentPlacement.RELATED)
+									.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING, false)
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(65)
+											.addComponent(lblPromMGVideo)
+											.addPreferredGap(ComponentPlacement.RELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+											.addComponent(lblPromMGAudio))
+										.addGroup(gl_contentPane.createSequentialGroup()
+											.addGap(73)
+											.addComponent(lblNewLabel)
+											.addGap(64)
+											.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+												.addComponent(lblCantPubliAudio)
+												.addComponent(lblAudio)))))
+								.addGroup(gl_contentPane.createSequentialGroup()
+									.addComponent(lblNewLabel_1_1)
+									.addGap(18)
+									.addComponent(lblCantPubliVideo)))
+							.addGap(38)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblCantPubliImagen)
+								.addComponent(lblPromMGImagen)
+								.addComponent(lblImagen)))
+				);
+				gl_contentPane.setVerticalGroup(
+					gl_contentPane.createParallelGroup(Alignment.LEADING)
+						.addGroup(gl_contentPane.createSequentialGroup()
+							.addComponent(ReportePublicaciones, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+							.addGap(18)
+							.addComponent(scrollPane, GroupLayout.PREFERRED_SIZE, 187, GroupLayout.PREFERRED_SIZE)
+							.addGap(6)
+							.addComponent(btnNewButton)
+							.addGap(9)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblImagen)
+								.addComponent(lblNewLabel)
+								.addComponent(lblAudio))
+							.addPreferredGap(ComponentPlacement.RELATED)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.BASELINE)
+								.addComponent(lblPromMGVideo)
+								.addComponent(lblPromMGAudio)
+								.addComponent(lblPromMGImagen)
+								.addComponent(lblNewLabel_1))
+							.addGap(18)
+							.addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
+								.addComponent(lblCantPubliVideo)
+								.addComponent(lblNewLabel_1_1, GroupLayout.PREFERRED_SIZE, 28, GroupLayout.PREFERRED_SIZE)
+								.addComponent(lblCantPubliImagen)
+								.addComponent(lblCantPubliAudio))
+							.addGap(13))
+				);
+				contentPane.setLayout(gl_contentPane);
 		        
-		        DefaultListModel<String> model = new DefaultListModel<>();
-		        Map<String, List<Publicacion>> publicaciones = perfilInstagram.agruparPublicacionesPorTipo();
-		        for (Map.Entry<String, List<Publicacion>> entry : publicaciones.entrySet()) {
-		            String tipoPublicacion = entry.getKey();
-		            List<Publicacion> listaPublicaciones = entry.getValue();
-		            System.out.println("Tipo de publicación: " + tipoPublicacion);
-		            for (Publicacion publicacion : listaPublicaciones) {
-		                System.out.println("- " + publicacion.toString());
-		            }
-		        }
-		        
-		        JList<String> list = new JList<>(model);
-		        list.setFont(new Font("Open Sans", Font.PLAIN, 15));
-		        
-		        frame.getContentPane().add(list);
-		        frame.setVisible(true);
 		    }
 		});
 		
-		JMenuItem mntmReporteDeAlbumes = new JMenuItem("Reporte de Albumes");
-		mntmReporteDeAlbumes.addActionListener(new ActionListener() {
+		JMenuItem ReporteDeAlbumes = new JMenuItem("Reporte de Albumes");
+		ReporteDeAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				 
+				
 			}
 		});
-		reportes.add(mntmReporteDeAlbumes);
-		reportes.add(mntmReportePublicaciones);
+		reportes.add(ReporteDeAlbumes);
+		reportes.add(ReportePublicaciones);
 		
 		
 		
