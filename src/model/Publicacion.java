@@ -1,6 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+
+import exception.AlbumNoEncontradoException;
+
 import java.time.LocalDate;
 
 public abstract class Publicacion implements Comparable<Publicacion>{
@@ -74,9 +77,7 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 	    	listaAlbumesPertenece.add(album);
 	    }
 	}
-	public void agregaPublicacion() {
-		
-	}
+	
 
 	public ArrayList<String> getListaEtiquetas() {
 		return listaEtiquetas;
@@ -105,12 +106,10 @@ public abstract class Publicacion implements Comparable<Publicacion>{
     public int compareTo(Publicacion otraPublicacion) {
         return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
     }
-	public void eliminaAlbum(Album albumAEliminar) {
-		for(Album album :listaAlbumesPertenece) {
-			if (album.equals(album)) {
-				listaAlbumesPertenece.remove(albumAEliminar);
-				break;
-			}
+	public void sacarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
+		boolean borrado= this.listaAlbumesPertenece.remove(albumAEliminar);
+		if (!borrado) {
+			throw new AlbumNoEncontradoException("Album no encontrado");
 		}
 	}
 	public abstract String getTipoPublicacion();

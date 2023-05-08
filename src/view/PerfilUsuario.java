@@ -115,7 +115,7 @@ public void menuTop() {
 		});
 		gestionaAlbum.add(gaAgregaPubli);
 		
-		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación de un Album");
+		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación");
 		gaEliminaPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				String nombrePublicacion = JOptionPane.showInputDialog("Ingrese el nombre de la Publicacion");
@@ -127,7 +127,27 @@ public void menuTop() {
 				}
 			}
 		});
+		
 		gestionaAlbum.add(gaEliminaPubli);
+		
+		JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un Album");
+		gaSacarPubli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				String nombrePublicacion = JOptionPane.showInputDialog("Ingrese el nombre de la Publicacion");
+				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album");
+				try {
+					Publicacion publicacionAEliminar =perfilInstagram.buscaPubli(nombrePublicacion);
+					Album album = perfilInstagram.buscaAlbum(nombreAlbum);
+					perfilInstagram.sacarPublicacionDelAlbum(publicacionAEliminar, album);
+					JOptionPane.showMessageDialog(null, "Publicacion sacada del album con exito");
+				}catch (PublicacionNoEncontradaException e1){
+					JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.");
+				} catch (AlbumNoEncontradoException e1) {
+					JOptionPane.showMessageDialog(null, "El album NO existe. Intente de nuevo.");
+				}
+			}
+		});
+		gestionaAlbum.add(gaSacarPubli);
 		
 		JMenuItem eliminaAlbum = new JMenuItem ("Eliminar álbum");
 		eliminaAlbum.addActionListener(new ActionListener() {
@@ -162,7 +182,7 @@ public void menuTop() {
 		ReportePublicaciones.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JFrame frame = new JFrame("Reporte de publicaciones");
-		        frame.setLocation(500, 200);
+		        //frame.setLocation(500, 200);
 		     // Nombres de columnas
 		        String[] columnNames = { "Nombre", "Tipo de publicacion", "Cantidad de MG","Fecha de Subida","Albumes asociados" };
 

@@ -173,6 +173,10 @@ public class PerfilInstagram {
 	        }
 	    }
 	}
+	public void sacarPublicacionDelAlbum(Publicacion publicacionASacar, Album album) throws PublicacionNoEncontradaException, AlbumNoEncontradoException{
+		album.sacarPublicacion(publicacionASacar);
+		publicacionASacar.sacarAlbum(album);
+	}
 
 	public void confListaReproduccion() {
 		/*
