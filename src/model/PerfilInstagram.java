@@ -107,16 +107,14 @@ public class PerfilInstagram {
 	public Map<String,List<Publicacion>> ordenarPublicacionesPorMg() {
 		Map<String,List<Publicacion>> publicacionesPorTipo=this.agruparPublicacionesPorTipo();
 		for(Map.Entry<String, List<Publicacion>> entry: publicacionesPorTipo.entrySet()) {
-			List<Publicacion> publicaciones=entry.getValue();//obtengo la lista completa 
-			
+			List<Publicacion> publicaciones=entry.getValue();//obtengo la lista completa
 			Collections.sort(publicaciones, new Comparator<Publicacion>(){
-			@Override
-		         public int compare(Publicacion p1, Publicacion p2) {
+				@Override
+		        public int compare(Publicacion p1, Publicacion p2) {
 					//al cambiar el orden de p2 y p1 los ordena descendentemente
 		            return Integer.compare(p2.getCantMG(), p1.getCantMG());
-			}
-		});
-		
+				}
+			});
 		}
 		return publicacionesPorTipo;
 	}
@@ -139,10 +137,12 @@ public class PerfilInstagram {
 		}
 		return reporte;
 	}
-	
-	public void addPubliDentroAlbum(String nombreAlbum, String nombrePubli) {
-		
+
+	public void addPubliDentroAlbum(Album album, Publicacion publicacion) {
+			publicacion.agregaAlbumPertenece(album);
+			album.agregaPublicacionAalbum(publicacion);
 	}
+
 	
 	public void eliminaAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
 		// elimina album de la lista de albumes
@@ -150,13 +150,35 @@ public class PerfilInstagram {
 		if (albumAEliminarIndice == -1) {
 			throw new AlbumNoEncontradoException("Album no encontrado");
 		} else {
-			Album album = listaAlbumes.get(0);
+			Album album = listaAlbumes.get(albumAEliminarIndice);
 			album.desasociarReferenciasAPublicaciones();
 			listaAlbumes.remove(albumAEliminar);
 			// en perfil instagram tenemos una referencia a las subAlbumes??
 		}
 	}
 	
+	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaException {
+	    Iterator<Publicacion> iteradorPublicacion = listaPublicaciones.iterator();
+	    while (iteradorPublicacion.hasNext()) {
+	        Publicacion publicacion = iteradorPublicacion.next();
+	        if (publicacion.equals(publicacionAEliminar)) {
+	            iteradorPublicacion.remove();
+	            break;
+	        }
+	    }
+	    Iterator<Album> iteradorAlbum = listaAlbumes.iterator();
+	    while (iteradorAlbum.hasNext()) {
+	        Album album = iteradorAlbum.next();
+	        if (album.existePublicacion(publicacionAEliminar)) {
+	            album.desasociarReferenciasAPublicaciones();
+	        }
+	    }
+	}
+	public void sacarPublicacionDelAlbum(Publicacion publicacionASacar, Album album) throws PublicacionNoEncontradaException, AlbumNoEncontradoException{
+		album.sacarPublicacion(publicacionASacar);
+		publicacionASacar.sacarAlbum(album);
+	}
+
 	public void confListaReproduccion() {
 		/*
 		 * Permita la consulta y reproducción de un grupo de publicaciones seleccionadas

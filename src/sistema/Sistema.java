@@ -16,7 +16,7 @@ public class Sistema {
 		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
 		generarReporteEnPantalla(listaReportes);
 		generarReporteEnArchivo(listaReportes);
-		
+
 	}
 	
 	public static void generarReporteEnPantalla(List<ReportePublicacion> listaReportes) {

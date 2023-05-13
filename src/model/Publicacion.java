@@ -1,6 +1,9 @@
 package model;
 
 import java.util.ArrayList;
+
+import exception.AlbumNoEncontradoException;
+
 import java.time.LocalDate;
 
 public abstract class Publicacion implements Comparable<Publicacion>{
@@ -74,9 +77,7 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 	    	listaAlbumesPertenece.add(album);
 	    }
 	}
-	public void agregaPublicacion() {
-		
-	}
+	
 
 	public ArrayList<String> getListaEtiquetas() {
 		return listaEtiquetas;
@@ -105,13 +106,28 @@ public abstract class Publicacion implements Comparable<Publicacion>{
     public int compareTo(Publicacion otraPublicacion) {
         return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
     }
-	public void eliminaAlbum(Album albumAEliminar) {
-		for(Album album :listaAlbumesPertenece) {
-			if (album.equals(albumAEliminar)) {
-				listaAlbumesPertenece.remove(albumAEliminar);
-				break;
-			}
+	public void sacarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
+		boolean borrado= this.listaAlbumesPertenece.remove(albumAEliminar);
+		if (!borrado) {
+			throw new AlbumNoEncontradoException("Album no encontrado");
 		}
 	}
 	public abstract String getTipoPublicacion();
+	
+	// verifica si la publicacion ya tiene ese album en la lista album pertenece para que no quede repetido
+	public boolean existeAlbumPertenece(Album album) {
+	    for (Album a : listaAlbumesPertenece) {
+	        if (a.equals(album)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+	// antes de agregar verifica que no sea null y que no este repetido
+    // deberia tener una excepsion por si esta repedido ?
+	public void agregaAlbumPertenece(Album album) {
+	    if (album != null && !existeAlbumPertenece(album)) {
+	    	listaAlbumesPertenece.add(album);
+	    }
+	}
 }
