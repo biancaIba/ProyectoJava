@@ -2,6 +2,7 @@ package model;
 
 import java.util.*;
 
+import exception.AlbumNoEncontradoException;
 import exception.PublicacionNoEncontradaException;
 
 public class Album {
@@ -48,8 +49,9 @@ public class Album {
 	/**
 	 * Desasocia de manera bidireccional las referencias de las  publicaciones de este album
 	 * y tambien hace esta misma accion para todos los subalbumes asociados.
+	 * @throws AlbumNoEncontradoException 
 	 */
-	public void desasociarReferenciasAPublicaciones() {
+	public void desasociarReferenciasAPublicaciones() throws AlbumNoEncontradoException {
 		for (Publicacion publicacion : listaPublicaciones) {
 			publicacion.sacarAlbum(this);// elimina el album de publicacion--> listaAlbumesPertenece
 		}
