@@ -1,17 +1,17 @@
 package view;
 
 import model.*;
+import sistema.*;
 import reports.ReportePublicacion;
-import sistema.Sistema;
-
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.border.EmptyBorder;
-import javax.swing.GroupLayout.Alignment;
 import exception.*;
 import java.util.*;
 import java.util.List;
@@ -49,7 +49,6 @@ public class PerfilUsuario extends JFrame {
 		setContentPane(contentPane);
 		
 		menuTop();
-		publicacionesActuales();
 	}
 	
 public void menuTop() {
@@ -83,10 +82,14 @@ public void menuTop() {
 		
 		crearAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del nuevo Album");
-				Album nuevoAlbum = new Album(nombreAlbum);
-				PerfilInstagram.getInstance().addAlbum(nuevoAlbum);				
-				JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+				String nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo Album");
+				if (nombreAlbum.isEmpty())
+					nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del nuevo Album");
+				else {
+					Album nuevoAlbum = new Album(nombreAlbum);
+					PerfilInstagram.getInstance().addAlbum(nuevoAlbum);				
+					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+				}
 			}
 		});
 		
@@ -177,6 +180,18 @@ public void menuTop() {
 	public JMenu menuTOPreportes() {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
+		
+		JMenuItem generaTXT = new JMenuItem ("Generar TXT");
+		generaTXT.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Sistema.generarReporteEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
+				File reporte = new File("reporte.txt");
+				if (reporte.exists())
+					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
+				else 
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado");		
+			}
+		});
 		
 		JMenuItem ReportePublicaciones = new JMenuItem("Reporte de publicaciones");
 		ReportePublicaciones.addActionListener(new ActionListener() {
@@ -343,6 +358,7 @@ public void menuTop() {
 		});
 		reportes.add(ReporteDeAlbumes);
 		reportes.add(ReportePublicaciones);	
+		reportes.add(generaTXT);
 		return reportes;
 	}
 	public JMenu menuTOPestadisticas(){
@@ -369,7 +385,7 @@ public void menuTop() {
 		JMenuItem cargaDatos = new JMenuItem ("Cargar datos desde XML");
 		cargaDatos.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				PerfilInstagram.getInstance().cargarPublicaciones();				
+				perfilInstagram.cargarPublicaciones();				
 				JOptionPane.showMessageDialog(null, "Los datos fueron agregados con éxito");
 				publicacionesActuales();
 			}
@@ -385,7 +401,6 @@ public void menuTop() {
 		
 		opciones.add(cargaDatos);
 		opciones.add(filtraPublicaciones);
-		
 		return opciones;
 	}
 	
@@ -393,6 +408,7 @@ public void menuTop() {
 
 	
 	public void publicacionesActuales() {
+		
 		/**
 		 * Setea el espacio donde apareceran las Publicaciones del Perfil
 		 */
@@ -401,15 +417,17 @@ public void menuTop() {
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		
-		//PerfilInstagram.getInstance().getPublicaciones();
-		//int i=0;
-		//for (Publicacion p : publicaciones) {
-		//	i++;
-		//	JLabel publi = new JLabel();
-		//	publi.setText("SOY LA PUBLICACION " + i);
-		//	jpPublicaciones.add(publi);
-		//}
-		//jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
-		//contentPane.add(jpPublicaciones, BorderLayout.CENTER);
+		try {
+			Set<String> nombresP = perfilInstagram.getNombresPublicaciones();
+			for (String nombre : nombresP) {
+				JLabel publi = new JLabel();
+				publi.setText(nombre);
+				jpPublicaciones.add(publi);
+				jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
+				contentPane.add(jpPublicaciones, BorderLayout.CENTER);
+	        }
+		} catch (SinDatosException e) {
+			jpPublicaciones.setVisible(false);
+		}	
 	}
 }

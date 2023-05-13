@@ -2,12 +2,15 @@ package model;
 
 import parser.CargaXML;
 import reports.ReportePublicacion;
-
 import java.util.*;
 import exception.*;
 
 public class PerfilInstagram {
-	// SINGLETON
+	
+	/** 
+	 * Uso de Modelo Singleton
+	 */
+	
 	String nombrePerfil; // BUSCAR COMO PONER EL NOMBRE (SETEAR O SOBRECARGAR GETINSTACE)
 	private static PerfilInstagram perfil;
 	private Set<Publicacion> listaPublicaciones;
@@ -34,15 +37,15 @@ public class PerfilInstagram {
 		return listaPublicaciones;
 	}
 	
-	public String[] getNombresPublicaciones() {
-		// este metodo deberia devolver un array de strings
-		// con los nombres de todas las publicaciones que hay en la lista
-		// se invoca en FiltraPublicaciones.java para que el usuario seleccione
-		// que publicaciones quiere consultar/reproducir
-		String nombres[] = new String[2];
-		nombres[0] = "ESTO ES UNA PRUEBA 1";
-		nombres[1] = "ESTO ES UNA PRUEBA 2";
-		 return nombres;
+	public Set<String> getNombresPublicaciones() throws SinDatosException {
+		if (listaPublicaciones.isEmpty()) {
+			throw new SinDatosException("No hay datos.");
+		}
+		Set<String> nombres = new TreeSet<>();
+		for (Publicacion p : listaPublicaciones) {
+			nombres.add(p.getNombrePublicacion());
+		}
+		return nombres;
 	}
 
 	public void addPublicacion(Publicacion publi) {
@@ -76,7 +79,6 @@ public class PerfilInstagram {
 		}
 		throw new PublicacionNoEncontradaException("La publicación no se encuentra en la lista.");
 	}
-	
 	
 	
 	public Map<String,List<Publicacion>> agruparPublicacionesPorTipo() {
@@ -131,7 +133,6 @@ public class PerfilInstagram {
 				sum+=publi.getCantMG();
 			}
 			promedio=(sum/totalPublicaciones);
-			
 			reporte.add(new ReportePublicacion(tipoPublicacion,totalPublicaciones,promedio));
 		}
 		return reporte;
