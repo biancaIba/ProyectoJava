@@ -130,6 +130,9 @@ public void menuTop() {
 					perfilInstagram.eliminarPublicacion(publicacionAEliminar);
 				}catch (PublicacionNoEncontradaException e1){
 					JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.");
+				} catch (AlbumNoEncontradoException e1) {
+					// TODO Auto-generated catch block
+					JOptionPane.showMessageDialog(null, "Album no encontrado. Intente de nuevo.");
 				}
 			}
 		});

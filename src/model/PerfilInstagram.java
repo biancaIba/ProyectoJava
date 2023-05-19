@@ -164,7 +164,7 @@ public class PerfilInstagram {
 		}
 	}
 	
-	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaException {
+	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaException, AlbumNoEncontradoException {
 	    Iterator<Publicacion> iteradorPublicacion = listaPublicaciones.iterator();
 	    while (iteradorPublicacion.hasNext()) {
 	        Publicacion publicacion = iteradorPublicacion.next();
@@ -173,7 +173,7 @@ public class PerfilInstagram {
 	            break;
 	        }
 	    }
-	    Iterator<Album> iteradorAlbum = listaAlbumes.iterator();
+	   Iterator<Album> iteradorAlbum = listaAlbumes.iterator();
 	    while (iteradorAlbum.hasNext()) {
 	        Album album = iteradorAlbum.next();
 	        if (album.existePublicacion(publicacionAEliminar)) {
