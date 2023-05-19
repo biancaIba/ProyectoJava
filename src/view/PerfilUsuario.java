@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.border.EmptyBorder;
 import exception.*;
 import java.util.*;
+import java.util.List;
 
 
 public class PerfilUsuario extends JFrame {
@@ -213,23 +214,49 @@ public void menuTop() {
 		reportes.add(generaTXT);
 		return reportes;
 	}
-	public JMenu menuTOPestadisticas(){
-		JMenu estadisticas = new JMenu("Estadísticas");
-		estadisticas.setFont(new Font("Open Sans", Font.PLAIN, 15));	
-		
-		JMenuItem mntmVerEstadisticas = new JMenuItem("Ver estadisticas");
-		estadisticas.add(mntmVerEstadisticas);
-		estadisticas.addMouseListener(new MouseAdapter() {
-			public void mouseClicked(MouseEvent e) {
-				contentPane = new JPanel();
-				contentPane.setBackground(Color.blue);
-				
-				contentPane.setBorder(new EmptyBorder(10, 10, 10, 10));
-				setContentPane(contentPane);
-			}
-		});
-		return estadisticas;
+	public JMenu menuTOPestadisticas() {
+	    JMenu estadisticas = new JMenu("Estadísticas");
+	    estadisticas.setFont(new Font("Open Sans", Font.PLAIN, 15));
+
+	    JMenuItem VerEstadisticas = new JMenuItem("Histograma de Publicaciones");
+	    VerEstadisticas.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            // Crear una nueva ventana JFrame
+	            JFrame ventanaEstadisticas = new JFrame("Estadística: Histograma Publicaciones");
+	            ventanaEstadisticas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	            ventanaEstadisticas.setSize(400, 400);
+
+	            // Obtener la lista de reportes de cantidad de "Me gusta" por tipo de publicación
+	            Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram.agruparPublicacionesPorTipo();
+
+	            // Crear el arreglo de datos para el histograma
+	            int[] data = new int[listaPublicacionesPorTipo.size()];
+	            String[] labels = new String[listaPublicacionesPorTipo.size()];
+	            int index = 0;
+	            for (Map.Entry<String, List<Publicacion>> entry : listaPublicacionesPorTipo.entrySet()) {
+	                String tipoPublicacion = entry.getKey();
+	                List<Publicacion> publicaciones = entry.getValue();
+	                int cantidadPublicaciones = publicaciones.size();
+	                data[index] = cantidadPublicaciones;
+	                labels[index] = tipoPublicacion;
+	                index++;
+	            }
+
+	            HistogramaPublicaciones estadisticasPanel = new HistogramaPublicaciones();
+	            estadisticasPanel.setHistogramData(data, labels);
+	            ventanaEstadisticas.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
+
+	            ventanaEstadisticas.setVisible(true);
+	        }
+	    });
+
+	    estadisticas.add(VerEstadisticas);
+	    return estadisticas;
 	}
+
+
+
+
 	public JMenu menuTOPopciones() {
 		JMenu opciones = new JMenu("Opciones");
 		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
