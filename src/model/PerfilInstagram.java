@@ -33,7 +33,14 @@ public class PerfilInstagram {
 												// cargarPublicaciones()
 	}
 	
-	public Set<Publicacion> getPublicaciones() {
+	public Set<Publicacion> getPublicaciones() throws SinDatosException{
+		if (listaPublicaciones.isEmpty()) {
+			throw new SinDatosException("No hay datos.");
+		}
+		Set<String> nombres = new TreeSet<>();
+		for (Publicacion p : listaPublicaciones) {
+			nombres.add(p.getNombrePublicacion());
+		}
 		return listaPublicaciones;
 	}
 	

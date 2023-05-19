@@ -2,6 +2,7 @@ package view;
 
 import model.*;
 import sistema.*;
+import utils.AssetsUtils;
 
 import java.awt.*;
 import javax.swing.*;
@@ -100,6 +101,8 @@ public void menuTop() {
 		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Album");
 		gaAgregaPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+		        frame.setAlwaysOnTop(true);
 				String nombreAlbum = JOptionPane.showInputDialog("Ingrese el nombre del Album");
 				String nombrePubli = JOptionPane.showInputDialog("Ingrese el nombre de la Publicación");
 				try {
@@ -252,27 +255,51 @@ public void menuTop() {
 		opciones.add(filtraPublicaciones);
 		return opciones;
 	}
+		
 	public void publicacionesActuales() {
-		
-		/**
-		 * Setea el espacio donde apareceran las Publicaciones del Perfil
-		 */
-		
-		JPanel jpPublicaciones = new JPanel();
-		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
-		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
-		
-		try {
-			Set<String> nombresP = perfilInstagram.getNombresPublicaciones();
-			for (String nombre : nombresP) {
-				JLabel publi = new JLabel();
-				publi.setText(nombre);
-				jpPublicaciones.add(publi);
-				jpPublicaciones.setLayout(new GridLayout(1, 0, 0, 0));
-				contentPane.add(jpPublicaciones, BorderLayout.CENTER);
+	    /**
+	     * Setea el espacio donde aparecerán las Publicaciones del Perfil
+	     */
+
+	    JPanel jpPublicaciones = new JPanel();
+	    jpPublicaciones.setBackground(Color.LIGHT_GRAY);
+	    jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
+	    jpPublicaciones.setLayout(new GridLayout(0, 3, 10, 10)); // Configura el GridLayout con 3 columnas y espacios de 10 píxeles
+
+	    try {
+	        Set<Publicacion> listaPublicaciones = perfilInstagram.getPublicaciones();
+	        for (Publicacion publicacion : listaPublicaciones) {
+	            JPanel panel = new JPanel(); // Crea un JPanel para cada publicación
+	            panel.setBackground(Color.WHITE);
+	            panel.setLayout(new GridLayout(2, 1)); // Configura un GridLayout para el panel interno
+
+	            String tipoPublicacion = publicacion.getTipoPublicacion();
+	            JLabel imageLabel = new JLabel(); // JLabel que muestra el icono
+	            if (tipoPublicacion.equals("Audio")) {
+	                imageLabel.setIcon(AssetsUtils.obtenerIcono("audio"));
+	                panel.setBackground(Color.GRAY);
+	            } else if (tipoPublicacion.equals("Imagen")) {
+	                imageLabel.setIcon(AssetsUtils.obtenerIcono("image"));
+	                panel.setBackground(Color.GRAY);
+	            } else {
+	                imageLabel.setIcon(AssetsUtils.obtenerIcono("video"));
+	                panel.setBackground(Color.GRAY);
+	            }
+	            imageLabel.setHorizontalAlignment(JLabel.CENTER);
+
+	            JLabel nameLabel = new JLabel(publicacion.getNombrePublicacion()); // JLabel para mostrar el nombre de la publicación
+	            nameLabel.setHorizontalAlignment(JLabel.CENTER);
+
+	            panel.add(imageLabel);
+	            panel.add(nameLabel);
+
+	            jpPublicaciones.add(panel);
 	        }
-		} catch (SinDatosException e) {
-			jpPublicaciones.setVisible(false);
-		}	
+	        contentPane.add(jpPublicaciones, BorderLayout.CENTER);
+	        contentPane.revalidate();
+	        contentPane.repaint();
+	    } catch (SinDatosException e) {
+	        jpPublicaciones.setVisible(false);
+	    }
 	}
 }
