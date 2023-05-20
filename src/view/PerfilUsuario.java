@@ -12,6 +12,7 @@ import javax.swing.border.EmptyBorder;
 import exception.*;
 import java.util.*;
 import java.util.List;
+import view.GraficoTorta;
 
 public class PerfilUsuario extends JFrame {
 
@@ -325,13 +326,13 @@ public class PerfilUsuario extends JFrame {
 		JMenu estadisticas = new JMenu("Estadísticas");
 		estadisticas.setFont(new Font("Open Sans", Font.PLAIN, 15));
 
-		JMenuItem VerEstadisticas = new JMenuItem("Histograma de Publicaciones");
-		VerEstadisticas.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				// Crear una nueva ventana JFrame
-				JFrame ventanaEstadisticas = new JFrame("Estadística: Histograma Publicaciones");
-				ventanaEstadisticas.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				ventanaEstadisticas.setSize(400, 400);
+	    JMenuItem Histograma = new JMenuItem("Histograma");
+	    Histograma.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            // Crear una nueva ventana JFrame
+	            JFrame ventanaHistograma = new JFrame("Estadística: Histograma Publicaciones");
+	            ventanaHistograma.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	            ventanaHistograma.setSize(600, 600);
 
 				// Obtener la lista de reportes de cantidad de "Me gusta" por tipo de publicación
 				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram
@@ -350,16 +351,36 @@ public class PerfilUsuario extends JFrame {
 					index++;
 				}
 
-				HistogramaPublicaciones estadisticasPanel = new HistogramaPublicaciones();
-				estadisticasPanel.setHistogramData(data, labels);
-				ventanaEstadisticas.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
+	            Histograma estadisticasPanel = new Histograma();
+	            estadisticasPanel.setHistogramData(data, labels);
+	            ventanaHistograma.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
+	            ventanaHistograma.setVisible(true);
+	        }
+	    });
 
-				ventanaEstadisticas.setVisible(true);
-			}
-		});
+	    estadisticas.add(Histograma);
+	    
+	    JMenuItem mntmGraficoDeTorta = new JMenuItem("Gráfico de torta");
+	    mntmGraficoDeTorta.addActionListener(new ActionListener() {
+	        public void actionPerformed(ActionEvent e) {
+	            JFrame ventanaGraficoTorta = new JFrame("Estadística: Gráfico de Torta Álbumes");
+	            ventanaGraficoTorta.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+	            ventanaGraficoTorta.setSize(700, 600);
+	            
+	            Map<String, Integer> cantidadEtiquetas = perfilInstagram.cantidadDeEtiquetasPorNombre();
+	        
+	            List<Integer> valores = new ArrayList<>(cantidadEtiquetas.values());
+	            List<String> etiquetas = new ArrayList<>(cantidadEtiquetas.keySet());
+	            
+	            GraficoTorta panelGraficoTorta = new GraficoTorta(valores, etiquetas);
+	            ventanaGraficoTorta.setContentPane(panelGraficoTorta);
+	            
+	            ventanaGraficoTorta.setVisible(true);
+	        }
+	    });
 
-		estadisticas.add(VerEstadisticas);
-		return estadisticas;
+	    estadisticas.add(mntmGraficoDeTorta);
+	    return estadisticas;
 	}
 
 	public void publicacionesActuales() {
