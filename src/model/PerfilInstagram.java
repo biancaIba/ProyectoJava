@@ -107,7 +107,7 @@ public class PerfilInstagram {
 	
 	
 	public Map<String,List<Publicacion>> agruparPublicacionesPorTipo() {
-		Map<String,List<Publicacion>> publicacionesPorTipo=new HashMap();
+		Map<String,List<Publicacion>> publicacionesPorTipo=new HashMap<>();
 		for(Publicacion publicacion: listaPublicaciones) {
 			String tipoPublicacion=publicacion.getTipoPublicacion();
 			//putIfAbsent agrega un par clave-valor solo si la clave no existe en el mapa
@@ -144,7 +144,6 @@ public class PerfilInstagram {
 		return publicacionesPorTipo;
 	}
 	
-	
 	public List<ReportePublicacion> cantidadYpromedioDeMg(){
 		Map<String, List<Publicacion>> publicacionesPorTipo=this.ordenarPublicacionesPorMg();
 		List<ReportePublicacion> reporte=new ArrayList<ReportePublicacion>();
@@ -162,7 +161,8 @@ public class PerfilInstagram {
 		}
 		return reporte;
 	}
-
+	
+	
 	public void addPubliDentroAlbum(Album album, Publicacion publicacion) {
 			publicacion.agregaAlbumPertenece(album);
 			album.agregaPublicacionAalbum(publicacion);
@@ -231,6 +231,17 @@ public class PerfilInstagram {
 		}
 
 		return listaReportesAlbumes;
+	}
+	public Map<String,Integer> cantidadDeEtiquetasPorNombre(){
+		Map<String,Integer> etiquetasContador= new HashMap<>(); 
+		for(Publicacion publicacion : listaPublicaciones) {
+			ArrayList<String> etiquetas = publicacion.getListaEtiquetas();
+			
+			for(String etiqueta : etiquetas) {
+				etiquetasContador.put(etiqueta, etiquetasContador.getOrDefault(etiqueta, 0) + 1);
+			}
+		}
+	 return etiquetasContador;
 	}
 	
 	@Override
