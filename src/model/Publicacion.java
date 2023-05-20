@@ -116,7 +116,10 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 			throw new AlbumNoEncontradoException("Album no encontrado");
 		}
 	}
+	
 	public abstract String getTipoPublicacion();
+	
+	public abstract float getDuracion();
 	
 	// verifica si la publicacion ya tiene ese album en la lista album pertenece para que no quede repetido
 	public boolean existeAlbumPertenece(Album album) {
