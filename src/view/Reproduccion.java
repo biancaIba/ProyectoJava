@@ -3,6 +3,7 @@ package view;
 import javax.swing.*;
 import java.util.*;
 import model.PerfilInstagram;
+import model.Publicacion;
 import exception.SinDatosException;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
@@ -18,20 +19,22 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JList;
 
-public class FiltraPublicaciones extends JDialog {
+public class Reproduccion extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static PerfilInstagram perfil;
 
-	public FiltraPublicaciones() {
+	public Reproduccion(int orden, Set<Publicacion> publicacionesSeleccionadas) {
 		
 		perfil = PerfilInstagram.getInstance();
 		
-		setTitle("Filtrar Publicaciones");
+		setResizable(false);
+		setTitle("Reproducción");
 		setAlwaysOnTop(true);
 		setBackground(Color.LIGHT_GRAY);
 		getContentPane().setBackground(Color.WHITE);
-		setBounds(100, 100, 450, 300);
+		setSize(1000, 600);
+		setLocationRelativeTo(null);
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBackground(Color.LIGHT_GRAY);
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -39,6 +42,12 @@ public class FiltraPublicaciones extends JDialog {
 		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		{
+			
+		}
+	
+	}
+		
+		/**{
 			JLabel lblSeleccionaPubli = new JLabel("Selecciona las publicaciones: ");
 			contentPanel.add(lblSeleccionaPubli);
 		}
@@ -79,7 +88,6 @@ public class FiltraPublicaciones extends JDialog {
 					}
 				});
 			}
-		}
-	}
+		}**/
 
 }
