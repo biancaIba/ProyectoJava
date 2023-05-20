@@ -2,10 +2,12 @@ package model;
 import java.time.LocalDate;
 public class Audio extends Publicacion implements Durable {
 	private int velocidadBits;
+	private float duracion;
 
-	public Audio(String nombrePublicacion, LocalDate fechaSubida, int cantMG, int velocidadBits) {
+	public Audio(String nombrePublicacion, LocalDate fechaSubida, int cantMG, int velocidadBits, float duracion) {
 		super(nombrePublicacion, fechaSubida, cantMG);
 		this.velocidadBits = velocidadBits;
+		this.duracion = duracion;
 	}
 	
 	@Override
@@ -23,6 +25,14 @@ public class Audio extends Publicacion implements Durable {
 	public void setVelocidadBits(int velocidadBits) {
 		this.velocidadBits = velocidadBits;
 	}
+	
+	public float getDuracion() {
+		return duracion;
+	}
+	
+	public void setDuracion(float duracion) {
+		this.duracion = duracion;
+	}
 
 	public void avanzar() {
 		
@@ -35,4 +45,5 @@ public class Audio extends Publicacion implements Durable {
 	public String getTipoPublicacion() {
 		return "Audio";
 	}
+	
 }

@@ -3,11 +3,13 @@ import java.time.LocalDate;
 public class Video extends Publicacion implements Durable, Filtrable {
 	private String resolucion;
 	private int cantCuadros;
+	private float duracion;
 
-	public Video(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int cantCuadros) {
+	public Video(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int cantCuadros, float duracion) {
 		super(nombrePublicacion, fechaSubida, cantMG);
 		this.resolucion = resolucion;
 		this.cantCuadros = cantCuadros;
+		this.duracion = duracion;
 	}
 
 	public String getResolucion() {
@@ -24,6 +26,14 @@ public class Video extends Publicacion implements Durable, Filtrable {
 
 	public void setCantCuadros(int cantCuadros) {
 		this.cantCuadros = cantCuadros;
+	}
+	
+	public float getDuracion() {
+		return duracion;
+	}
+	
+	public void setDuracion(float duracion) {
+		this.duracion = duracion;
 	}
 
 	@Override
