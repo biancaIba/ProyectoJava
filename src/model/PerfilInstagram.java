@@ -222,9 +222,10 @@ public class PerfilInstagram {
 					.filter(publicacion -> DateUtils.estaFechaEnRango(inicio, fin, publicacion.getFechaSubida()))
 					.collect(Collectors.toList());
 			int contPublicaciones = publicaciones.size();
-			for(Publicacion publicacion:publicaciones) {
+			contComentarios = publicaciones.stream().mapToInt(publicacion -> publicacion.getCantidadDeComentarios()).sum();
+			/*for(Publicacion publicacion:publicaciones) {
 				contComentarios += publicacion.getCantidadDeComentarios();
-			}
+			}*/
 			ReporteAlbum reporte = new ReporteAlbum(nombreAlbum,contPublicaciones,contComentarios);
 			listaReportesAlbumes.add(reporte);
 		}
