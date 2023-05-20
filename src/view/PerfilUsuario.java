@@ -186,7 +186,7 @@ public void menuTop() {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 		
-		JMenuItem generaTXT = new JMenuItem ("Generar TXT");
+		JMenuItem generaTXT = new JMenuItem ("Generar TXT Publicaciones");
 		generaTXT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				Sistema.generarReporteEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
@@ -201,20 +201,24 @@ public void menuTop() {
 		JMenuItem ReportePublicaciones = new JMenuItem("Reporte de publicaciones");
 		ReportePublicaciones.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
-		        ReportesPublicaciones ventanaReportesPublicaciones = new ReportesPublicaciones();
+		        ReportePublicaciones ventanaReportesPublicaciones = new ReportePublicaciones();
 		        ventanaReportesPublicaciones.setVisible(true);
 		    }
 		});
-		JMenuItem ReporteDeAlbumes = new JMenuItem("Reporte de Albumes");
-		ReporteDeAlbumes.addActionListener(new ActionListener() {
+		JMenuItem ReporteAlbumes = new JMenuItem("Reporte de Albumes");
+		ReporteAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+				ReporteAlbumes ventanaReporteAlbumes = new ReporteAlbumes();
+				ventanaReporteAlbumes.setVisible(true);
 			}
 		});
 		
-		reportes.add(ReporteDeAlbumes);
+		reportes.add(ReporteAlbumes);
 		reportes.add(ReportePublicaciones);	
 		reportes.add(generaTXT);
+		
+		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
+		reportes.add(mntmGenerarTxtAlbumes);
 		return reportes;
 	}
 	public JMenu menuTOPestadisticas() {

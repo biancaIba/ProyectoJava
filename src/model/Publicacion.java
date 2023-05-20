@@ -94,7 +94,11 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 	public void setListaComentarios(ArrayList<String> listaComentarios) {
 		this.listaComentarios = listaComentarios;
 	}
-
+	
+	public int getCantidadDeComentarios() {
+		return listaComentarios.size();
+	}
+	
 	public ArrayList<Album> getListaAlbumesPertenece() {
 		return listaAlbumesPertenece;
 	}
@@ -130,4 +134,7 @@ public abstract class Publicacion implements Comparable<Publicacion>{
 	    	listaAlbumesPertenece.add(album);
 	    }
 	}
+
+	
 }
+
