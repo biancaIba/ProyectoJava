@@ -253,8 +253,6 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem reproducir = new JMenuItem("Reproducir");
 		reproducir.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				//FiltraPublicaciones ventanaFiltros = new FiltraPublicaciones();
-				//ventanaFiltros.setVisible(true);
 				JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
 				JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccion + " segundos.");
 				if (duracionReproduccion > 0) {
@@ -264,13 +262,8 @@ public class PerfilUsuario extends JFrame {
 			            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 			            opciones, opciones[0]
 			        );
-			        if (eleccion == 1) {
-			        	
-			        } else if (eleccion == 2) {
-			        	
-			        } else {
-			        	
-			        }
+					Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
+					ventanaReproduccion.setVisible(true);
 				}
 			}
 		});
@@ -464,6 +457,7 @@ public class PerfilUsuario extends JFrame {
 												"Error",JOptionPane.ERROR_MESSAGE);
 									} else {
 										duracionReproduccion += (tiempoFin - tiempoInicio);
+										
 										JOptionPane.showMessageDialog(null,"Los filtros se aplicaron correctamente.",
 												"Excelente!",JOptionPane.PLAIN_MESSAGE);
 									}
