@@ -53,14 +53,14 @@ public class HistogramaPublicaciones extends JPanel {
                 g.fillRect(x, y, barWidth, barHeight);
 
                 // Tipo de publicacion de la barra
-                String label = labels[i];
+                String label = String.valueOf(histogramData[i]);
                 int labelX = x + barWidth / 2 - g.getFontMetrics().stringWidth(label) / 2;
                 int labelY = y - 5;
                 g.setColor(Color.BLACK);
                 g.drawString(label, labelX, labelY);
 
                 // Valor de la barra
-                String value = String.valueOf(histogramData[i]);
+                String value = labels[i];
                 int valueX = x + barWidth / 2 - g.getFontMetrics().stringWidth(value) / 2;
                 int valueY = y + barHeight + 12; // Ajusta la posición vertical del valor
                 g.setColor(Color.BLACK);
