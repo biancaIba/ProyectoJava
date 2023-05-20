@@ -45,7 +45,9 @@ public class CargaXML {
 						// Leer y procesar datos del audio
 						int velocidadBits = Integer
 								.parseInt(elementoAudio.getElementsByTagName("velocidadBits").item(0).getTextContent());
-						Audio audio = new Audio(nombrePublicacion, fechaSubidaLocalDate, cantMG, velocidadBits);
+						float duracion = Float
+								.parseFloat(elementoAudio.getElementsByTagName("duracion").item(0).getTextContent());
+						Audio audio = new Audio(nombrePublicacion, fechaSubidaLocalDate, cantMG, velocidadBits, duracion);
 						cargaEtiqComentAlbum(elementoAudio, audio);
 						perfil.addPublicacion(audio);
 					} else if (elementoImagen != null) {
@@ -64,8 +66,10 @@ public class CargaXML {
 						String resolucion = elementoVideo.getElementsByTagName("resolucion").item(0).getTextContent();
 						int cantCuadros = Integer
 								.parseInt(elementoVideo.getElementsByTagName("cantCuadros").item(0).getTextContent());
+						float duracion = Float
+								.parseFloat(elementoVideo.getElementsByTagName("duracion").item(0).getTextContent());
 						Video video = new Video(nombrePublicacion, fechaSubidaLocalDate, cantMG, resolucion,
-								cantCuadros);
+								cantCuadros, duracion);
 						cargaEtiqComentAlbum(elementoVideo, video);
 						perfil.addPublicacion(video);
 					}

@@ -53,5 +53,9 @@ public class Imagen extends Publicacion implements Filtrable {
 		return "Imagen";
 	}
 	
+	public float getDuracion() {
+		return 0;
+	}
+	
 	
 }
