@@ -1,8 +1,19 @@
 package model;
 
 import parser.CargaXML;
+import reports.ReporteAlbum;
 import reports.ReportePublicacion;
+import utils.DateUtils;
+
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.ObjectStreamException;
+import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import exception.*;
 
 public class PerfilInstagram {
@@ -31,6 +42,13 @@ public class PerfilInstagram {
 		CargaXML cargador = new CargaXML();
 		cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el
 												// cargarPublicaciones()
+	}
+	public List<Album> getListaAlbumes() {
+		return listaAlbumes;
+	}
+
+	public void setListaAlbumes(List<Album> listaAlbumes) {
+		this.listaAlbumes = listaAlbumes;
 	}
 	
 	public Set<Publicacion> getPublicaciones() throws SinDatosException{
@@ -194,16 +212,26 @@ public class PerfilInstagram {
 		 * algún o algunos atributos.
 		 */
 	}
+	public List<ReporteAlbum> listadoDeAlbumes(LocalDate inicio,LocalDate fin) {
+		List<ReporteAlbum> listaReportesAlbumes=new ArrayList<ReporteAlbum>();
+		for(Album album:listaAlbumes) {
+			String nombreAlbum=album.getNombreAlbum();
+			int contComentarios = 0;
+			ArrayList<Publicacion> publicaciones = (ArrayList<Publicacion>) album.getListaPublicaciones()
+					.stream()
+					.filter(publicacion -> DateUtils.estaFechaEnRango(inicio, fin, publicacion.getFechaSubida()))
+					.collect(Collectors.toList());
+			int contPublicaciones = publicaciones.size();
+			for(Publicacion publicacion:publicaciones) {
+				contComentarios += publicacion.getCantidadDeComentarios();
+			}
+			ReporteAlbum reporte = new ReporteAlbum(nombreAlbum,contPublicaciones,contComentarios);
+			listaReportesAlbumes.add(reporte);
+		}
 
-	public void resporteAlfabeticoAlbumes() {
-		/*
-		 * Listado alfabético de Álbumes, detallando para cada uno cantidad de
-		 * publicaciones subidas en un rango de fechas solicitado al operador. Incluir
-		 * la cantidad de comentarios correspondientes a esas publicaciones.(por
-		 * pantalla y en archivos de texto):
-		 */
+		return listaReportesAlbumes;
 	}
-
+	
 	@Override
 	public String toString() {
 		// return "PerfilInstagram [listaPublicaciones=" + listaPublicaciones + ", listaAlbumes=" + listaAlbumes + "]";

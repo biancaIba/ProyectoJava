@@ -30,7 +30,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 
 
-public class ReportesPublicaciones extends JDialog {
+public class ReportePublicaciones extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
     private static PerfilInstagram perfilInstagram;
@@ -52,7 +52,7 @@ public class ReportesPublicaciones extends JDialog {
     private JPanel resumenPanel;
     private JLabel label;
 
-    public ReportesPublicaciones() {
+    public ReportePublicaciones() {
         setTitle("Reporte de Publicaciones");
         setAlwaysOnTop(true);
         setSize(1200,600);

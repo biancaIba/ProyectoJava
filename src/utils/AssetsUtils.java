@@ -4,13 +4,13 @@ import java.awt.Image;
 
 import javax.swing.ImageIcon;
 
-import view.ReportesPublicaciones;
+import view.ReportePublicaciones;
 
 public class AssetsUtils {
 	public static ImageIcon obtenerIcono(String nombreIcono) {
     	String ruta = String.format("/assets/icons/%s.png", nombreIcono);
     	try {    		
-    		ImageIcon icono = new ImageIcon(ReportesPublicaciones.class.getResource(ruta));
+    		ImageIcon icono = new ImageIcon(ReportePublicaciones.class.getResource(ruta));
     		// Obtener la imagen del ImageIcon
     		Image imagenOriginal = icono.getImage();
     		Image imagenRedimensionada = imagenOriginal.getScaledInstance(15, 15, Image.SCALE_SMOOTH);
