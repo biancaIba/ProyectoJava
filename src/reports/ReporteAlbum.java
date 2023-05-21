@@ -3,7 +3,6 @@ package reports;
 import java.io.Serializable;
 
 public class ReporteAlbum implements Serializable{
-	private static final long serialVersionUID = 1L;
     private String nombreAlbum;
     private int cantidadPublicaciones;
     private int cantidadComentarios;

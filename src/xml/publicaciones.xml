@@ -22,7 +22,7 @@
 			<nombrePublicacion>Mar de nubes</nombrePublicacion>
 			<fechaSubida>2023-04-22</fechaSubida>
 			<cantMG>250</cantMG>
-			<resolucion>1080x720</resolucion>
+			<resolucion>_2K</resolucion>
 			<ancho>1080</ancho>
 			<alto>720</alto>
 			<etiquetas>
@@ -40,7 +40,7 @@
 			<nombrePublicacion>Viaje por la naturaleza</nombrePublicacion>
 			<fechaSubida>2023-04-24</fechaSubida>
 			<cantMG>350</cantMG>
-			<resolucion>1920x1080</resolucion>
+			<resolucion>_4K</resolucion>
 			<cantCuadros>60</cantCuadros>
 			<duracion>150</duracion>
 			<etiquetas>
@@ -110,7 +110,7 @@
 			<nombrePublicacion>Flores silvestres</nombrePublicacion>
 			<fechaSubida>2023-04-23</fechaSubida>
 			<cantMG>210</cantMG>
-			<resolucion>1280x720</resolucion>
+			<resolucion>HD</resolucion>
 			<ancho>1280</ancho>
 			<alto>720</alto>
 			<etiquetas>
@@ -128,7 +128,7 @@
 			<nombrePublicacion>Puesta de sol</nombrePublicacion>
 			<fechaSubida>2023-04-25</fechaSubida>
 			<cantMG>230</cantMG>
-			<resolucion>800x600</resolucion>
+			<resolucion>SD</resolucion>
 			<ancho>800</ancho>
 			<alto>600</alto>
 			<etiquetas>
@@ -146,7 +146,7 @@
 			<nombrePublicacion>Ciudad de noche</nombrePublicacion>
 			<fechaSubida>2023-04-26</fechaSubida>
 			<cantMG>240</cantMG>
-			<resolucion>1024x768</resolucion>
+			<resolucion>FULLHD</resolucion>
 			<ancho>1024</ancho>
 			<alto>768</alto>
 			<etiquetas>
@@ -164,7 +164,7 @@
 			<nombrePublicacion>Video de turismo</nombrePublicacion>
 			<fechaSubida>2023-04-27</fechaSubida>
 			<cantMG>400</cantMG>
-			<resolucion>1280x720</resolucion>
+			<resolucion>HD</resolucion>
 			<cantCuadros>30</cantCuadros>
 			<duracion>90</duracion>
 			<etiquetas>
@@ -182,7 +182,7 @@
 			<nombrePublicacion>Vlog de viaje</nombrePublicacion>
 			<fechaSubida>2023-04-28</fechaSubida>
 			<cantMG>450</cantMG>
-			<resolucion>1920x1080</resolucion>
+			<resolucion>_4K</resolucion>
 			<cantCuadros>24</cantCuadros>
 			<duracion>900</duracion>
 			<etiquetas>
@@ -200,7 +200,7 @@
 			<nombrePublicacion>Animales salvajes</nombrePublicacion>
 			<fechaSubida>2023-04-29</fechaSubida>
 			<cantMG>500</cantMG>
-			<resolucion>3840x2160</resolucion>
+			<resolucion>_4K</resolucion>
 			<cantCuadros>60</cantCuadros>
 			<duracion>500</duracion>
 			<etiquetas>
@@ -219,7 +219,7 @@
 				peligro de extinción</nombrePublicacion>
 			<fechaSubida>2023-04-30</fechaSubida>
 			<cantMG>550</cantMG>
-			<resolucion>2560x1440</resolucion>
+			<resolucion>_8K</resolucion>
 			<cantCuadros>48</cantCuadros>
 			<duracion>80</duracion>
 			<etiquetas>
@@ -235,7 +235,7 @@
 			<nombrePublicacion>Trailer de pelicula</nombrePublicacion>
 			<fechaSubida>2023-05-01</fechaSubida>
 			<cantMG>600</cantMG>
-			<resolucion>1920x1080</resolucion>
+			<resolucion>HD</resolucion>
 			<cantCuadros>120</cantCuadros>
 			<duracion>55</duracion>
 			<etiquetas>
@@ -253,12 +253,12 @@
 			<nombrePublicacion>Bosque otoñal</nombrePublicacion>
 			<fechaSubida>2023-05-02</fechaSubida>
 			<cantMG>700</cantMG>
-			<resolucion>5120x2880</resolucion>
+			<resolucion>_8K</resolucion>
 			<ancho>5120</ancho>
 			<alto>2880</alto>
 			<etiquetas>
 				<etiqueta>imagen</etiqueta>
-				<etiqueta>5K</etiqueta>
+				<etiqueta>8K</etiqueta>
 			</etiquetas>
 			<comentarios>
 				<comentario>Impresionante resolución</comentario>
