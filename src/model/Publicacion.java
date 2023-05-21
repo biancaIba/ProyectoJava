@@ -4,9 +4,10 @@ import java.util.ArrayList;
 
 import exception.AlbumNoEncontradoException;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
-public abstract class Publicacion implements Comparable<Publicacion>{
+public abstract class Publicacion implements Comparable<Publicacion>,Serializable{
 	private String nombrePublicacion;
 	private LocalDate fechaSubida;
 	private int cantMG;

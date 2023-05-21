@@ -8,6 +8,9 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
+import java.time.LocalDate;
+
 import javax.swing.border.EmptyBorder;
 import exception.*;
 import java.util.*;
@@ -83,7 +86,9 @@ public class PerfilUsuario extends JFrame {
 				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
 					Album nuevoAlbum = new Album(nombreAlbum);
 					PerfilInstagram.getInstance().addAlbum(nuevoAlbum);
+					
 					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+					
 				}
 			}
 		});
@@ -280,7 +285,7 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem generaTXT = new JMenuItem("Generar TXT Publicaciones");
 		generaTXT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sistema.generarReporteEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
+				Sistema.generarReportePublicacionEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
 				File reporte = new File("reporte.txt");
 				if (reporte.exists())
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
@@ -288,6 +293,22 @@ public class PerfilUsuario extends JFrame {
 					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
 							JOptionPane.ERROR_MESSAGE);
 			}
+		});
+		
+		LocalDate inicio=LocalDate.parse("2023-04-20");//deberia ser lo q el usuario ingresa
+        LocalDate fin=LocalDate.parse("2023-05-05");//idem
+		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
+		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Sistema.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumes(inicio,fin));
+				File reporteAlbumes = new File("reporteAlbumes.txt");
+				if (reporteAlbumes.exists())
+					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
+				else
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				
+			}	
 		});
 
 		JMenuItem ReportePublicaciones = new JMenuItem("Reporte de publicaciones");
@@ -309,9 +330,8 @@ public class PerfilUsuario extends JFrame {
 		reportes.add(ReporteAlbumes);
 		reportes.add(ReportePublicaciones);
 		reportes.add(generaTXT);
-
-		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		reportes.add(mntmGenerarTxtAlbumes);
+		
 		return reportes;
 	}
 

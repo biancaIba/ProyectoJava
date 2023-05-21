@@ -5,6 +5,8 @@ import reports.ReporteAlbum;
 import reports.ReportePublicacion;
 import utils.DateUtils;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -16,7 +18,7 @@ import java.util.stream.Collectors;
 
 import exception.*;
 
-public class PerfilInstagram {
+public class PerfilInstagram implements Serializable {
 	
 	/** 
 	 * Uso de Modelo Singleton
@@ -37,11 +39,12 @@ public class PerfilInstagram {
 			perfil = new PerfilInstagram();
 		return perfil;
 	}
+	
 
 	public void cargarPublicaciones() {
 		CargaXML cargador = new CargaXML();
-		cargador.cargarPublicacionesXML(this);// es como si le pasara perfil o sea la instancia donde se ejecuta el
-												// cargarPublicaciones()
+		cargador.cargarPublicacionesXML(this);
+												
 	}
 	public List<Album> getListaAlbumes() {
 		return listaAlbumes;
