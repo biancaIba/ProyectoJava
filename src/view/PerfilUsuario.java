@@ -409,19 +409,74 @@ public class PerfilUsuario extends JFrame {
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		jpPublicaciones.setLayout(new GridLayout(0, 3, 10, 10)); // GridLayout con 3 columnas y espacios de 10 pix
-		JList<String> listPublicacionesSeleccionadas;
-		DefaultListModel<String> listModelPublicacionesSeleccionadas;
 
 		try {
 			Set<Publicacion> listaPublicaciones = perfilInstagram.getPublicaciones();
 			//publicacionesSeleccionadas = perfilInstagram.getPublicaciones();
 			publicacionesSeleccionadas = new HashMap<>();
-			listModelPublicacionesSeleccionadas = new DefaultListModel<>();
-			listPublicacionesSeleccionadas = new JList<>(listModelPublicacionesSeleccionadas);
-			listPublicacionesSeleccionadas.setFont(new Font("Open Sans", Font.PLAIN, 15));
+			
+			// INICIO
+			
+			// Crear panel lateral
+			JPanel panelLateral = new JPanel();
+			panelLateral.setBackground(Color.WHITE);
+			panelLateral.setLayout(new BorderLayout());
 
-			JScrollPane scrollPane = new JScrollPane(listPublicacionesSeleccionadas);
-			scrollPane.setPreferredSize(new Dimension(200, 0));
+			// Crear título del panel
+			JLabel tituloLabel = new JLabel("Publicaciones Seleccionadas");
+			tituloLabel.setFont(new Font("Open Sans", Font.BOLD, 20));
+			tituloLabel.setHorizontalAlignment(JLabel.CENTER);
+			panelLateral.add(tituloLabel, BorderLayout.NORTH);
+			
+			JPanel botonReproducirPanel = new JPanel();
+			botonReproducirPanel.setBackground(Color.WHITE);
+			
+			// Crear panel para el tiempo de reproducción y el botón "Reproducir"
+			JPanel tiempoReproduccionBotonPanel = new JPanel();
+			tiempoReproduccionBotonPanel.setBackground(Color.WHITE);
+			tiempoReproduccionBotonPanel.setLayout(new BorderLayout());
+
+			// Crear el JLabel para mostrar el tiempo de reproducción
+			JLabel tiempoReproduccionLabel = new JLabel("Tiempo de reproducción: ");
+			tiempoReproduccionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+			tiempoReproduccionBotonPanel.add(tiempoReproduccionLabel, BorderLayout.NORTH);
+			
+			// Crear el botón "Reproducir"
+			JButton botonReproducir = new JButton("Reproducir");
+			botonReproducir.setFont(new Font("Arial", Font.PLAIN, 12));
+			// Agregar ActionListener para el botón "Reproducir"
+			botonReproducir.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+			        // Lógica para reproducir las publicaciones seleccionadas
+			    }
+			});
+			botonReproducirPanel.add(botonReproducir);
+
+			// Agregar el panel del botón "Reproducir" al panel lateral
+			panelLateral.add(botonReproducirPanel, BorderLayout.SOUTH);
+			
+			// Crear el JScrollPane
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+			// Crear panel para la lista de publicaciones seleccionadas
+			JPanel listaSeleccionadasPanel = new JPanel();
+			listaSeleccionadasPanel.setBackground(Color.LIGHT_GRAY);
+			listaSeleccionadasPanel.setLayout(new BoxLayout(listaSeleccionadasPanel, BoxLayout.Y_AXIS));
+			
+			
+			// Agregar el JPanel al JScrollPane
+			scrollPane.setViewportView(listaSeleccionadasPanel);
+
+			// Agregar el JScrollPane al panel lateral
+			panelLateral.add(scrollPane, BorderLayout.CENTER);
+
+			// Agregar el panel lateral a tu interfaz principal donde se encuentre el contenido principal
+			contentPane.add(panelLateral, BorderLayout.WEST);
+			
+			// FIN GPT
+
 			for (Publicacion publicacion : listaPublicaciones) {
 				JPanel panel = new JPanel(); // Crea un JPanel para cada publicación
 				panel.setBackground(Color.WHITE);
@@ -454,12 +509,63 @@ public class PerfilUsuario extends JFrame {
 						if (cBox.isSelected()) {
 							PublicacionReproduccion publicacionReproduccion = new PublicacionReproduccion(publicacion.getNombrePublicacion(), publicacion.getFechaSubida(), publicacion.getCantMG(), publicacion.getDuracion(), publicacion.getTipoPublicacion());
 							publicacionesSeleccionadas.putIfAbsent(publicacionReproduccion.getNombrePublicacion(), publicacionReproduccion);
-							System.out.println(publicacionReproduccion.getNombrePublicacion() + publicacionReproduccion.getTipoPublicacion() + publicacionReproduccion.getDuracion() + publicacionReproduccion.getFin());
-						    listModelPublicacionesSeleccionadas.addElement(publicacionReproduccion.getNombrePublicacion());
+							
+							// INICIO
+							// Establecer altura predefinida de cada item en la lista
+							int itemHeight = 50; // Ajusta esta altura según tus necesidades
+							
+							
+							// Crear panel para mostrar la publicación seleccionada en la lista lateral
+							JPanel itemPanel = new JPanel();
+							itemPanel.setBackground(Color.WHITE);
+							itemPanel.setPreferredSize(new Dimension(0, itemHeight)); // Establecer la altura predefinida
+				            
+				            // Etiqueta para mostrar el nombre de la publicación seleccionada
+				            JLabel nombreLabel = new JLabel(publicacionReproduccion.getNombrePublicacion());
+				            nombreLabel.setFont(new Font("Open Sans", Font.PLAIN, 15));
+				            nombreLabel.setHorizontalAlignment(JLabel.LEFT);
+				            itemPanel.add(nombreLabel, BorderLayout.CENTER);
+				            
+				            // Botón "configurar" para cada publicación seleccionada
+				            JButton configurarButton = new JButton("Configurar");
+				            configurarButton.setFont(new Font("Arial", Font.PLAIN, 12));
+				            configurarButton.addActionListener(new ActionListener() {
+				                @Override
+				                public void actionPerformed(ActionEvent e) {
+				                    // Lógica para configurar la publicación seleccionada
+				                }
+				            });
+				            itemPanel.add(configurarButton, BorderLayout.EAST);
+				            
+				            // Agregar el panel de la publicación seleccionada a la lista lateral
+				            listaSeleccionadasPanel.add(itemPanel);
+				            
+				            // Actualizar visualmente la lista de publicaciones seleccionadas
+				            listaSeleccionadasPanel.revalidate();
+				            listaSeleccionadasPanel.repaint();
+							// FIN GPT
 							
 						} else {
 							publicacionesSeleccionadas.remove(publicacion.getNombrePublicacion());
-							listModelPublicacionesSeleccionadas.removeElement(publicacion.getNombrePublicacion());
+							
+							// Eliminar el panel de la publicación seleccionada de la lista lateral
+				            Component[] components = listaSeleccionadasPanel.getComponents();
+				            for (Component component : components) {
+				                if (component instanceof JPanel) {
+				                    JPanel itemPanel = (JPanel) component;
+				                    JLabel nombreLabel = (JLabel) itemPanel.getComponent(0);
+				                    String nombrePublicacion = nombreLabel.getText();
+				                    if (nombrePublicacion.equals(publicacion.getNombrePublicacion())) {
+				                        listaSeleccionadasPanel.remove(itemPanel);
+				                        break;
+				                    }
+				                }
+				            }
+				            
+				            // Actualizar visualmente la lista de publicaciones seleccionadas
+				            listaSeleccionadasPanel.revalidate();
+				            listaSeleccionadasPanel.repaint();
+							
 						}
 					}
 				});
@@ -515,7 +621,6 @@ public class PerfilUsuario extends JFrame {
 				jpPublicaciones.add(panel);
 			}
 			JPanel panelContenedor = new JPanel(new BorderLayout());
-            panelContenedor.add(scrollPane, BorderLayout.WEST);
             panelContenedor.add(jpPublicaciones, BorderLayout.CENTER);
 
             contentPane.add(panelContenedor, BorderLayout.CENTER);
