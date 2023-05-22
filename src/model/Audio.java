@@ -5,7 +5,7 @@ public class Audio extends Publicacion implements Durable {
 	private float duracion;
 
 	public Audio(String nombrePublicacion, LocalDate fechaSubida, int cantMG, int velocidadBits, float duracion) {
-		super(nombrePublicacion, fechaSubida, cantMG);
+		super(nombrePublicacion, fechaSubida, cantMG,EnumTipoPublicacion.AUDIO);
 		this.velocidadBits = velocidadBits;
 		this.duracion = duracion;
 	}
@@ -40,10 +40,6 @@ public class Audio extends Publicacion implements Durable {
 	
 	public void detener() {
 		
-	}
-	
-	public String getTipoPublicacion() {
-		return "Audio";
 	}
 	
 }

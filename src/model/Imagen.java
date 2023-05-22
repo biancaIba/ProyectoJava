@@ -7,7 +7,7 @@ public class Imagen extends Publicacion implements Filtrable {
 	private int alto;
 
 	public Imagen(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int ancho, int alto) {
-		super(nombrePublicacion, fechaSubida, cantMG);
+		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.IMAGEN);
 		this.resolucion = resolucion;
 		this.ancho = ancho;
 		this.alto = alto;
@@ -47,10 +47,6 @@ public class Imagen extends Publicacion implements Filtrable {
 	
 	public void aplicarFiltro() {
 		
-	}
-
-	public String getTipoPublicacion() {
-		return "Imagen";
 	}
 	
 	public float getDuracion() {

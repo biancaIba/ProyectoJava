@@ -1,6 +1,7 @@
 package view;
 
 import model.*;
+import reproduccion.PublicacionReproduccion;
 import sistema.*;
 import utils.AssetsUtils;
 import java.awt.*;
@@ -22,7 +23,7 @@ public class PerfilUsuario extends JFrame {
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
 	private float duracionReproduccion;
-	Set<Publicacion> publicacionesSeleccionadas;
+	Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
 
 	public static void main(String[] args) {
 		perfilInstagram = PerfilInstagram.getInstance();
@@ -48,6 +49,8 @@ public class PerfilUsuario extends JFrame {
 		setContentPane(contentPane);
 
 		menuTop();
+		perfilInstagram.cargarPublicaciones();
+		publicacionesActuales();
 	}
 
 	public void menuTop() {
@@ -406,21 +409,30 @@ public class PerfilUsuario extends JFrame {
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		jpPublicaciones.setLayout(new GridLayout(0, 3, 10, 10)); // GridLayout con 3 columnas y espacios de 10 pix
+		JList<String> listPublicacionesSeleccionadas;
+		DefaultListModel<String> listModelPublicacionesSeleccionadas;
 
 		try {
 			Set<Publicacion> listaPublicaciones = perfilInstagram.getPublicaciones();
-			publicacionesSeleccionadas = perfilInstagram.getPublicaciones();
+			//publicacionesSeleccionadas = perfilInstagram.getPublicaciones();
+			publicacionesSeleccionadas = new HashMap<>();
+			listModelPublicacionesSeleccionadas = new DefaultListModel<>();
+			listPublicacionesSeleccionadas = new JList<>(listModelPublicacionesSeleccionadas);
+			listPublicacionesSeleccionadas.setFont(new Font("Open Sans", Font.PLAIN, 15));
+
+			JScrollPane scrollPane = new JScrollPane(listPublicacionesSeleccionadas);
+			scrollPane.setPreferredSize(new Dimension(200, 0));
 			for (Publicacion publicacion : listaPublicaciones) {
 				JPanel panel = new JPanel(); // Crea un JPanel para cada publicación
 				panel.setBackground(Color.WHITE);
 				panel.setLayout(new GridLayout(4, 1)); // Configura un GridLayout para el panel interno de 4 columnas
 
-				String tipoPublicacion = publicacion.getTipoPublicacion();
+				EnumTipoPublicacion tipoPublicacion = publicacion.getTipoPublicacion();
 				JLabel imageLabel = new JLabel(); // JLabel que muestra el icono
-				if (tipoPublicacion.equals("Audio")) {
+				if (tipoPublicacion == EnumTipoPublicacion.AUDIO) {
 					imageLabel.setIcon(AssetsUtils.obtenerIcono("audio"));
 					panel.setBackground(Color.GRAY);
-				} else if (tipoPublicacion.equals("Imagen")) {
+				} else if (tipoPublicacion == EnumTipoPublicacion.IMAGEN) {
 					imageLabel.setIcon(AssetsUtils.obtenerIcono("image"));
 					panel.setBackground(Color.GRAY);
 				} else {
@@ -440,9 +452,17 @@ public class PerfilUsuario extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cBox.isSelected()) {
-							publicacionesSeleccionadas.add(publicacion);
+							PublicacionReproduccion publicacionReproduccion = new PublicacionReproduccion(publicacion.getNombrePublicacion(), publicacion.getFechaSubida(), publicacion.getCantMG(), publicacion.getDuracion(), publicacion.getTipoPublicacion());
+							publicacionesSeleccionadas.putIfAbsent(publicacionReproduccion.getNombrePublicacion(), publicacionReproduccion);
+							System.out.println(publicacionReproduccion.getNombrePublicacion() + publicacionReproduccion.getTipoPublicacion() + publicacionReproduccion.getDuracion() + publicacionReproduccion.getFin());
+							// Actualizar visualmente la lista de publicaciones seleccionadas
+							
+							
+						    listModelPublicacionesSeleccionadas.addElement(publicacionReproduccion.getNombrePublicacion());
+							
 						} else {
-							publicacionesSeleccionadas.remove(publicacion);
+							publicacionesSeleccionadas.remove(publicacion.getNombrePublicacion());
+							listModelPublicacionesSeleccionadas.removeElement(publicacion.getNombrePublicacion());
 						}
 					}
 				});
@@ -455,9 +475,10 @@ public class PerfilUsuario extends JFrame {
 				btnFiltros.addActionListener(new ActionListener() {
 					@Override
 					public void actionPerformed(ActionEvent e) {
-						float duracion = publicacion.getDuracion();
-						String inicio = JOptionPane.showInputDialog(null, "Ingrese el momento de inicio (en segundos):",
+					float duracion = publicacion.getDuracion();
+					   String inicio = JOptionPane.showInputDialog(null, "Ingrese el momento de inicio (en segundos):",
 								"Filtro: Inicio", JOptionPane.PLAIN_MESSAGE);
+								
 						if (inicio != null && !inicio.isEmpty()) {
 							float tiempoInicio = Float.parseFloat(inicio);
 							if (tiempoInicio > duracion) {
@@ -490,15 +511,19 @@ public class PerfilUsuario extends JFrame {
 				panel.add(imageLabel);
 				panel.add(nameLabel);
 				panel.add(cBox);
-				if (tipoPublicacion.equals("Audio") || tipoPublicacion.equals("Video")) {
+				if (tipoPublicacion == EnumTipoPublicacion.AUDIO || tipoPublicacion == EnumTipoPublicacion.VIDEO) {
 					panel.add(btnFiltros);
 				}
 
 				jpPublicaciones.add(panel);
 			}
-			contentPane.add(jpPublicaciones, BorderLayout.CENTER);
-			contentPane.revalidate();
-			contentPane.repaint();
+			JPanel panelContenedor = new JPanel(new BorderLayout());
+            panelContenedor.add(scrollPane, BorderLayout.WEST);
+            panelContenedor.add(jpPublicaciones, BorderLayout.CENTER);
+
+            contentPane.add(panelContenedor, BorderLayout.CENTER);
+            contentPane.revalidate();
+            contentPane.repaint();
 		} catch (SinDatosException e) {
 			jpPublicaciones.setVisible(false);
 		}

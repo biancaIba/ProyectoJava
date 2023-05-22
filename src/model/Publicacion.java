@@ -14,11 +14,13 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	private ArrayList<String> listaEtiquetas;
 	private ArrayList<String> listaComentarios;
 	private ArrayList<Album> listaAlbumesPertenece; // 0 o mas albumes
+	private EnumTipoPublicacion tipoPublicacion;
 
-	public Publicacion(String nombrePublicacion, LocalDate fechaSubida, int cantMG) {
+	public Publicacion(String nombrePublicacion, LocalDate fechaSubida, int cantMG, EnumTipoPublicacion tipoPublicacion) {
 		this.nombrePublicacion = nombrePublicacion;
 		this.fechaSubida = fechaSubida;
 		this.cantMG = cantMG;
+		this.tipoPublicacion = tipoPublicacion;
 		// creo una lista vacia de Etiquetas,Comentarios y Albumes
 		this.listaEtiquetas = new ArrayList<String>();
 		this.listaComentarios = new ArrayList<String>();
@@ -118,9 +120,7 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 		}
 	}
 	
-	public abstract String getTipoPublicacion();
-	
-	public abstract float getDuracion();
+	public abstract float getDuracion(); //  PREGUNTAR A AUGUSTO
 	
 	// verifica si la publicacion ya tiene ese album en la lista album pertenece para que no quede repetido
 	public boolean existeAlbumPertenece(Album album) {
@@ -137,6 +137,10 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	    if (album != null && !existeAlbumPertenece(album)) {
 	    	listaAlbumesPertenece.add(album);
 	    }
+	}
+
+	public EnumTipoPublicacion getTipoPublicacion() {
+		return tipoPublicacion;
 	}
 
 	

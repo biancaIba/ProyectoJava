@@ -6,7 +6,7 @@ public class Video extends Publicacion implements Durable, Filtrable {
 	private float duracion;
 
 	public Video(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int cantCuadros, float duracion) {
-		super(nombrePublicacion, fechaSubida, cantMG);
+		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.VIDEO);
 		this.resolucion = resolucion;
 		this.cantCuadros = cantCuadros;
 		this.duracion = duracion;
@@ -58,8 +58,4 @@ public class Video extends Publicacion implements Durable, Filtrable {
 		
 	}
 	
-	public String getTipoPublicacion() {
-		return "Video";
-	}
-
 }

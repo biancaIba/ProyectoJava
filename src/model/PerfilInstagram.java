@@ -112,12 +112,12 @@ public class PerfilInstagram implements Serializable {
 	public Map<String,List<Publicacion>> agruparPublicacionesPorTipo() {
 		Map<String,List<Publicacion>> publicacionesPorTipo=new HashMap<>();
 		for(Publicacion publicacion: listaPublicaciones) {
-			String tipoPublicacion=publicacion.getTipoPublicacion();
+			EnumTipoPublicacion tipoPublicacion=publicacion.getTipoPublicacion();
 			//putIfAbsent agrega un par clave-valor solo si la clave no existe en el mapa
-			publicacionesPorTipo.putIfAbsent(tipoPublicacion,new ArrayList<>());
+			publicacionesPorTipo.putIfAbsent(tipoPublicacion.getDisplayName(),new ArrayList<>());
 			//cuando al metodo get del map le paso una clave me devuelve el valor correspondiente a esa
 			//clave. en este caso la clave es una lista vacia q cree arriba
-			publicacionesPorTipo.get(tipoPublicacion).add(publicacion);
+			publicacionesPorTipo.get(tipoPublicacion.getDisplayName()).add(publicacion);
 		}
 		return publicacionesPorTipo;	
 	}
