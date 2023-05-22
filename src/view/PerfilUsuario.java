@@ -455,9 +455,6 @@ public class PerfilUsuario extends JFrame {
 							PublicacionReproduccion publicacionReproduccion = new PublicacionReproduccion(publicacion.getNombrePublicacion(), publicacion.getFechaSubida(), publicacion.getCantMG(), publicacion.getDuracion(), publicacion.getTipoPublicacion());
 							publicacionesSeleccionadas.putIfAbsent(publicacionReproduccion.getNombrePublicacion(), publicacionReproduccion);
 							System.out.println(publicacionReproduccion.getNombrePublicacion() + publicacionReproduccion.getTipoPublicacion() + publicacionReproduccion.getDuracion() + publicacionReproduccion.getFin());
-							// Actualizar visualmente la lista de publicaciones seleccionadas
-							
-							
 						    listModelPublicacionesSeleccionadas.addElement(publicacionReproduccion.getNombrePublicacion());
 							
 						} else {
