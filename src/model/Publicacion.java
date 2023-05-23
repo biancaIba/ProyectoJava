@@ -120,7 +120,7 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 		}
 	}
 	
-	public abstract float getDuracion(); //  PREGUNTAR A AUGUSTO
+	public abstract float getDuracion();
 	
 	// verifica si la publicacion ya tiene ese album en la lista album pertenece para que no quede repetido
 	public boolean existeAlbumPertenece(Album album) {

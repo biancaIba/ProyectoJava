@@ -10,10 +10,10 @@ public class PublicacionReproduccion extends Publicacion {
 	private float inicio;
 	private float fin;
 	
-	public PublicacionReproduccion(String nombrePublicacion, LocalDate fechaSubida, int cantMG, float fin, EnumTipoPublicacion tipoPublicacion ) {
+	public PublicacionReproduccion(String nombrePublicacion, LocalDate fechaSubida, int cantMG, float duracion, EnumTipoPublicacion tipoPublicacion ) {
 		super(nombrePublicacion, fechaSubida, cantMG, tipoPublicacion);
 		this.inicio = 0;
-		this.fin = fin;
+		this.fin = duracion;
 	}
 
 	@Override
