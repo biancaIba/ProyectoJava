@@ -370,7 +370,11 @@ public class PerfilUsuario extends JFrame {
 				}
 
 	            Histograma estadisticasPanel = new Histograma();
-	            estadisticasPanel.setHistogramData(data, labels);
+	            try {
+					estadisticasPanel.setHistogramData(data, labels);
+				} catch (SinDatosException e1) {
+					// mostrar que no hay DATOS
+				}
 	            ventanaHistograma.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
 	            ventanaHistograma.setVisible(true);
 	        }
