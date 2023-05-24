@@ -3,11 +3,15 @@ import java.time.LocalDate;
 public class Audio extends Publicacion implements Durable {
 	private int velocidadBits;
 	private float duracion;
+	private float inicio;
+	private float fin;
 
 	public Audio(String nombrePublicacion, LocalDate fechaSubida, int cantMG, int velocidadBits, float duracion) {
 		super(nombrePublicacion, fechaSubida, cantMG,EnumTipoPublicacion.AUDIO);
 		this.velocidadBits = velocidadBits;
 		this.duracion = duracion;
+		this.inicio = 0;
+		this.fin = duracion;
 	}
 	
 	@Override
@@ -33,13 +37,25 @@ public class Audio extends Publicacion implements Durable {
 	public void setDuracion(float duracion) {
 		this.duracion = duracion;
 	}
-
-	public void avanzar() {
-		
+	
+	public float getInicio() {
+		return inicio;
 	}
 	
-	public void detener() {
+	public float getFin() {
+		return fin;
+	}
+	
+	public void reproducir() {
 		
+	}
+
+	public void avanzar(float inicioRelativo) {
+		this.inicio = inicioRelativo;
+	}
+	
+	public void detener(float finRelativo) {
+		this.fin = finRelativo;
 	}
 	
 }

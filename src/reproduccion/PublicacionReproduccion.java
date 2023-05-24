@@ -38,5 +38,9 @@ public class PublicacionReproduccion extends Publicacion {
 		this.fin = fin;
 	}
 	
+	public void reproducir() {
+		
+	}
+	
 	
 }
