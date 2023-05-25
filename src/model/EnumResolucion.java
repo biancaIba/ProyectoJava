@@ -1,6 +1,6 @@
 package model;
 
-public enum Resolucion {
+public enum EnumResolucion {
 	_8K,
 	_4K,
 	_2K,

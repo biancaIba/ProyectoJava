@@ -1,4 +1,6 @@
 package sistema;
+import view.*;
+import java.awt.EventQueue;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -12,15 +14,13 @@ public class Sistema {
 	private static PerfilInstagram perfil;
 
 	public static void main(String[] args){
-		perfil = PerfilInstagram.getInstance();   
+		perfil = PerfilInstagram.getInstance();
 		perfil.cargarPublicaciones();
 		
 		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
 		//generarReportePublicacionEnPantalla(listaReportes);
 		generarReportePublicacionEnArchivo(listaReportes);
 		
-		
-
 		LocalDate inicio=LocalDate.parse("2023-05-01");
         LocalDate fin=LocalDate.parse("2023-05-02");
 
@@ -31,6 +31,13 @@ public class Sistema {
         	System.out.println("Album: "+reportes.getNombreAlbum()+" Cantidad de publicaciones: "+
         	reportes.getCantidadPublicaciones()+" Cantidad de comentarios: "+reportes.getCantidadComentarios());
         }
+        
+    	EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                PerfilUsuario frame = new PerfilUsuario();
+                frame.setVisible(true);
+            }
+        });
 
 	}
 	
@@ -59,6 +66,7 @@ public class Sistema {
             System.err.println("Error al escribir en el archivo: " + e.getMessage());
         }
     }
+	
 	public static void generarReporteAlbumesEnArchivo(List<ReporteAlbum> listaReportesAlbumes) {
         String nombreArchivo = "reporteAlbumes.txt"; 
         try (FileWriter fileWriter = new FileWriter(nombreArchivo);

@@ -1,12 +1,15 @@
 package view;
 
 import model.*;
+import reproduccion.PublicacionReproduccion;
 import sistema.*;
 import utils.AssetsUtils;
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -22,19 +25,16 @@ public class PerfilUsuario extends JFrame {
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
 	private float duracionReproduccion;
-	Set<Publicacion> publicacionesSeleccionadas;
-
-	public static void main(String[] args) {
-		perfilInstagram = PerfilInstagram.getInstance();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				PerfilUsuario frame = new PerfilUsuario();
-				frame.setVisible(true);
-			}
-		});
-	}
+	//Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
+	Set<Publicacion> publicacionesSeleccionadas; 
+	private float duracionReproduccionTotal = 0;
+	private JPanel listaSeleccionadasPanel;
+	JLabel informacionLabel;
 
 	public PerfilUsuario() {
+		perfilInstagram = PerfilInstagram.getInstance();
+		publicacionesSeleccionadas = new TreeSet<>();
+		
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setForeground(Color.DARK_GRAY);
@@ -48,6 +48,8 @@ public class PerfilUsuario extends JFrame {
 		setContentPane(contentPane);
 
 		menuTop();
+		perfilInstagram.cargarPublicaciones();
+		pantallaPrincipal();
 	}
 
 	public void menuTop() {
@@ -86,9 +88,7 @@ public class PerfilUsuario extends JFrame {
 				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
 					Album nuevoAlbum = new Album(nombreAlbum);
 					PerfilInstagram.getInstance().addAlbum(nuevoAlbum);
-					
-					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
-					
+					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");	
 				}
 			}
 		});
@@ -251,30 +251,11 @@ public class PerfilUsuario extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				perfilInstagram.cargarPublicaciones();
 				JOptionPane.showMessageDialog(null, "Los datos fueron agregados con éxito");
-				publicacionesActuales();
-			}
-		});
-
-		JMenuItem reproducir = new JMenuItem("Reproducir");
-		reproducir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
-				JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccion + " segundos.");
-				if (duracionReproduccion > 0) {
-					String[] opciones = { "Imágenes primero", "Videos primero", "Audios primero"};
-			        int eleccion = JOptionPane.showOptionDialog(null,
-			        	"Elija un orden para la reproducción", "Orden de Reproducción",
-			            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-			            opciones, opciones[0]
-			        );
-					Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
-					ventanaReproduccion.setVisible(true);
-				}
+				pantallaPrincipal();
 			}
 		});
 
 		opciones.add(cargaDatos);
-		opciones.add(reproducir);
 		return opciones;
 	}
 
@@ -295,8 +276,8 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 		
-		LocalDate inicio=LocalDate.parse("2023-04-20");//deberia ser lo q el usuario ingresa
-        LocalDate fin=LocalDate.parse("2023-05-05");//idem
+		LocalDate inicio=LocalDate.parse("2023-04-20"); //deberia ser lo q el usuario ingresa
+        LocalDate fin=LocalDate.parse("2023-05-05"); //idem
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -307,7 +288,6 @@ public class PerfilUsuario extends JFrame {
 				else
 					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				
 			}	
 		});
 
@@ -365,7 +345,11 @@ public class PerfilUsuario extends JFrame {
 				}
 
 	            Histograma estadisticasPanel = new Histograma();
-	            estadisticasPanel.setHistogramData(data, labels);
+	            try {
+					estadisticasPanel.setHistogramData(data, labels);
+				} catch (SinDatosException e1) {
+					// mostrar que no hay DATOS
+				}
 	            ventanaHistograma.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
 	            ventanaHistograma.setVisible(true);
 	        }
@@ -395,32 +379,96 @@ public class PerfilUsuario extends JFrame {
 	    estadisticas.add(mntmGraficoDeTorta);
 	    return estadisticas;
 	}
+	
+	private void actualizarDuracionTotal() {
+		int horas = (int) (duracionReproduccionTotal / 3600);
+        int minutos = (int) ((duracionReproduccionTotal % 3600) / 60);
+        int segundos = (int) (duracionReproduccionTotal % 60);
+        String duracionFormateada = String.format("%02d:%02d:%02d", horas, minutos, segundos);
 
-	public void publicacionesActuales() {
+        informacionLabel.setText(duracionFormateada);
+	}
 
-		/**
-		 * Setea el espacio donde aparecerán las Publicaciones del Perfil
-		 */
-
+	public void pantallaPrincipal() {
 		JPanel jpPublicaciones = new JPanel();
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		jpPublicaciones.setLayout(new GridLayout(0, 3, 10, 10)); // GridLayout con 3 columnas y espacios de 10 pix
-
+		 
 		try {
 			Set<Publicacion> listaPublicaciones = perfilInstagram.getPublicaciones();
-			publicacionesSeleccionadas = perfilInstagram.getPublicaciones();
-			for (Publicacion publicacion : listaPublicaciones) {
-				JPanel panel = new JPanel(); // Crea un JPanel para cada publicación
-				panel.setBackground(Color.WHITE);
-				panel.setLayout(new GridLayout(4, 1)); // Configura un GridLayout para el panel interno de 4 columnas
+			
+			                         //PANEL LATERAL //
+			
+			JPanel panelLateral = new JPanel();
+			panelLateral.setBackground(Color.WHITE);
+			panelLateral.setLayout(new BorderLayout());
 
-				String tipoPublicacion = publicacion.getTipoPublicacion();
-				JLabel imageLabel = new JLabel(); // JLabel que muestra el icono
-				if (tipoPublicacion.equals("Audio")) {
-					imageLabel.setIcon(AssetsUtils.obtenerIcono("audio"));
+			JLabel tituloLabel = new JLabel("Publicaciones Seleccionadas");
+			tituloLabel.setFont(new Font("Open Sans", Font.BOLD, 14));
+			tituloLabel.setForeground(Color.WHITE);
+			tituloLabel.setHorizontalAlignment(JLabel.CENTER);
+			panelLateral.add(tituloLabel, BorderLayout.NORTH);
+			panelLateral.setBackground(Color.GRAY);
+
+			JPanel tiempoReproduccionPanel = new JPanel();
+			tiempoReproduccionPanel.setBackground(Color.WHITE);
+			tiempoReproduccionPanel.setLayout(new BorderLayout());
+
+			JLabel tiempoReproduccionLabel = new JLabel("Tiempo de reproducción Original: ");
+			tiempoReproduccionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+			tiempoReproduccionPanel.add(tiempoReproduccionLabel, BorderLayout.NORTH);
+
+			informacionLabel = new JLabel("00:00:00");
+			informacionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+			tiempoReproduccionPanel.add(informacionLabel, BorderLayout.CENTER);
+
+			JButton botonReproducir = new JButton("Reproducir");
+			botonReproducir.setFont(new Font("Arial", Font.PLAIN, 12));
+			botonReproducir.addActionListener(new ActionListener() {
+			    @Override
+			    public void actionPerformed(ActionEvent e) {
+					JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
+					JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
+					if (duracionReproduccionTotal > 0) {
+						String[] opciones = {"Cantidad de MG", "Cantidad de comentarios", "Fecha de subida"};
+				        int eleccion = JOptionPane.showOptionDialog(null,
+				        	"Elija un orden para la reproducción", "Orden de Reproducción",
+				            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+				            opciones, opciones[0]
+				        );
+						Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
+						ventanaReproduccion.setVisible(true);
+					}
+			    }
+			});
+			tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
+			panelLateral.add(tiempoReproduccionPanel, BorderLayout.SOUTH);
+
+			JScrollPane scrollPane = new JScrollPane();
+			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+			
+			JPanel listaSeleccionadasPanel = new JPanel();
+			listaSeleccionadasPanel.setBackground(Color.LIGHT_GRAY);
+			listaSeleccionadasPanel.setLayout(new BoxLayout(listaSeleccionadasPanel, BoxLayout.Y_AXIS));
+
+			scrollPane.setViewportView(listaSeleccionadasPanel);
+			panelLateral.add(scrollPane, BorderLayout.CENTER);
+			contentPane.add(panelLateral, BorderLayout.WEST);
+
+			                           // FIN PANEL LATERAL//
+
+			for (Publicacion publicacion : listaPublicaciones) {
+				JPanel panel = new JPanel();
+				panel.setBackground(Color.WHITE);
+				panel.setLayout(new GridLayout(4, 1)); 
+
+				EnumTipoPublicacion tipoPublicacion = publicacion.getTipoPublicacion();
+				JLabel imageLabel = new JLabel();
+				if (tipoPublicacion == EnumTipoPublicacion.AUDIO) {
+					imageLabel.setIcon( AssetsUtils.obtenerIcono("audio"));
 					panel.setBackground(Color.GRAY);
-				} else if (tipoPublicacion.equals("Imagen")) {
+				} else if (tipoPublicacion == EnumTipoPublicacion.IMAGEN) {
 					imageLabel.setIcon(AssetsUtils.obtenerIcono("image"));
 					panel.setBackground(Color.GRAY);
 				} else {
@@ -440,65 +488,153 @@ public class PerfilUsuario extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cBox.isSelected()) {
+							
 							publicacionesSeleccionadas.add(publicacion);
+							final float [] duracionActual = {publicacion.getDuracion()};
+							duracionReproduccionTotal += duracionActual[0];
+							
+							JPanel itemPanel = new JPanel();
+							itemPanel.setBackground(Color.WHITE);
+
+							// restricciones del GridBagConstraints
+							GridBagConstraints gbc = new GridBagConstraints();
+							gbc.gridx = 0; 
+							gbc.gridy = GridBagConstraints.RELATIVE; 
+							gbc.weightx = 1.0; // 
+							gbc.insets = new Insets(5,5,5,5); 
+
+							JLabel nombrePublicacion = new JLabel (publicacion.getNombrePublicacion());
+							nombrePublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
+							nombrePublicacion.setBackground(Color.WHITE);
+							itemPanel.add(nombrePublicacion);
+							
+							String duracion = Float.toString(publicacion.getDuracion());
+							JLabel duracionPublicacion = new JLabel ("Duracion: " + duracion);
+							duracionPublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
+							duracionPublicacion.setBackground(Color.WHITE);
+							itemPanel.add(duracionPublicacion);
+							
+							gbc.anchor = GridBagConstraints.WEST; 
+							gbc.weightx = 0.8;
+							listaSeleccionadasPanel.add(itemPanel, gbc);
+
+							gbc.gridx = 1; 
+							gbc.weightx = 0.1; 
+							gbc.anchor = GridBagConstraints.CENTER; 
+														
+							JButton configurarButton = new JButton("Configurar");
+							configurarButton.setFont(new Font("Arial", Font.PLAIN, 12));
+							configurarButton.addActionListener(new ActionListener() {
+							    @Override
+							    public void actionPerformed(ActionEvent e) {
+							    	
+							    	JFrame ventanaEdicion = new JFrame("Edición de la publicación");
+							    	ventanaEdicion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+							    	ventanaEdicion.setSize(700, 600);
+						            
+						            Edicion panelEdicion = new Edicion(publicacion);
+						            ventanaEdicion.setContentPane(panelEdicion);
+						            
+						            ventanaEdicion.setVisible(true);
+							    	
+							    	ventanaEdicion.addWindowListener(new WindowAdapter() {
+							    		@Override
+						    		    public void windowClosing(WindowEvent e) {
+							    			duracionReproduccionTotal= duracionReproduccionTotal - duracionActual[0] + publicacion.getDuracion();
+							    			duracionPublicacion.setText(Float.toString(publicacion.getDuracion()));
+							    			actualizarDuracionTotal();
+							    			duracionActual[0] = publicacion.getDuracion();
+							    			JOptionPane.showMessageDialog(null,"Los datos fueron guardados",
+													"Datos guardados",JOptionPane.INFORMATION_MESSAGE);
+						    		    }
+							    	});
+							    }
+							});
+							itemPanel.add(configurarButton);
+							
+		
+							gbc.gridx = 2;
+							gbc.weightx = 0.1; 
+							JButton subirButton = new JButton("Subir");
+							subirButton.setFont(new Font("Arial", Font.PLAIN, 12));
+							subirButton.addActionListener(new ActionListener() {
+							    @Override
+							    public void actionPerformed(ActionEvent e) {
+							        // Lógica para subir la publicación en la lista de reproducción
+							        int index = listaSeleccionadasPanel.getComponentZOrder(itemPanel);
+							        if (index > 0) {
+							            listaSeleccionadasPanel.remove(itemPanel);
+							            listaSeleccionadasPanel.add(itemPanel, index - 1);
+							            listaSeleccionadasPanel.revalidate();
+							            listaSeleccionadasPanel.repaint();
+							        }
+							    }
+							});
+							itemPanel.add(subirButton);
+
+							gbc.gridx = 3;
+							gbc.weightx = 0.1; 
+							JButton bajarButton = new JButton("Bajar");
+							bajarButton.setFont(new Font("Arial", Font.PLAIN, 12));
+							bajarButton.addActionListener(new ActionListener() {
+							    @Override
+							    public void actionPerformed(ActionEvent e) {
+							        // Lógica para bajar la publicación en la lista de reproducción
+							        int index = listaSeleccionadasPanel.getComponentZOrder(itemPanel);
+							        int count = listaSeleccionadasPanel.getComponentCount();
+							        if (index < count - 1) {
+							            listaSeleccionadasPanel.remove(itemPanel);
+							            listaSeleccionadasPanel.add(itemPanel, index + 1);
+							            listaSeleccionadasPanel.revalidate();
+							            listaSeleccionadasPanel.repaint();
+							        }
+							    }
+							});
+							itemPanel.add(bajarButton);
+				   
+				            listaSeleccionadasPanel.revalidate();
+				            listaSeleccionadasPanel.repaint();
+							
 						} else {
 							publicacionesSeleccionadas.remove(publicacion);
-						}
-					}
-				});
-
-				JButton btnFiltros = new JButton();
-				btnFiltros.setHorizontalAlignment(JCheckBox.CENTER);
-				btnFiltros.setText("Aplicar Filtros");
-				btnFiltros.setBackground(Color.GRAY);
-				btnFiltros.setFont(new Font("Arial", Font.ITALIC, 12));
-				btnFiltros.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						float duracion = publicacion.getDuracion();
-						String inicio = JOptionPane.showInputDialog(null, "Ingrese el momento de inicio (en segundos):",
-								"Filtro: Inicio", JOptionPane.PLAIN_MESSAGE);
-						if (inicio != null && !inicio.isEmpty()) {
-							float tiempoInicio = Float.parseFloat(inicio);
-							if (tiempoInicio > duracion) {
-								JOptionPane.showMessageDialog(null,"El momento de inicio es mayor a la duración.",
-										"Error",JOptionPane.ERROR_MESSAGE);
-							} else {
-								String fin = JOptionPane.showInputDialog(null,
-										"Ingrese el momento de finalización (en segundos):", "Filtro: Finalización",
-										JOptionPane.PLAIN_MESSAGE);
-								if (fin != null && !fin.isEmpty()) {
-									float tiempoFin = Float.parseFloat(fin);
-									if (tiempoFin > duracion) {
-										JOptionPane.showMessageDialog(null,"El momento de finalización es mayor a la duración.",
-												"Error",JOptionPane.ERROR_MESSAGE);
-									} else if (tiempoFin < tiempoInicio) {
-										JOptionPane.showMessageDialog(null,"El momento de finalización es menor al momento de inicio.",
-												"Error",JOptionPane.ERROR_MESSAGE);
-									} else {
-										duracionReproduccion += (tiempoFin - tiempoInicio);
-										
-										JOptionPane.showMessageDialog(null,"Los filtros se aplicaron correctamente.",
-												"Excelente!",JOptionPane.PLAIN_MESSAGE);
-									}
-								}
+							duracionReproduccionTotal -= publicacion.getDuracion();
+							
+							// Eliminar el panel de la publicación seleccionada de la lista lateral
+							Component[] components = listaSeleccionadasPanel.getComponents();
+							for (Component component : components) {
+							    if (component instanceof JPanel) {
+							        JPanel itemPanel = (JPanel) component;
+							        JLabel nombreLabel = (JLabel) itemPanel.getComponent(0);
+							        String nombrePublicacion = nombreLabel.getText();
+							        if (nombrePublicacion.equals(publicacion.getNombrePublicacion())) {
+							            listaSeleccionadasPanel.remove(itemPanel);
+							            break; 
+							        }
+							    }
 							}
+				            
+				            listaSeleccionadasPanel.revalidate();
+				            listaSeleccionadasPanel.repaint();
+							
 						}
+						
+						// Convertir la duración total a un formato de tiempo (HH:mm:ss)
+			            actualizarDuracionTotal();
 					}
 				});
 
 				panel.add(imageLabel);
 				panel.add(nameLabel);
 				panel.add(cBox);
-				if (tipoPublicacion.equals("Audio") || tipoPublicacion.equals("Video")) {
-					panel.add(btnFiltros);
-				}
 
 				jpPublicaciones.add(panel);
 			}
-			contentPane.add(jpPublicaciones, BorderLayout.CENTER);
-			contentPane.revalidate();
-			contentPane.repaint();
+			JPanel panelContenedor = new JPanel(new BorderLayout());
+            panelContenedor.add(jpPublicaciones, BorderLayout.CENTER);
+
+            contentPane.add(panelContenedor, BorderLayout.CENTER);
+            contentPane.revalidate();
+            contentPane.repaint();
 		} catch (SinDatosException e) {
 			jpPublicaciones.setVisible(false);
 		}
