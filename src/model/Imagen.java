@@ -5,12 +5,17 @@ public class Imagen extends Publicacion implements Filtrable {
 	private String resolucion;
 	private int ancho;
 	private int alto;
-
+	private float duracion;
+	private static float DURACION_GENERICA = 2; // [Segundos]
+	private EnumTipoFiltro filtro;
+	
 	public Imagen(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int ancho, int alto) {
 		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.IMAGEN);
 		this.resolucion = resolucion;
 		this.ancho = ancho;
 		this.alto = alto;
+		this.duracion = DURACION_GENERICA;
+		this.filtro = EnumTipoFiltro.SIN_FILTRO; 
 	}
 
 	public String getResolucion() {
@@ -49,13 +54,17 @@ public class Imagen extends Publicacion implements Filtrable {
 		
 	}
 	
-	public void aplicarFiltro() {
-		
+	public void aplicarFiltro(EnumTipoFiltro filtro) {
+		this.filtro = filtro; 
+	}
+	public EnumTipoFiltro getFiltro() {
+		return filtro;
+	}
+
+	public float getDuracion() {
+		return duracion;
 	}
 	
-	public float getDuracion() {
-		return 0;
-	}
 	
 	
 }

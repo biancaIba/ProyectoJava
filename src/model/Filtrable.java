@@ -3,10 +3,7 @@
  */
 package model;
 
-/**
- * @author Bianca
- *
- */
 public interface Filtrable {
-	void aplicarFiltro();
+	void aplicarFiltro(EnumTipoFiltro filtro);
+	EnumTipoFiltro getFiltro();
 }

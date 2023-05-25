@@ -8,6 +8,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
@@ -27,6 +29,7 @@ public class PerfilUsuario extends JFrame {
 	Set<Publicacion> publicacionesSeleccionadas; 
 	private float duracionReproduccionTotal = 0;
 	private JPanel listaSeleccionadasPanel;
+	JLabel informacionLabel;
 
 	public PerfilUsuario() {
 		perfilInstagram = PerfilInstagram.getInstance();
@@ -376,6 +379,15 @@ public class PerfilUsuario extends JFrame {
 	    estadisticas.add(mntmGraficoDeTorta);
 	    return estadisticas;
 	}
+	
+	private void actualizarDuracionTotal() {
+		int horas = (int) (duracionReproduccionTotal / 3600);
+        int minutos = (int) ((duracionReproduccionTotal % 3600) / 60);
+        int segundos = (int) (duracionReproduccionTotal % 60);
+        String duracionFormateada = String.format("%02d:%02d:%02d", horas, minutos, segundos);
+
+        informacionLabel.setText(duracionFormateada);
+	}
 
 	public void pantallaPrincipal() {
 		JPanel jpPublicaciones = new JPanel();
@@ -407,7 +419,7 @@ public class PerfilUsuario extends JFrame {
 			tiempoReproduccionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 			tiempoReproduccionPanel.add(tiempoReproduccionLabel, BorderLayout.NORTH);
 
-			JLabel informacionLabel = new JLabel("00:00:00");
+			informacionLabel = new JLabel("00:00:00");
 			informacionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 			tiempoReproduccionPanel.add(informacionLabel, BorderLayout.CENTER);
 
@@ -478,9 +490,8 @@ public class PerfilUsuario extends JFrame {
 						if (cBox.isSelected()) {
 							
 							publicacionesSeleccionadas.add(publicacion);
-							//PublicacionReproduccion publicacionReproduccion = new PublicacionReproduccion(publicacion.getNombrePublicacion(), publicacion.getFechaSubida(), publicacion.getCantMG(), publicacion.getDuracion(), publicacion.getTipoPublicacion());
-							//publicacionesSeleccionadas.putIfAbsent(publicacionReproduccion.getNombrePublicacion(), publicacionReproduccion);
-							duracionReproduccionTotal += publicacion.getDuracion();
+							final float [] duracionActual = {publicacion.getDuracion()};
+							duracionReproduccionTotal += duracionActual[0];
 							
 							JPanel itemPanel = new JPanel();
 							itemPanel.setBackground(Color.WHITE);
@@ -492,7 +503,6 @@ public class PerfilUsuario extends JFrame {
 							gbc.weightx = 1.0; // 
 							gbc.insets = new Insets(5,5,5,5); 
 
-							//JLabel nombrePublicacion = new JLabel(publicacionReproduccion.getNombrePublicacion());
 							JLabel nombrePublicacion = new JLabel (publicacion.getNombrePublicacion());
 							nombrePublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
 							nombrePublicacion.setBackground(Color.WHITE);
@@ -517,55 +527,31 @@ public class PerfilUsuario extends JFrame {
 							configurarButton.addActionListener(new ActionListener() {
 							    @Override
 							    public void actionPerformed(ActionEvent e) {
-							    	float duracion = publicacion.getDuracion();
-									String inicio = JOptionPane.showInputDialog(null, "Ingrese el momento de inicio (en segundos):",
-											"Filtro: Inicio", JOptionPane.PLAIN_MESSAGE);
-									if (inicio != null && !inicio.isEmpty()) {
-										float tiempoInicio = Float.parseFloat(inicio);
-										if (tiempoInicio > duracion) {
-											JOptionPane.showMessageDialog(null,"El momento de inicio es mayor a la duración.",
-													"Error",JOptionPane.ERROR_MESSAGE);
-										} else {
-											String fin = JOptionPane.showInputDialog(null,
-													"Ingrese el momento de finalización (en segundos):", "Filtro: Finalización",
-													JOptionPane.PLAIN_MESSAGE);
-											if (fin != null && !fin.isEmpty()) {
-												float tiempoFin = Float.parseFloat(fin);
-												if (tiempoFin > duracion) {
-													JOptionPane.showMessageDialog(null,"El momento de finalización es mayor a la duración.",
-															"Error",JOptionPane.ERROR_MESSAGE);
-												} else if (tiempoFin < tiempoInicio) {
-													JOptionPane.showMessageDialog(null,"El momento de finalización es menor al momento de inicio.",
-															"Error",JOptionPane.ERROR_MESSAGE);
-												} else {
-													duracionReproduccionTotal -= (tiempoFin - tiempoInicio);
-													
-													// ACA DEBE SETEARSE EL INICIO Y FIN DE CADA PUBLICACION
-													// por ahora, inicio y fin son atributos privados de audio y video
-													// entonces para llamar a avanzar y detener (que setean el tiempo de inicio y fin)
-													// debo identificar si la publicacion es audio y video con un instanceof
-													// y luego castear al tipo de publicacion
-													
-													// ATENCION
-													// si modificamos el inicio y fin de cada publicacion (audio/video)
-													// debemos tener en cuenta que NO deben serializarse esos datos
-													// o buscar la forma de que siempre que se inicie el programa de nuevo,
-													// el inicio de cada publi debe ser 0 y el final la duracion, incluso si son
-													// los mismos objetos porque estan serializados
-													
-													// IDEA: se podria hacer un avanzar(0) en algun momento especifico de la ejecucion inicial
-													//		y detener(publicacion.getDuracion())
-													
-													JOptionPane.showMessageDialog(null,"Los filtros se aplicaron correctamente.",
-															"Excelente!",JOptionPane.PLAIN_MESSAGE);
-												}
-											}
-										}
-									}	
+							    	
+							    	JFrame ventanaEdicion = new JFrame("Edición de la publicación");
+							    	ventanaEdicion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+							    	ventanaEdicion.setSize(700, 600);
+						            
+						            Edicion panelEdicion = new Edicion(publicacion);
+						            ventanaEdicion.setContentPane(panelEdicion);
+						            
+						            ventanaEdicion.setVisible(true);
+							    	
+							    	ventanaEdicion.addWindowListener(new WindowAdapter() {
+							    		@Override
+						    		    public void windowClosing(WindowEvent e) {
+							    			duracionReproduccionTotal= duracionReproduccionTotal - duracionActual[0] + publicacion.getDuracion();
+							    			duracionPublicacion.setText(Float.toString(publicacion.getDuracion()));
+							    			actualizarDuracionTotal();
+							    			duracionActual[0] = publicacion.getDuracion();
+							    			JOptionPane.showMessageDialog(null,"Los datos fueron guardados",
+													"Datos guardados",JOptionPane.INFORMATION_MESSAGE);
+						    		    }
+							    	});
 							    }
 							});
 							itemPanel.add(configurarButton);
-							/*
+							
 		
 							gbc.gridx = 2;
 							gbc.weightx = 0.1; 
@@ -605,7 +591,6 @@ public class PerfilUsuario extends JFrame {
 							    }
 							});
 							itemPanel.add(bajarButton);
-							*/
 				   
 				            listaSeleccionadasPanel.revalidate();
 				            listaSeleccionadasPanel.repaint();
@@ -634,12 +619,7 @@ public class PerfilUsuario extends JFrame {
 						}
 						
 						// Convertir la duración total a un formato de tiempo (HH:mm:ss)
-			            int horas = (int) (duracionReproduccionTotal / 3600);
-			            int minutos = (int) ((duracionReproduccionTotal % 3600) / 60);
-			            int segundos = (int) (duracionReproduccionTotal % 60);
-			            String duracionFormateada = String.format("%02d:%02d:%02d", horas, minutos, segundos);
-
-			            informacionLabel.setText(duracionFormateada);
+			            actualizarDuracionTotal();
 					}
 				});
 

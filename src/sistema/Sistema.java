@@ -14,7 +14,7 @@ public class Sistema {
 	private static PerfilInstagram perfil;
 
 	public static void main(String[] args){
-		perfil = PerfilInstagram.getInstance();   
+		perfil = PerfilInstagram.getInstance();
 		perfil.cargarPublicaciones();
 		
 		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
