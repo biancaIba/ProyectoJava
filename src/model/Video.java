@@ -4,12 +4,16 @@ public class Video extends Publicacion implements Durable, Filtrable {
 	private String resolucion;
 	private int cantCuadros;
 	private float duracion;
+	private float inicio;
+	private float fin;
 
 	public Video(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int cantCuadros, float duracion) {
 		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.VIDEO);
 		this.resolucion = resolucion;
 		this.cantCuadros = cantCuadros;
 		this.duracion = duracion;
+		this.inicio = 0;
+		this.fin = duracion;
 	}
 
 	public String getResolucion() {
@@ -43,15 +47,25 @@ public class Video extends Publicacion implements Durable, Filtrable {
 	        ", Resolucion=" + resolucion +", Cantidad de cuadros=" + cantCuadros +
 	        '}';
 	}
-
-	public void avanzar() {
+	
+	public float getInicio() {
+		return inicio;
+	}
+	
+	public float getFin() {
+		return fin;
+	}
+	
+	public void reproducir() {
 		
-
 	}
 
-	public void detener() {
-		
+	public void avanzar(float inicioRelativo) {
+		this.inicio = inicioRelativo;
+	}
 
+	public void detener(float finRelativo) {
+		this.fin = finRelativo;
 	}
 	
 	public void aplicarFiltro() {

@@ -23,21 +23,15 @@ public class PerfilUsuario extends JFrame {
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
 	private float duracionReproduccion;
-	Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
+	//Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
+	Set<Publicacion> publicacionesSeleccionadas; 
 	private float duracionReproduccionTotal = 0;
 	private JPanel listaSeleccionadasPanel;
-	
-	public static void main(String[] args) {
-		perfilInstagram = PerfilInstagram.getInstance();
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				PerfilUsuario frame = new PerfilUsuario();
-				frame.setVisible(true);
-			}
-		});
-	}
 
 	public PerfilUsuario() {
+		perfilInstagram = PerfilInstagram.getInstance();
+		publicacionesSeleccionadas = new TreeSet<>();
+		
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setForeground(Color.DARK_GRAY);
@@ -91,9 +85,7 @@ public class PerfilUsuario extends JFrame {
 				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
 					Album nuevoAlbum = new Album(nombreAlbum);
 					PerfilInstagram.getInstance().addAlbum(nuevoAlbum);
-					
-					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
-					
+					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");	
 				}
 			}
 		});
@@ -260,26 +252,7 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 
-		/*JMenuItem reproducir = new JMenuItem("Reproducir");
-		reproducir.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
-				JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccion + " segundos.");
-				if (duracionReproduccion > 0) {
-					String[] opciones = { "Imágenes primero", "Videos primero", "Audios primero"};
-			        int eleccion = JOptionPane.showOptionDialog(null,
-			        	"Elija un orden para la reproducción", "Orden de Reproducción",
-			            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-			            opciones, opciones[0]
-			        );
-					Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
-					ventanaReproduccion.setVisible(true);
-				}
-			}
-		});*/
-
 		opciones.add(cargaDatos);
-		//opciones.add(reproducir);
 		return opciones;
 	}
 
@@ -300,8 +273,8 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 		
-		LocalDate inicio=LocalDate.parse("2023-04-20");//deberia ser lo q el usuario ingresa
-        LocalDate fin=LocalDate.parse("2023-05-05");//idem
+		LocalDate inicio=LocalDate.parse("2023-04-20"); //deberia ser lo q el usuario ingresa
+        LocalDate fin=LocalDate.parse("2023-05-05"); //idem
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -312,7 +285,6 @@ public class PerfilUsuario extends JFrame {
 				else
 					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
 							JOptionPane.ERROR_MESSAGE);
-				
 			}	
 		});
 
@@ -413,8 +385,6 @@ public class PerfilUsuario extends JFrame {
 		 
 		try {
 			Set<Publicacion> listaPublicaciones = perfilInstagram.getPublicaciones();
-			//publicacionesSeleccionadas = perfilInstagram.getPublicaciones();
-			publicacionesSeleccionadas = new HashMap<>();
 			
 			                         //PANEL LATERAL //
 			
@@ -433,7 +403,7 @@ public class PerfilUsuario extends JFrame {
 			tiempoReproduccionPanel.setBackground(Color.WHITE);
 			tiempoReproduccionPanel.setLayout(new BorderLayout());
 
-			JLabel tiempoReproduccionLabel = new JLabel("Tiempo de reproducción total: ");
+			JLabel tiempoReproduccionLabel = new JLabel("Tiempo de reproducción Original: ");
 			tiempoReproduccionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
 			tiempoReproduccionPanel.add(tiempoReproduccionLabel, BorderLayout.NORTH);
 
@@ -446,12 +416,18 @@ public class PerfilUsuario extends JFrame {
 			botonReproducir.addActionListener(new ActionListener() {
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
-			        
-			    	
-			    	// Lógica para reproducir las publicaciones seleccionadas
-			       
-	
-			      
+					JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
+					JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
+					if (duracionReproduccionTotal > 0) {
+						String[] opciones = {"Cantidad de MG", "Cantidad de comentarios", "Fecha de subida"};
+				        int eleccion = JOptionPane.showOptionDialog(null,
+				        	"Elija un orden para la reproducción", "Orden de Reproducción",
+				            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+				            opciones, opciones[0]
+				        );
+						Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
+						ventanaReproduccion.setVisible(true);
+					}
 			    }
 			});
 			tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
@@ -500,9 +476,11 @@ public class PerfilUsuario extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cBox.isSelected()) {
-							PublicacionReproduccion publicacionReproduccion = new PublicacionReproduccion(publicacion.getNombrePublicacion(), publicacion.getFechaSubida(), publicacion.getCantMG(), publicacion.getDuracion(), publicacion.getTipoPublicacion());
-							publicacionesSeleccionadas.putIfAbsent(publicacionReproduccion.getNombrePublicacion(), publicacionReproduccion);
-							duracionReproduccionTotal += publicacionReproduccion.getDuracion();
+							
+							publicacionesSeleccionadas.add(publicacion);
+							//PublicacionReproduccion publicacionReproduccion = new PublicacionReproduccion(publicacion.getNombrePublicacion(), publicacion.getFechaSubida(), publicacion.getCantMG(), publicacion.getDuracion(), publicacion.getTipoPublicacion());
+							//publicacionesSeleccionadas.putIfAbsent(publicacionReproduccion.getNombrePublicacion(), publicacionReproduccion);
+							duracionReproduccionTotal += publicacion.getDuracion();
 							
 							JPanel itemPanel = new JPanel();
 							itemPanel.setBackground(Color.WHITE);
@@ -514,28 +492,76 @@ public class PerfilUsuario extends JFrame {
 							gbc.weightx = 1.0; // 
 							gbc.insets = new Insets(5,5,5,5); 
 
-							JLabel nombrePublicacion = new JLabel(publicacionReproduccion.getNombrePublicacion());
+							//JLabel nombrePublicacion = new JLabel(publicacionReproduccion.getNombrePublicacion());
+							JLabel nombrePublicacion = new JLabel (publicacion.getNombrePublicacion());
 							nombrePublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
 							nombrePublicacion.setBackground(Color.WHITE);
 							itemPanel.add(nombrePublicacion);
+							
+							String duracion = Float.toString(publicacion.getDuracion());
+							JLabel duracionPublicacion = new JLabel ("Duracion: " + duracion);
+							duracionPublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
+							duracionPublicacion.setBackground(Color.WHITE);
+							itemPanel.add(duracionPublicacion);
+							
 							gbc.anchor = GridBagConstraints.WEST; 
 							gbc.weightx = 0.8;
 							listaSeleccionadasPanel.add(itemPanel, gbc);
 
-
 							gbc.gridx = 1; 
 							gbc.weightx = 0.1; 
 							gbc.anchor = GridBagConstraints.CENTER; 
+														
 							JButton configurarButton = new JButton("Configurar");
 							configurarButton.setFont(new Font("Arial", Font.PLAIN, 12));
 							configurarButton.addActionListener(new ActionListener() {
 							    @Override
 							    public void actionPerformed(ActionEvent e) {
-							    	
-							    	
-							        // Lógica para configurar la publicación seleccionada
-							    	
-							    	
+							    	float duracion = publicacion.getDuracion();
+									String inicio = JOptionPane.showInputDialog(null, "Ingrese el momento de inicio (en segundos):",
+											"Filtro: Inicio", JOptionPane.PLAIN_MESSAGE);
+									if (inicio != null && !inicio.isEmpty()) {
+										float tiempoInicio = Float.parseFloat(inicio);
+										if (tiempoInicio > duracion) {
+											JOptionPane.showMessageDialog(null,"El momento de inicio es mayor a la duración.",
+													"Error",JOptionPane.ERROR_MESSAGE);
+										} else {
+											String fin = JOptionPane.showInputDialog(null,
+													"Ingrese el momento de finalización (en segundos):", "Filtro: Finalización",
+													JOptionPane.PLAIN_MESSAGE);
+											if (fin != null && !fin.isEmpty()) {
+												float tiempoFin = Float.parseFloat(fin);
+												if (tiempoFin > duracion) {
+													JOptionPane.showMessageDialog(null,"El momento de finalización es mayor a la duración.",
+															"Error",JOptionPane.ERROR_MESSAGE);
+												} else if (tiempoFin < tiempoInicio) {
+													JOptionPane.showMessageDialog(null,"El momento de finalización es menor al momento de inicio.",
+															"Error",JOptionPane.ERROR_MESSAGE);
+												} else {
+													duracionReproduccionTotal -= (tiempoFin - tiempoInicio);
+													
+													// ACA DEBE SETEARSE EL INICIO Y FIN DE CADA PUBLICACION
+													// por ahora, inicio y fin son atributos privados de audio y video
+													// entonces para llamar a avanzar y detener (que setean el tiempo de inicio y fin)
+													// debo identificar si la publicacion es audio y video con un instanceof
+													// y luego castear al tipo de publicacion
+													
+													// ATENCION
+													// si modificamos el inicio y fin de cada publicacion (audio/video)
+													// debemos tener en cuenta que NO deben serializarse esos datos
+													// o buscar la forma de que siempre que se inicie el programa de nuevo,
+													// el inicio de cada publi debe ser 0 y el final la duracion, incluso si son
+													// los mismos objetos porque estan serializados
+													
+													// IDEA: se podria hacer un avanzar(0) en algun momento especifico de la ejecucion inicial
+													//		y detener(publicacion.getDuracion())
+													
+													JOptionPane.showMessageDialog(null,"Los filtros se aplicaron correctamente.",
+															"Excelente!",JOptionPane.PLAIN_MESSAGE);
+												}
+											}
+										}
+									}	
 							    }
 							});
 							itemPanel.add(configurarButton);
@@ -585,7 +611,7 @@ public class PerfilUsuario extends JFrame {
 				            listaSeleccionadasPanel.repaint();
 							
 						} else {
-							publicacionesSeleccionadas.remove(publicacion.getNombrePublicacion());
+							publicacionesSeleccionadas.remove(publicacion);
 							duracionReproduccionTotal -= publicacion.getDuracion();
 							
 							// Eliminar el panel de la publicación seleccionada de la lista lateral
@@ -606,6 +632,7 @@ public class PerfilUsuario extends JFrame {
 				            listaSeleccionadasPanel.repaint();
 							
 						}
+						
 						// Convertir la duración total a un formato de tiempo (HH:mm:ss)
 			            int horas = (int) (duracionReproduccionTotal / 3600);
 			            int minutos = (int) ((duracionReproduccionTotal % 3600) / 60);
@@ -616,55 +643,10 @@ public class PerfilUsuario extends JFrame {
 					}
 				});
 
-				JButton btnFiltros = new JButton();
-				btnFiltros.setHorizontalAlignment(JCheckBox.CENTER);
-				btnFiltros.setText("Aplicar Filtros");
-				btnFiltros.setBackground(Color.GRAY);
-				btnFiltros.setFont(new Font("Arial", Font.ITALIC, 12));
-				btnFiltros.addActionListener(new ActionListener() {
-					@Override
-					public void actionPerformed(ActionEvent e) {
-			
-					 /*float duracion = publicacion.getDuracion();
-					   String inicio = JOptionPane.showInputDialog(null, "Ingrese el momento de inicio (en segundos):",
-								"Filtro: Inicio", JOptionPane.PLAIN_MESSAGE);
-								
-						if (inicio != null && !inicio.isEmpty()) {
-							float tiempoInicio = Float.parseFloat(inicio);
-							if (tiempoInicio > duracion) {
-								JOptionPane.showMessageDialog(null,"El momento de inicio es mayor a la duración.",
-										"Error",JOptionPane.ERROR_MESSAGE);
-							} else {
-								String fin = JOptionPane.showInputDialog(null,
-										"Ingrese el momento de finalización (en segundos):", "Filtro: Finalización",
-										JOptionPane.PLAIN_MESSAGE);
-								if (fin != null && !fin.isEmpty()) {
-									float tiempoFin = Float.parseFloat(fin);
-									if (tiempoFin > duracion) {
-										JOptionPane.showMessageDialog(null,"El momento de finalización es mayor a la duración.",
-												"Error",JOptionPane.ERROR_MESSAGE);
-									} else if (tiempoFin < tiempoInicio) {
-										JOptionPane.showMessageDialog(null,"El momento de finalización es menor al momento de inicio.",
-												"Error",JOptionPane.ERROR_MESSAGE);
-									} else {
-										duracionReproduccion += (tiempoFin - tiempoInicio);
-										
-										JOptionPane.showMessageDialog(null,"Los filtros se aplicaron correctamente.",
-												"Excelente!",JOptionPane.PLAIN_MESSAGE);
-									}
-								}
-							}
-						}*/
-					}
-				});
-
 				panel.add(imageLabel);
 				panel.add(nameLabel);
 				panel.add(cBox);
 
-				  /*if (tipoPublicacion == EnumTipoPublicacion.AUDIO || tipoPublicacion == EnumTipoPublicacion.VIDEO) {
-					panel.add(btnFiltros);
-				}*/
 				jpPublicaciones.add(panel);
 			}
 			JPanel panelContenedor = new JPanel(new BorderLayout());

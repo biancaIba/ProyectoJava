@@ -8,6 +8,6 @@ package model;
  *
  */
 public interface Durable {
-	void avanzar();
-	void detener();
+	void avanzar(float inicioRelativo);
+	void detener(float finRelativo);
 }

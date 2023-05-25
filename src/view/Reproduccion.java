@@ -1,30 +1,28 @@
 package view;
-
-import javax.swing.*;
-import java.util.*;
-import model.PerfilInstagram;
-import model.Publicacion;
-import exception.SinDatosException;
+import model.*;
 import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.DefaultListModel;
 import java.awt.Color;
-import javax.swing.JLabel;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.JList;
+import java.util.List;
+import java.util.Set;
+import java.util.TimerTask;
+import java.util.Timer;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+import model.EnumTipoPublicacion;
+import model.PerfilInstagram;
+import model.Publicacion;
 
 public class Reproduccion extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
 	private static PerfilInstagram perfil;
 
-	public Reproduccion(int orden, Set<Publicacion> publicacionesSeleccionadas) {
+	public Reproduccion(int opcion, Set<Publicacion> publicacionesSeleccionadas) {
 		
 		perfil = PerfilInstagram.getInstance();
 		
@@ -42,7 +40,53 @@ public class Reproduccion extends JDialog {
 		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		{
+			// Los criterios de ordenacion pueden modificarse por cualquier otro
+			if (opcion == 1) {
+				// ordenar lista por cantidad de MG
+			} else if (opcion == 2) {
+				// ordenar lista por cantidad de comentarios
+			} else {
+				// ordenar lista por Fechas
+			}
 			
+			int duracionMostrarPublicacion = 5000; // se puso asi para probar
+			// se reemplazaria con el tiempo de cada publi
+			
+			for (Publicacion p : publicacionesSeleccionadas) {
+				
+				// se deberia mostrar un texto con el nombre de la publicacion
+				
+				//JLabel nombrePublicacion = new JLabel(p.getNombrePublicacion());
+				//nombrePublicacion.setVisible(false);
+				
+				// Configura un timer: 
+				System.out.print("\n\n\n\n\n\n\n\n\n\n"); // limpia la consola
+			    Timer timer = new Timer();
+			    timer.schedule(new TimerTask() {
+			        @Override
+			        public void run() {
+			        	//nombrePublicacion.setVisible(true);
+			        	System.out.println(p.getNombrePublicacion());
+			            timer.cancel();
+			        }
+			    }, duracionMostrarPublicacion);
+			    
+				// esto esta comentado porque depende de la implementacion de los metodos de avanzar/detener
+			    // y de la utilizacion de instaceof (que en teoria viola los principios de la POO)
+				/**EnumTipoPublicacion tipoPublicacion = p.getTipoPublicacion();
+				if (tipoPublicacion == EnumTipoPublicacion.AUDIO) {
+					Audio a = (Audio) p;
+					//a.avanzar();
+				} else if (tipoPublicacion == EnumTipoPublicacion.VIDEO) {
+					Video v = (Video) p;
+					//v.avanzar();
+				} else {
+					
+				}*/
+			    
+			    //contentPanel.add(nombrePublicacion);
+			}
+
 		}
 	
 	}

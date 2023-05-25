@@ -50,6 +50,10 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	public void setCantMG(int cantMG) {
 		this.cantMG = cantMG;
 	}
+	
+	public abstract float getDuracion();
+	
+	public abstract void reproducir();
 
 	@Override
 	public String toString() {
@@ -62,7 +66,6 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	            '}';
 	}
 
-	
 	//trim elimina los espacios en blanco al principio y al final de cada palabra
 	public void agregarEtiqueta(String etiqueta) {
 	    if (etiqueta != null && !etiqueta.trim().isEmpty()) {
@@ -81,7 +84,6 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	    }
 	}
 	
-
 	public ArrayList<String> getListaEtiquetas() {
 		return listaEtiquetas;
 	}
@@ -109,18 +111,18 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	public void setListaAlbumesPertenece(ArrayList<Album> listaAlbumesPertenece) {
 		this.listaAlbumesPertenece = listaAlbumesPertenece;
 	}
+	
 	@Override
     public int compareTo(Publicacion otraPublicacion) {
         return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
     }
+	
 	public void sacarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
 		boolean borrado= this.listaAlbumesPertenece.remove(albumAEliminar);
 		if (!borrado) {
 			throw new AlbumNoEncontradoException("Album no encontrado");
 		}
 	}
-	
-	public abstract float getDuracion();
 	
 	// verifica si la publicacion ya tiene ese album en la lista album pertenece para que no quede repetido
 	public boolean existeAlbumPertenece(Album album) {
@@ -131,6 +133,7 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	    }
 	    return false;
 	}
+	
 	// antes de agregar verifica que no sea null y que no este repetido
     // deberia tener una excepsion por si esta repedido ?
 	public void agregaAlbumPertenece(Album album) {

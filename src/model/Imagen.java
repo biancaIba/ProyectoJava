@@ -45,6 +45,10 @@ public class Imagen extends Publicacion implements Filtrable {
 	        '}';
 	}
 	
+	public void reproducir() {
+		
+	}
+	
 	public void aplicarFiltro() {
 		
 	}
