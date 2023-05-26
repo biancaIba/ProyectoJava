@@ -1,7 +1,6 @@
 package parser;
 
 import java.io.File;
-//import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -47,7 +46,8 @@ public class CargaXML {
 								.parseInt(elementoAudio.getElementsByTagName("velocidadBits").item(0).getTextContent());
 						float duracion = Float
 								.parseFloat(elementoAudio.getElementsByTagName("duracion").item(0).getTextContent());
-						Audio audio = new Audio(nombrePublicacion, fechaSubidaLocalDate, cantMG, velocidadBits, duracion);
+						Audio audio = new Audio(nombrePublicacion, fechaSubidaLocalDate, cantMG, velocidadBits,
+								duracion);
 						cargaEtiqComentAlbum(elementoAudio, audio);
 						perfil.addPublicacion(audio);
 					} else if (elementoImagen != null) {

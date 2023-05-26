@@ -1,6 +1,7 @@
 package model;
-import java.util.*;
+
 import java.time.LocalDate;
+
 public class Imagen extends Publicacion implements Filtrable {
 	private String resolucion;
 	private int ancho;
@@ -8,14 +9,14 @@ public class Imagen extends Publicacion implements Filtrable {
 	private float duracion;
 	private static float DURACION_GENERICA = 2; // [Segundos]
 	private EnumTipoFiltro filtro;
-	
+
 	public Imagen(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int ancho, int alto) {
 		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.IMAGEN);
 		this.resolucion = resolucion;
 		this.ancho = ancho;
 		this.alto = alto;
 		this.duracion = DURACION_GENERICA;
-		this.filtro = EnumTipoFiltro.SIN_FILTRO; 
+		this.filtro = EnumTipoFiltro.SIN_FILTRO;
 	}
 
 	public String getResolucion() {
@@ -44,19 +45,18 @@ public class Imagen extends Publicacion implements Filtrable {
 
 	@Override
 	public String toString() {
-	    return "Imagen{" +
-	        super.toString() +
-	        ", Resolucion=" + resolucion +", Ancho=" + ancho +", Alto=" + alto+
-	        '}';
+		return "Imagen{" + super.toString() + ", Resolucion=" + resolucion + ", Ancho=" + ancho + ", Alto=" + alto
+				+ '}';
 	}
-	
+
 	public void reproducir() {
-		
+
 	}
-	
+
 	public void aplicarFiltro(EnumTipoFiltro filtro) {
-		this.filtro = filtro; 
+		this.filtro = filtro;
 	}
+
 	public EnumTipoFiltro getFiltro() {
 		return filtro;
 	}
@@ -64,7 +64,5 @@ public class Imagen extends Publicacion implements Filtrable {
 	public float getDuracion() {
 		return duracion;
 	}
-	
-	
-	
+
 }
