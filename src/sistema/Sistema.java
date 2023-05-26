@@ -18,10 +18,9 @@ public class Sistema {
 		perfil.cargarPublicaciones();
 		
 		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
-		//generarReportePublicacionEnPantalla(listaReportes);
 		generarReportePublicacionEnArchivo(listaReportes);
 		
-		LocalDate inicio=LocalDate.parse("2023-05-01");
+		/*LocalDate inicio=LocalDate.parse("2023-05-01");
         LocalDate fin=LocalDate.parse("2023-05-02");
 
         List<ReporteAlbum> listaReportesAlbumes=perfil.listadoDeAlbumes(inicio,fin);
@@ -30,7 +29,7 @@ public class Sistema {
         for(ReporteAlbum reportes:listaReportesAlbumes) {
         	System.out.println("Album: "+reportes.getNombreAlbum()+" Cantidad de publicaciones: "+
         	reportes.getCantidadPublicaciones()+" Cantidad de comentarios: "+reportes.getCantidadComentarios());
-        }
+        }*/
         
     	EventQueue.invokeLater(new Runnable() {
             public void run() {
