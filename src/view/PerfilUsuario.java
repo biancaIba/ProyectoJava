@@ -26,7 +26,6 @@ public class PerfilUsuario extends JFrame {
 
 	public PerfilUsuario() {
 		perfilInstagram = PerfilInstagram.getInstance();
-		publicacionesSeleccionadas = new ArrayList<>();
 
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -40,9 +39,20 @@ public class PerfilUsuario extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 
-		menuTop();
 		perfilInstagram.cargarPublicaciones();
+		menuTop();
 		pantallaPrincipal();
+
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				int confirma = JOptionPane.showConfirmDialog(null, "¿Desea guardar los cambios?", "Guardar cambios",
+						JOptionPane.YES_NO_OPTION);
+				if (confirma == JOptionPane.YES_OPTION) {
+					Sistema.serializa();
+				}
+			}
+		});
 	}
 
 	public void menuTop() {
@@ -60,7 +70,6 @@ public class PerfilUsuario extends JFrame {
 
 		menuPrincipal.add(menuTOPalbumes());
 		menuPrincipal.add(menuTOPreportes());
-		menuPrincipal.add(menuTOPopciones());
 		menuPrincipal.add(menuTOPestadisticas());
 
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -80,7 +89,7 @@ public class PerfilUsuario extends JFrame {
 						"Crear Álbum", JOptionPane.PLAIN_MESSAGE);
 				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
 					Album nuevoAlbum = new Album(nombreAlbum);
-					PerfilInstagram.getInstance().addAlbum(nuevoAlbum);
+					perfilInstagram.addAlbum(nuevoAlbum);
 					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
 				}
 			}
@@ -249,23 +258,6 @@ public class PerfilUsuario extends JFrame {
 		return albumes;
 	}
 
-	public JMenu menuTOPopciones() {
-		JMenu opciones = new JMenu("Opciones");
-		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
-
-		JMenuItem cargaDatos = new JMenuItem("Cargar datos desde XML");
-		cargaDatos.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				perfilInstagram.cargarPublicaciones();
-				JOptionPane.showMessageDialog(null, "Los datos fueron agregados con éxito");
-				pantallaPrincipal();
-			}
-		});
-
-		opciones.add(cargaDatos);
-		return opciones;
-	}
-
 	public JMenu menuTOPreportes() {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
@@ -356,8 +348,7 @@ public class PerfilUsuario extends JFrame {
 				try {
 					estadisticasPanel.setHistogramData(data, labels);
 				} catch (SinDatosException e1) {
-					JOptionPane.showMessageDialog(null, "No hay datos.", "Error",
-							JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "No hay datos.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				ventanaHistograma.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
 				ventanaHistograma.setVisible(true);
