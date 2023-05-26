@@ -25,7 +25,6 @@ public class PerfilUsuario extends JFrame {
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
 	private float duracionReproduccion;
-	//Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
 	Set<Publicacion> publicacionesSeleccionadas; 
 	private float duracionReproduccionTotal = 0;
 	private JPanel listaSeleccionadasPanel;
@@ -428,18 +427,15 @@ public class PerfilUsuario extends JFrame {
 			botonReproducir.addActionListener(new ActionListener() {
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
-					JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
-					JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
-					if (duracionReproduccionTotal > 0) {
-						String[] opciones = {"Cantidad de MG", "Cantidad de comentarios", "Fecha de subida"};
-				        int eleccion = JOptionPane.showOptionDialog(null,
-				        	"Elija un orden para la reproducción", "Orden de Reproducción",
-				            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-				            opciones, opciones[0]
-				        );
-						Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
-						ventanaReproduccion.setVisible(true);
-					}
+						
+			    	JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
+			    	ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			    	ventanaReproduccion.setSize(700, 600);
+		            
+			    	Reproduccion panelReproduccion = new Reproduccion(publicacionesSeleccionadas);
+			    	ventanaReproduccion.setContentPane(panelReproduccion);
+		            
+		            ventanaReproduccion.setVisible(true);
 			    }
 			});
 			tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
