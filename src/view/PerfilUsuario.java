@@ -13,7 +13,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
-
 import javax.swing.border.EmptyBorder;
 import exception.*;
 import java.util.*;
@@ -25,7 +24,6 @@ public class PerfilUsuario extends JFrame {
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
 	private float duracionReproduccion;
-	//Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
 	List<Publicacion> publicacionesSeleccionadas; 
 	private float duracionReproduccionTotal = 0;
 	private JPanel listaSeleccionadasPanel;
@@ -33,7 +31,7 @@ public class PerfilUsuario extends JFrame {
 
 	public PerfilUsuario() {
 		perfilInstagram = PerfilInstagram.getInstance();
-		publicacionesSeleccionadas = new ArrayList<>();
+		publicacionesSeleccionadas = new TreeSet<>();
 		
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -99,7 +97,7 @@ public class PerfilUsuario extends JFrame {
 
 		JMenuItem gestionaAlbum = new JMenu("Gestionar álbumes");
 
-		/*JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
+		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
 		gaAgregaPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame();
@@ -127,16 +125,9 @@ public class PerfilUsuario extends JFrame {
 					}
 				}
 			}
-		});*/
+		});		
 		
-		
-		
-		
-		
-		
-		
-		
-		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
+		/*JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
 		gaAgregaPubli.addActionListener(new ActionListener() {
 		    public void actionPerformed(ActionEvent e) {
 		        JFrame frame = new JFrame();
@@ -171,26 +162,7 @@ public class PerfilUsuario extends JFrame {
 		        }
 		    }
 		});
-		gestionaAlbum.add(gaAgregaPubli);
-
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
-		
+		gestionaAlbum.add(gaAgregaPubli);*/
 		
 		gestionaAlbum.add(gaAgregaPubli);
 
@@ -520,6 +492,7 @@ public class PerfilUsuario extends JFrame {
 			botonReproducir.addActionListener(new ActionListener() {
 			    @Override
 			    public void actionPerformed(ActionEvent e) {
+
 					JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
 					JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
 					if (duracionReproduccionTotal > 0) {
@@ -529,9 +502,43 @@ public class PerfilUsuario extends JFrame {
 				            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
 				            opciones, opciones[0]
 				        );
-						Reproduccion ventanaReproduccion = new Reproduccion(eleccion, publicacionesSeleccionadas);
-						ventanaReproduccion.setVisible(true);
 					}
+            
+          if (opcion==0) {
+	            // ordenar lista por nombre
+	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+	                @Override
+	                public int compare(Publicacion p1, Publicacion p2) {
+	                    return p1.getNombrePublicacion().compareToIgnoreCase(p2.getNombrePublicacion());
+	                }
+	            });
+	        } else if (opcion ==1) {
+	            // ordenar lista por fecha
+	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+	                @Override
+	                public int compare(Publicacion p1, Publicacion p2) {
+	                    return p1.getFechaSubida().compareTo(p2.getFechaSubida());
+	                }
+	            });
+	        } else if(opcion==2){
+	            // ordenar lista por cantidad de mg
+	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+	                @Override
+	                public int compare(Publicacion p1, Publicacion p2) {
+	                    return Integer.compare(p1.getCantMG(), p2.getCantMG());
+	                }
+	            });
+	        }
+						
+			    	JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
+			    	ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+			    	ventanaReproduccion.setSize(700, 600);
+		            
+			    	Reproduccion panelReproduccion = new Reproduccion(publicacionesSeleccionadas);
+			    	ventanaReproduccion.setContentPane(panelReproduccion);
+		            
+		            ventanaReproduccion.setVisible(true);
+
 			    }
 			});
 			tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);

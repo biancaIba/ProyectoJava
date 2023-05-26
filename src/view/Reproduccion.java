@@ -3,162 +3,190 @@ import model.*;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import java.util.TimerTask;
-import java.util.Timer;
+import javax.swing.Timer;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
-import model.EnumTipoPublicacion;
-import model.PerfilInstagram;
-import model.Publicacion;
+import javax.swing.JProgressBar;
 
-public class Reproduccion extends JDialog {
-
-	private final JPanel contentPanel = new JPanel();
-	private static PerfilInstagram perfil;
-
-	public Reproduccion(int opcion, List<Publicacion> publicacionesSeleccionadas) {
+public class Reproduccion extends JPanel {
+	
+	private JPanel listaSeleccionadasPanel;
+	private JLabel lblTiempoTotalValor;
+	private JPanel panelInformacion;
+	private JPanel panelLateral;
+	private Set<Publicacion> publicacionesSeleccionadas;
+	private double tiempoTotal;
+	JProgressBar progressBar;
+	
+	public Reproduccion(Set<Publicacion> publicacionesSeleccionadas) {
+		super();
+		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		setLayout(new BorderLayout(15, 0));
+		this.publicacionesSeleccionadas = publicacionesSeleccionadas;
 		
-		perfil = PerfilInstagram.getInstance();
+		panelLateral = instanciarListaReproduccion();	
+		add(panelLateral, BorderLayout.WEST);
 		
-		setResizable(false);
-		setTitle("Reproducción");
-		setAlwaysOnTop(true);
-		setBackground(Color.LIGHT_GRAY);
-		getContentPane().setBackground(Color.WHITE);
-		setSize(1000, 600);
-		setLocationRelativeTo(null);
-		getContentPane().setLayout(new BorderLayout());
-		contentPanel.setBackground(Color.LIGHT_GRAY);
-		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		getContentPane().add(contentPanel, BorderLayout.CENTER);
-		contentPanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		panelInformacion = new JPanel();
+		add(panelInformacion, BorderLayout.CENTER);
+		panelInformacion.setLayout(new GridLayout(3, 1, 0, 0));
 		
-		{
-			// Los criterios de ordenacion pueden modificarse por cualquier otro
-	        if (opcion==0) {
-	            // ordenar lista por nombre
-	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
-	                @Override
-	                public int compare(Publicacion p1, Publicacion p2) {
-	                    return p1.getNombrePublicacion().compareToIgnoreCase(p2.getNombrePublicacion());
-	                }
-	            });
-	        } else if (opcion ==1) {
-	            // ordenar lista por fecha
-	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
-	                @Override
-	                public int compare(Publicacion p1, Publicacion p2) {
-	                    return p1.getFechaSubida().compareTo(p2.getFechaSubida());
-	                }
-	            });
-	        } else if(opcion==2){
-	            // ordenar lista por cantidad de mg
-	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
-	                @Override
-	                public int compare(Publicacion p1, Publicacion p2) {
-	                    return Integer.compare(p1.getCantMG(), p2.getCantMG());
-	                }
-	            });
-	        }
-			
-			int duracionMostrarPublicacion = 5000; // se puso asi para probar
-			// se reemplazaria con el tiempo de cada publi
-			
-			for (Publicacion p : publicacionesSeleccionadas) {
-				//prueba para chequear q se ordenan correctamente las publicaciones
-			    System.out.println(p.getNombrePublicacion());
-			
+		cargarListaReproduccion(publicacionesSeleccionadas);
+		cargarPanelDeInformacion(publicacionesSeleccionadas);
+		cargarTiempoTotalInicial();
+		renderizarTiempoTotal();
+	}
 
-				
-				// se deberia mostrar un texto con el nombre de la publicacion
-				
-				//JLabel nombrePublicacion = new JLabel(p.getNombrePublicacion());
-				//nombrePublicacion.setVisible(false);
-				
-				// Configura un timer: 
-				/*System.out.print("\n\n\n\n\n\n\n\n\n\n"); // limpia la consola
-			    Timer timer = new Timer();
-			    timer.schedule(new TimerTask() {
-			        @Override
-			        public void run() {
-			        	//nombrePublicacion.setVisible(true);
-			        	System.out.println(p.getNombrePublicacion());
-			            timer.cancel();
-			        }
-			    }, duracionMostrarPublicacion);*/
-			    
-				// esto esta comentado porque depende de la implementacion de los metodos de avanzar/detener
-			    // y de la utilizacion de instaceof (que en teoria viola los principios de la POO)
-				/**EnumTipoPublicacion tipoPublicacion = p.getTipoPublicacion();
-				if (tipoPublicacion == EnumTipoPublicacion.AUDIO) {
-					Audio a = (Audio) p;
-					//a.avanzar();
-				} else if (tipoPublicacion == EnumTipoPublicacion.VIDEO) {
-					Video v = (Video) p;
-					//v.avanzar();
-				} else {
-					
-				}*/
-			    
-			    //contentPanel.add(nombrePublicacion);
-			}
 
-		}
+	public JPanel instanciarListaReproduccion() {
+		
+		JPanel panelLateral = new JPanel();
+		panelLateral.setBackground(Color.WHITE);
+		panelLateral.setLayout(new BorderLayout());
+
+		JLabel tituloLabel = new JLabel("Lista de reproducción");
+		tituloLabel.setFont(new Font("Open Sans", Font.BOLD, 14));
+		tituloLabel.setForeground(Color.WHITE);
+		tituloLabel.setHorizontalAlignment(JLabel.CENTER);
+		panelLateral.add(tituloLabel, BorderLayout.NORTH);
+		panelLateral.setBackground(Color.GRAY);
+
+		JPanel tiempoReproduccionPanel = new JPanel();
+		tiempoReproduccionPanel.setBackground(Color.WHITE);
+		tiempoReproduccionPanel.setLayout(new BorderLayout());
+
+		JLabel lblTiempoTotal = new JLabel("Tiempo de reproducción total: ");
+		lblTiempoTotal.setFont(new Font("Arial", Font.PLAIN, 12));
+		tiempoReproduccionPanel.add(lblTiempoTotal, BorderLayout.WEST);
+
+		lblTiempoTotalValor = new JLabel("00:00:00");
+		lblTiempoTotalValor.setFont(new Font("Arial", Font.PLAIN, 12));
+		tiempoReproduccionPanel.add(lblTiempoTotalValor, BorderLayout.CENTER);
+		panelLateral.add(tiempoReproduccionPanel, BorderLayout.SOUTH);
+		
+		progressBar = new JProgressBar();
+		tiempoReproduccionPanel.add(progressBar, BorderLayout.SOUTH);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+		
+		listaSeleccionadasPanel = new JPanel();
+		listaSeleccionadasPanel.setBackground(Color.LIGHT_GRAY);
+		listaSeleccionadasPanel.setLayout(new BoxLayout(listaSeleccionadasPanel, BoxLayout.Y_AXIS));
+
+		scrollPane.setViewportView(listaSeleccionadasPanel);
+		panelLateral.add(scrollPane, BorderLayout.CENTER);
+		return panelLateral;
 	
 	}
+	
+	public void cargarListaReproduccion(Set<Publicacion> publicacionesSeleccionadas) {
 		
-		/**{
-			JLabel lblSeleccionaPubli = new JLabel("Selecciona las publicaciones: ");
-			contentPanel.add(lblSeleccionaPubli);
+		Iterator<Publicacion> iterador = publicacionesSeleccionadas.iterator();
+		while (iterador.hasNext()) {
+			Publicacion publicacion = iterador.next();
+			JPanel itemPanel = new JPanel();
+			itemPanel.setBackground(Color.WHITE);
+	
+			// restricciones del GridBagConstraints
+			GridBagConstraints gbc = new GridBagConstraints();
+			gbc.gridx = 0; 
+			gbc.gridy = GridBagConstraints.RELATIVE; 
+			gbc.weightx = 1.0; // 
+			gbc.insets = new Insets(5,5,5,5); 
+	
+			JLabel nombrePublicacion = new JLabel (publicacion.getNombrePublicacion());
+			nombrePublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
+			nombrePublicacion.setBackground(Color.BLACK);
+			itemPanel.add(nombrePublicacion);
+			
+			listaSeleccionadasPanel.add(itemPanel, gbc);	
+			
 		}
-		{
-			DefaultListModel<String> modelo = new DefaultListModel<>();
-			try {
-				Set<String> nombresP = perfil.getNombresPublicaciones();
-				for (String nombre : nombresP) {
-		            modelo.addElement(nombre);
-		        }
-				JList<String> listaP = new JList<>(modelo);
-				listaP.setSelectionMode(ListSelectionModel.MULTIPLE_INTERVAL_SELECTION);
-				contentPanel.add(listaP);
-				contentPanel.add(new JScrollPane(listaP));
-			} catch (SinDatosException e) {
-				JOptionPane.showMessageDialog(null, "No hay datos para filtrar.");
-				dispose();
-			}
-		}
-		{
-			JPanel buttonPane = new JPanel();
-			buttonPane.setBackground(Color.DARK_GRAY);
-			buttonPane.setLayout(new FlowLayout(FlowLayout.RIGHT));
-			getContentPane().add(buttonPane, BorderLayout.SOUTH);
-			{
-				JButton btnReproducir = new JButton("Reproducir");
-				btnReproducir.setActionCommand("Reproducir");
-				buttonPane.add(btnReproducir);
-			}
-			{
-				JButton btnSalir = new JButton("Salir");
-				btnSalir.setActionCommand("Salir");
-				buttonPane.add(btnSalir);
-				getRootPane().setDefaultButton(btnSalir);
-				btnSalir.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						dispose();
+	}
+	
+	
+	public void cargarPanelDeInformacion(Set<Publicacion> publicacionesSeleccionadas) {
+		Iterator<Publicacion> iterador = publicacionesSeleccionadas.iterator();
+		if (iterador.hasNext()) {
+			Publicacion _publicacion = iterador.next();
+			renderizarPanelesDeInformacion(_publicacion);
+            
+			Timer timer = new Timer(1000, new ActionListener() {
+				float duracionParcial = 0;
+				Publicacion publicacion = _publicacion;
+				@Override
+			    public void actionPerformed(ActionEvent e) {
+					duracionParcial++;
+					progressBar.setValue(progressBar.getValue() + 1); 
+					disminuirTiempoTotal();
+					renderizarTiempoTotal();
+					if(duracionParcial == publicacion.getDuracion()) {
+						if (iterador.hasNext()) {
+			                panelInformacion.removeAll();
+			                publicacion = iterador.next();
+			                renderizarPanelesDeInformacion(publicacion);
+			                panelInformacion.revalidate();
+			                panelInformacion.repaint();
+			                duracionParcial = 0;
+			                
+		            	} else {
+		            		((Timer) e.getSource()).stop();
+		            		JOptionPane.showMessageDialog(null, "La reproducción ha finalizado");
+		            	}
 					}
-				});
-			}
-		}**/
-	
-	
+				}
+			});
+	        timer.start();
+		}
+	}
+		
 
-
+	public void  cargarTiempoTotalInicial() {
+		tiempoTotal = publicacionesSeleccionadas.stream().mapToDouble(publicacion -> publicacion.getDuracion()).sum();
+		progressBar.setMinimum(0);
+        progressBar.setMaximum((int)tiempoTotal);
+	}
+	
+	public void  disminuirTiempoTotal() {
+		tiempoTotal-=1.0;
+	}
+	
+	public void renderizarTiempoTotal() {
+		int horas = (int) (tiempoTotal / 3600);
+        int minutos = (int) ((tiempoTotal % 3600) / 60);
+        int segundos = (int) (tiempoTotal % 60);
+        String duracionFormateada = String.format("%02d:%02d:%02d", horas, minutos, segundos);
+        lblTiempoTotalValor.setText(duracionFormateada);
+	}
+	
+	public void renderizarPanelesDeInformacion(Publicacion publicacion) {
+		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
+            panelInformacion.add(new PanelReproduccionDuracion((Durable) publicacion));
+        }
+        if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
+            panelInformacion.add(new PanelReproduccionFiltros((Filtrable) publicacion));
+        }
+	}
+	
 }
