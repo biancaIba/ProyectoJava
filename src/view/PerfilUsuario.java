@@ -18,6 +18,7 @@ import java.util.List;
 
 public class PerfilUsuario extends JFrame {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
 	List<Publicacion> publicacionesSeleccionadas;
@@ -26,7 +27,6 @@ public class PerfilUsuario extends JFrame {
 
 	public PerfilUsuario(PerfilInstagram perfil) {
 		perfilInstagram = perfil;
-		//perfilInstagram = PerfilInstagram.getInstance();
 
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -40,9 +40,18 @@ public class PerfilUsuario extends JFrame {
 		contentPane.setBorder(new EmptyBorder(0, 0, 0, 0));
 		setContentPane(contentPane);
 
-		perfilInstagram.cargarPublicaciones();
 		menuTop();
 		pantallaPrincipal();
+		
+		File datos = new File("Perfil.ser");
+		if (!datos.exists()) {
+			String nombrePerfil = JOptionPane.showInputDialog(null, "Ingrese el nombre del Perfil",
+					"Nombre del Perfil", JOptionPane.PLAIN_MESSAGE);
+			if (nombrePerfil == null || nombrePerfil.isEmpty())
+				System.exit(0);
+			else
+				perfilInstagram.setNombrePerfil(nombrePerfil);
+		}
 
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -523,6 +532,8 @@ public class PerfilUsuario extends JFrame {
 					public void actionPerformed(ActionEvent e) {
 						if (cBox.isSelected()) {
 
+							ArrayList<Publicacion> publicacionesSeleccionadas = new ArrayList<>();
+							
 							publicacionesSeleccionadas.add(publicacion);
 							final float[] duracionActual = { publicacion.getDuracion() };
 							duracionReproduccionTotal += duracionActual[0];

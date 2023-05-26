@@ -12,12 +12,9 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.time.LocalDate;
+//import java.time.LocalDate;
 import java.util.List;
-
-import model.Album;
 import model.PerfilInstagram;
-import model.Publicacion;
 import reports.ReportePublicacion;
 import reports.*;
 
@@ -36,7 +33,7 @@ public class Sistema {
 			perfil.cargarPublicaciones();
 		}
 
-		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
+		/*List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
 		generarReportePublicacionEnArchivo(listaReportes);
 
 		LocalDate inicio = LocalDate.parse("2023-05-01");
@@ -49,7 +46,7 @@ public class Sistema {
 			System.out.println("Album: " + reportes.getNombreAlbum() + " Cantidad de publicaciones: "
 					+ reportes.getCantidadPublicaciones() + " Cantidad de comentarios: "
 					+ reportes.getCantidadComentarios());
-		}
+		}*/
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
