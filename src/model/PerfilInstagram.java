@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 import exception.*;
 
 public class PerfilInstagram implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+	
 	/**
 	 * Uso de Modelo Singleton
 	 */
 
-	String nombrePerfil; // BUSCAR COMO PONER EL NOMBRE (SETEAR O SOBRECARGAR GETINSTACE)
+	String nombrePerfil;
+	private static final long serialVersionUID = 1L;
 	private static PerfilInstagram perfil;
 	private Set<Publicacion> listaPublicaciones;
 	private List<Album> listaAlbumes;
@@ -26,14 +26,16 @@ public class PerfilInstagram implements Serializable {
 	private PerfilInstagram() {
 		this.listaPublicaciones = new TreeSet<Publicacion>();
 		this.listaAlbumes = new ArrayList<Album>();
-		System.out.println("Genera constructor perfil.");
 	}
 
 	public static PerfilInstagram getInstance() {
 		if (perfil == null)
 			perfil = new PerfilInstagram();
-		System.out.println("Genera perfil.");
 		return perfil;
+	}
+	
+	public void setNombrePerfil(String nombre) {
+		this.nombrePerfil = nombre;
 	}
 
 	public void cargarPublicaciones() {
