@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import model.Album;
 import model.PerfilInstagram;
 import reports.ReporteAlbum;
 import utils.AssetsUtils;
@@ -53,7 +54,8 @@ public class ReporteAlbumes extends JDialog {
     }
 
     private void renderizarTabla() {
-        String[] columnNames = { "Nombre", "Cantidad de Publicaciones", "Cantidad de Comentarios" };
+        String[] columnNames = { "Nombre", "Cantidad de Publicaciones", "Cantidad de Comentarios",
+        		"Cantidad de subAlbumes"};
         // Crear un DefaultTableModel con los datos y nombres de columnas
         model = new DefaultTableModel(null, columnNames);
         // Crear un JTable con el DefaultTableModel
@@ -110,10 +112,20 @@ public class ReporteAlbumes extends JDialog {
         		throw new IllegalArgumentException();
         	}
         	perfilInstagram = PerfilInstagram.getInstance();
+
             List<ReporteAlbum> listadoDeAlbumes = perfilInstagram.listadoDeAlbumes(fechaInicio, fechaFin);
+            
             model.setRowCount(0);
             for (ReporteAlbum album : listadoDeAlbumes) {
-                model.addRow(new Object[] { album.getNombreAlbum(),album.getCantidadPublicaciones(), album.getCantidadComentarios() });
+            	List<Album> listaSubAlbumes = album.getListaSubAlbumes();
+                model.addRow(new Object[] { album.getNombreAlbum(),album.getCantidadPublicaciones(), album.getCantidadComentarios()
+                		, album.getListaSubAlbumes()});
+
+                for (Album subAlbum : listaSubAlbumes) {
+                    //Agregar una fila nuev para cada subalbum
+                    model.addRow(new Object[]{subAlbum.getNombreAlbum(), 0, 0, null});
+                }
+
             }
     	} catch (DateTimeParseException e) {
     		JOptionPane.showMessageDialog(null, "El formato de la fecha es incorrecto");

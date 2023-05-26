@@ -12,7 +12,6 @@ public class Album implements Serializable {
 	private ArrayList<Publicacion> listaPublicaciones;
 	public Album(String nombreAlbum) {
 		this.nombreAlbum = nombreAlbum;
-		// creo una lista vacia de subAlbumes cuando creo el obj Album
 		this.sublistaAlbumes = new ArrayList<Album>();
 		this.listaPublicaciones=new ArrayList<Publicacion>();
 	}
@@ -96,5 +95,22 @@ public class Album implements Serializable {
 		boolean borrado = listaPublicaciones.remove(publicacion);
 		if (!borrado)
 			throw new PublicacionNoEncontradaException("Publicacion no encontrada") ;
+	}
+	public void agregarSubAlbum(Album nuevoSubAlbum) {
+		if(nuevoSubAlbum!=null) {
+			sublistaAlbumes.add(nuevoSubAlbum);
+		}
+	}
+
+	public void eliminarSubAlbum(Album subAlbumAEliminar) throws AlbumNoEncontradoException {
+		// elimina album de la lista de albumes
+		int subAlbumAEliminarIndice = sublistaAlbumes.indexOf(subAlbumAEliminar);
+		if (subAlbumAEliminarIndice == -1) {
+			throw new AlbumNoEncontradoException("SubAlbum no encontrado");
+		} else {
+			Album album = sublistaAlbumes.get(subAlbumAEliminarIndice);
+			album.desasociarReferenciasAPublicaciones();
+			sublistaAlbumes.remove(subAlbumAEliminar);
+		}
 	}
 }

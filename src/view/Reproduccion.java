@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.TimerTask;
@@ -22,7 +24,7 @@ public class Reproduccion extends JDialog {
 	private final JPanel contentPanel = new JPanel();
 	private static PerfilInstagram perfil;
 
-	public Reproduccion(int opcion, Set<Publicacion> publicacionesSeleccionadas) {
+	public Reproduccion(int opcion, List<Publicacion> publicacionesSeleccionadas) {
 		
 		perfil = PerfilInstagram.getInstance();
 		
@@ -41,18 +43,40 @@ public class Reproduccion extends JDialog {
 		
 		{
 			// Los criterios de ordenacion pueden modificarse por cualquier otro
-			if (opcion == 1) {
-				// ordenar lista por cantidad de MG
-			} else if (opcion == 2) {
-				// ordenar lista por cantidad de comentarios
-			} else {
-				// ordenar lista por Fechas
-			}
+	        if (opcion==0) {
+	            // ordenar lista por nombre
+	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+	                @Override
+	                public int compare(Publicacion p1, Publicacion p2) {
+	                    return p1.getNombrePublicacion().compareToIgnoreCase(p2.getNombrePublicacion());
+	                }
+	            });
+	        } else if (opcion ==1) {
+	            // ordenar lista por fecha
+	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+	                @Override
+	                public int compare(Publicacion p1, Publicacion p2) {
+	                    return p1.getFechaSubida().compareTo(p2.getFechaSubida());
+	                }
+	            });
+	        } else if(opcion==2){
+	            // ordenar lista por cantidad de mg
+	            Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+	                @Override
+	                public int compare(Publicacion p1, Publicacion p2) {
+	                    return Integer.compare(p1.getCantMG(), p2.getCantMG());
+	                }
+	            });
+	        }
 			
 			int duracionMostrarPublicacion = 5000; // se puso asi para probar
 			// se reemplazaria con el tiempo de cada publi
 			
 			for (Publicacion p : publicacionesSeleccionadas) {
+				//prueba para chequear q se ordenan correctamente las publicaciones
+			    System.out.println(p.getNombrePublicacion());
+			
+
 				
 				// se deberia mostrar un texto con el nombre de la publicacion
 				
@@ -60,7 +84,7 @@ public class Reproduccion extends JDialog {
 				//nombrePublicacion.setVisible(false);
 				
 				// Configura un timer: 
-				System.out.print("\n\n\n\n\n\n\n\n\n\n"); // limpia la consola
+				/*System.out.print("\n\n\n\n\n\n\n\n\n\n"); // limpia la consola
 			    Timer timer = new Timer();
 			    timer.schedule(new TimerTask() {
 			        @Override
@@ -69,7 +93,7 @@ public class Reproduccion extends JDialog {
 			        	System.out.println(p.getNombrePublicacion());
 			            timer.cancel();
 			        }
-			    }, duracionMostrarPublicacion);
+			    }, duracionMostrarPublicacion);*/
 			    
 				// esto esta comentado porque depende de la implementacion de los metodos de avanzar/detener
 			    // y de la utilizacion de instaceof (que en teoria viola los principios de la POO)
@@ -133,5 +157,8 @@ public class Reproduccion extends JDialog {
 				});
 			}
 		}**/
+	
+	
+
 
 }

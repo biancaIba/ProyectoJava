@@ -26,14 +26,14 @@ public class PerfilUsuario extends JFrame {
 	private static PerfilInstagram perfilInstagram;
 	private float duracionReproduccion;
 	//Map<String, PublicacionReproduccion> publicacionesSeleccionadas;
-	Set<Publicacion> publicacionesSeleccionadas; 
+	List<Publicacion> publicacionesSeleccionadas; 
 	private float duracionReproduccionTotal = 0;
 	private JPanel listaSeleccionadasPanel;
 	JLabel informacionLabel;
 
 	public PerfilUsuario() {
 		perfilInstagram = PerfilInstagram.getInstance();
-		publicacionesSeleccionadas = new TreeSet<>();
+		publicacionesSeleccionadas = new ArrayList<>();
 		
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -99,7 +99,7 @@ public class PerfilUsuario extends JFrame {
 
 		JMenuItem gestionaAlbum = new JMenu("Gestionar álbumes");
 
-		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
+		/*JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
 		gaAgregaPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame frame = new JFrame();
@@ -127,7 +127,71 @@ public class PerfilUsuario extends JFrame {
 					}
 				}
 			}
+		});*/
+		
+		
+		
+		
+		
+		
+		
+		
+		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
+		gaAgregaPubli.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        JFrame frame = new JFrame();
+		        frame.setAlwaysOnTop(true);
+		        String nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum", "Ingresar Album",
+		                JOptionPane.PLAIN_MESSAGE);
+		        if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
+		            try {
+		                Album album = perfilInstagram.buscaAlbum(nombreAlbum);
+		                if (album != null) {
+		                    String nombrePubli = JOptionPane.showInputDialog(null, "Ingrese el nombre de la Publicación",
+		                            "Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
+		                    if (nombrePubli != null && !nombrePubli.isEmpty()) {
+		                        try {
+		                            Publicacion publicacion = perfilInstagram.buscaPubli(nombrePubli);
+		                            if (publicacion != null) {
+		                                perfilInstagram.addPubliDentroAlbum(album, publicacion);
+		                                JOptionPane.showMessageDialog(null, "La publicación fue agregada con éxito");
+		                            } else {
+		                                JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+		                            }
+		                        } catch (PublicacionNoEncontradaException e1) {
+		                            JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+		                        }
+		                    }
+		                } else {
+		                    JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+		                }
+		            } catch (AlbumNoEncontradoException e1) {
+		                JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
+		            }
+		        }
+		    }
 		});
+		gestionaAlbum.add(gaAgregaPubli);
+
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		gestionaAlbum.add(gaAgregaPubli);
 
 		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación");
@@ -183,38 +247,66 @@ public class PerfilUsuario extends JFrame {
 
 		JMenuItem gaAgregaSubAlbum = new JMenuItem("Agregar un Sub Álbum");
 		gaAgregaSubAlbum.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Sub Álbum",
-						"Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
-				if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
-					String nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum Padre",
-							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
-					if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
-						// Aca deberia llamar a una funcion que agrega un subAlbum a la lista de
-						// subalbumes de ese album
-						// debe tener una exception en caso de que el album ingresado no exista
-					}
-				}
-			}
+		    public void actionPerformed(ActionEvent e) {
+		        String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Sub Álbum",
+		                "Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
+		        if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
+		            String nombreAlbumPadre = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum Padre",
+		                    "Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
+		            if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
+		                Album albumPadre = null;
+		                try {
+		                    albumPadre = PerfilInstagram.getInstance().buscaAlbum(nombreAlbumPadre);
+		                } catch (AlbumNoEncontradoException ex) {
+		                    ex.printStackTrace();
+		                }
+		                if (albumPadre != null) {
+		                    Album nuevoSubAlbum = new Album(nombreSubAlbum);
+		                    albumPadre.agregarSubAlbum(nuevoSubAlbum);
+		                    JOptionPane.showMessageDialog(null, "El subálbum fue agregado con éxito");
+		                } else {
+		                    JOptionPane.showMessageDialog(null, "No se encontró el álbum padre");
+		                }
+		            } else {
+		                JOptionPane.showMessageDialog(null, "Debe ingresar el nombre del Álbum Padre");
+		            }
+		        } else {
+		            JOptionPane.showMessageDialog(null, "Debe ingresar el nombre del Sub Álbum");
+		        }
+		    }
 		});
+
+
+
+
 		gestionaAlbum.add(gaAgregaSubAlbum);
 
 		JMenuItem gaEliminaSubAlbum = new JMenuItem("Eliminar un Sub Álbum");
-		gaAgregaSubAlbum.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Sub Álbum",
-						"Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
-				if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
-					String nombreAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum Padre",
-							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
-					if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
-						// Aca deberia llamar a una funcion que elimine un subAlbum a la lista de
-						// subalbumes de ese album
-						// debe tener una exception en caso de que el album ingresado no exista
-					}
-				}
-			}
+		gaEliminaSubAlbum.addActionListener(new ActionListener() {
+		    public void actionPerformed(ActionEvent e) {
+		        String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Sub Álbum a eliminar",
+		                "Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
+		        Album subAlbumAeliminar=new Album(nombreSubAlbum);
+		        if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
+		            String nombreAlbumPadre = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum Padre",
+		                    "Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
+		            if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
+		                try {
+		                    Album albumPadre = PerfilInstagram.getInstance().buscaAlbum(nombreAlbumPadre);
+		                    if (albumPadre != null) {
+		                        albumPadre.eliminarSubAlbum(subAlbumAeliminar);
+		                        JOptionPane.showMessageDialog(null, "El subálbum ha sido eliminado con éxito");
+		                    } else {
+		                        JOptionPane.showMessageDialog(null, "No se encontró el álbum padre");
+		                    }
+		                } catch (AlbumNoEncontradoException ex) {
+		                    JOptionPane.showMessageDialog(null, "No se encontró el álbum padre");
+		                }
+		            }
+		        }
+		    }
 		});
+
 		gestionaAlbum.add(gaEliminaSubAlbum);
 
 		JMenuItem eliminaAlbum = new JMenuItem("Eliminar álbum");
@@ -431,7 +523,7 @@ public class PerfilUsuario extends JFrame {
 					JOptionPane.showMessageDialog(null, "No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
 					JOptionPane.showMessageDialog(null, "El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
 					if (duracionReproduccionTotal > 0) {
-						String[] opciones = {"Cantidad de MG", "Cantidad de comentarios", "Fecha de subida"};
+						String[] opciones = {"Nombre", "Fecha", "Cantidad de MG"};
 				        int eleccion = JOptionPane.showOptionDialog(null,
 				        	"Elija un orden para la reproducción", "Orden de Reproducción",
 				            JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
