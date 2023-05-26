@@ -9,11 +9,12 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.swing.Timer;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -96,7 +97,7 @@ public class Reproduccion extends JPanel {
 		scrollPane.setViewportView(listaSeleccionadasPanel);
 		panelLateral.add(scrollPane, BorderLayout.CENTER);
 		return panelLateral;
-		
+	
 	}
 	
 	public void cargarListaReproduccion(Set<Publicacion> publicacionesSeleccionadas) {
@@ -160,6 +161,7 @@ public class Reproduccion extends JPanel {
 		}
 	}
 		
+
 	public void  cargarTiempoTotalInicial() {
 		tiempoTotal = publicacionesSeleccionadas.stream().mapToDouble(publicacion -> publicacion.getDuracion()).sum();
 		progressBar.setMinimum(0);

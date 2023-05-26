@@ -114,7 +114,7 @@ public abstract class Publicacion implements Comparable<Publicacion>,Serializabl
 	
 	@Override
     public int compareTo(Publicacion otraPublicacion) {
-        return this.nombrePublicacion.compareTo(otraPublicacion.nombrePublicacion);
+        return this.nombrePublicacion.compareToIgnoreCase(otraPublicacion.nombrePublicacion);
     }
 	
 	public void sacarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {

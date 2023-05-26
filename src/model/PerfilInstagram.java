@@ -86,16 +86,21 @@ public class PerfilInstagram implements Serializable {
 		if (nuevoAlbum != null)
 			listaAlbumes.add(nuevoAlbum);
 	}
-
+	
+	
+	//NUEVA
 	public Album buscaAlbum(String nombre) throws AlbumNoEncontradoException {
-		int i = 0;
-		while (i < listaAlbumes.size()) {
-			Album album = listaAlbumes.get(i);
-			if (album.getNombreAlbum().equalsIgnoreCase(nombre))
-				return album;
-			i++;
-		}
-		throw new AlbumNoEncontradoException("El álbum no se encuentra en la lista.");
+	    for (Album album : listaAlbumes) {
+	        if (album.getNombreAlbum().equals(nombre)) {
+	            return album;
+	        }
+	        for (Album subAlbum : album.getSublistaAlbumes()) {
+	            if (subAlbum.getNombreAlbum().equals(nombre)) {
+	                return subAlbum;
+	            }
+	        }
+	    }
+	    throw new AlbumNoEncontradoException("El álbum '" + nombre + "' no existe.");
 	}
 	
 	public Publicacion buscaPubli(String nombre) throws PublicacionNoEncontradaException{
@@ -217,16 +222,17 @@ public class PerfilInstagram implements Serializable {
 		for(Album album:listaAlbumes) {
 			String nombreAlbum=album.getNombreAlbum();
 			int contComentarios = 0;
+			List<Album> listaSubAlbumes=new ArrayList<>();
+			for (Album subAlbum : album.getSublistaAlbumes()) {
+	            listaSubAlbumes.add(subAlbum);
+	        }
 			ArrayList<Publicacion> publicaciones = (ArrayList<Publicacion>) album.getListaPublicaciones()
 					.stream()
 					.filter(publicacion -> DateUtils.estaFechaEnRango(inicio, fin, publicacion.getFechaSubida()))
 					.collect(Collectors.toList());
 			int contPublicaciones = publicaciones.size();
 			contComentarios = publicaciones.stream().mapToInt(publicacion -> publicacion.getCantidadDeComentarios()).sum();
-			/*for(Publicacion publicacion:publicaciones) {
-				contComentarios += publicacion.getCantidadDeComentarios();
-			}*/
-			ReporteAlbum reporte = new ReporteAlbum(nombreAlbum,contPublicaciones,contComentarios);
+			ReporteAlbum reporte = new ReporteAlbum(nombreAlbum,contPublicaciones,contComentarios,listaSubAlbumes);
 			listaReportesAlbumes.add(reporte);
 		}
 
