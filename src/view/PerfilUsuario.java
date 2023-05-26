@@ -24,8 +24,9 @@ public class PerfilUsuario extends JFrame {
 	private float duracionReproduccionTotal = 0;
 	JLabel informacionLabel;
 
-	public PerfilUsuario() {
-		perfilInstagram = PerfilInstagram.getInstance();
+	public PerfilUsuario(PerfilInstagram perfil) {
+		perfilInstagram = perfil;
+		//perfilInstagram = PerfilInstagram.getInstance();
 
 		setTitle("Perfil del Usuario");
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -190,7 +191,7 @@ public class PerfilUsuario extends JFrame {
 							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
 					if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
 						try {
-							Album albumPadre = PerfilInstagram.getInstance().buscaAlbum(nombreAlbumPadre);
+							Album albumPadre = perfilInstagram.buscaAlbum(nombreAlbumPadre);
 							Album nuevoSubAlbum = new Album(nombreSubAlbum);
 							albumPadre.agregarSubAlbum(nuevoSubAlbum);
 							JOptionPane.showMessageDialog(null, "El subálbum fue agregado con éxito");
@@ -301,7 +302,7 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem ReporteAlbumes = new JMenuItem("Reporte de Albumes");
 		ReporteAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				ReporteAlbumes ventanaReporteAlbumes = new ReporteAlbumes();
+				ReporteAlbumes ventanaReporteAlbumes = new ReporteAlbumes(perfilInstagram);
 				ventanaReporteAlbumes.setVisible(true);
 			}
 		});

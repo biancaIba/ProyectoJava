@@ -3,6 +3,8 @@ package model;
 import java.time.LocalDate;
 
 public class Imagen extends Publicacion implements Filtrable {
+
+	private static final long serialVersionUID = 1L;
 	private String resolucion;
 	private int ancho;
 	private int alto;

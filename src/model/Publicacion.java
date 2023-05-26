@@ -8,6 +8,8 @@ import java.io.Serializable;
 import java.time.LocalDate;
 
 public abstract class Publicacion implements Comparable<Publicacion>, Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private String nombrePublicacion;
 	private LocalDate fechaSubida;
 	private int cantMG;

@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import exception.DuracionInvalidaException;
 
 public class Video extends Publicacion implements Durable, Filtrable {
+
+	private static final long serialVersionUID = 1L;
 	private String resolucion;
 	private int cantCuadros;
 	private float duracion;
