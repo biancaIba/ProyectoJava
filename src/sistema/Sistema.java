@@ -14,7 +14,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 import java.util.List;
+
+import model.Album;
 import model.PerfilInstagram;
+import model.Publicacion;
 import reports.ReportePublicacion;
 import reports.*;
 
@@ -23,6 +26,7 @@ public class Sistema {
 	private static PerfilInstagram perfil;
 
 	public static void main(String[] args) {
+		
 		perfil = PerfilInstagram.getInstance();
 
 		File datos = new File("Perfil.ser");
@@ -49,7 +53,7 @@ public class Sistema {
 
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
-				PerfilUsuario interfaz = new PerfilUsuario();
+				PerfilUsuario interfaz = new PerfilUsuario(perfil);
 				interfaz.setVisible(true);
 			}
 		});
@@ -103,11 +107,14 @@ public class Sistema {
 	public static void serializa() {
 
 		File datos = new File("Perfil.ser");
-		if (datos.exists()) {
-			datos.delete();
-		}
-
-		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Perfil.ser"))) {
+        if (datos.exists()) {
+            datos.delete(); 
+        }
+        
+        ObjectOutputStream out;
+        
+		try {
+			out = new ObjectOutputStream(new FileOutputStream("Perfil.ser"));
 			out.writeObject(perfil);
 		} catch (NotSerializableException e) {
 			System.out.println("Un objeto no es serializable: " + e.getMessage());

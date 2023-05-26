@@ -4,35 +4,44 @@ import java.io.Serializable;
 import java.util.List;
 
 import model.Album;
-public class ReporteAlbum implements Serializable{
-    private String nombreAlbum;
-    private int cantidadPublicaciones;
-    private int cantidadComentarios;
-    private List<Album> listaSubAlbumes;
 
-	public ReporteAlbum(String nombreAlbum, int cantidadPublicaciones, int cantidadComentarios,List<Album> listaSubAlbumes) {
+public class ReporteAlbum implements Serializable {
+
+	private static final long serialVersionUID = 1L;
+	private String nombreAlbum;
+	private int cantidadPublicaciones;
+	private int cantidadComentarios;
+	private List<Album> listaSubAlbumes;
+
+	public ReporteAlbum(String nombreAlbum, int cantidadPublicaciones, int cantidadComentarios,
+			List<Album> listaSubAlbumes) {
 		super();
 		this.nombreAlbum = nombreAlbum;
 		this.cantidadPublicaciones = cantidadPublicaciones;
 		this.cantidadComentarios = cantidadComentarios;
-		this.listaSubAlbumes=listaSubAlbumes;
+		this.listaSubAlbumes = listaSubAlbumes;
 	}
 
 	public String getNombreAlbum() {
 		return nombreAlbum;
 	}
+
 	public void setNombreAlbum(String nombreAlbum) {
 		this.nombreAlbum = nombreAlbum;
 	}
+
 	public int getCantidadPublicaciones() {
 		return cantidadPublicaciones;
 	}
+
 	public void setCantidadPublicaciones(int cantidadPublicaciones) {
 		this.cantidadPublicaciones = cantidadPublicaciones;
 	}
+
 	public int getCantidadComentarios() {
 		return cantidadComentarios;
 	}
+
 	public void setCantidadComentarios(int cantidadComentarios) {
 		this.cantidadComentarios = cantidadComentarios;
 	}
@@ -44,6 +53,5 @@ public class ReporteAlbum implements Serializable{
 	public void setListaSubAlbumes(List<Album> listaSubAlbumes) {
 		this.listaSubAlbumes = listaSubAlbumes;
 	}
-	
 
 }

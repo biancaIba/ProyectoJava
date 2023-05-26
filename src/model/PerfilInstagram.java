@@ -13,6 +13,7 @@ import exception.*;
 
 public class PerfilInstagram implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Uso de Modelo Singleton
 	 */
@@ -25,11 +26,13 @@ public class PerfilInstagram implements Serializable {
 	private PerfilInstagram() {
 		this.listaPublicaciones = new TreeSet<Publicacion>();
 		this.listaAlbumes = new ArrayList<Album>();
+		System.out.println("Genera constructor perfil.");
 	}
 
 	public static PerfilInstagram getInstance() {
 		if (perfil == null)
 			perfil = new PerfilInstagram();
+		System.out.println("Genera perfil.");
 		return perfil;
 	}
 
@@ -71,13 +74,13 @@ public class PerfilInstagram implements Serializable {
 
 	public void addPublicacion(Publicacion publi) {
 		if (publi != null) {
-			listaPublicaciones.add(publi);
+			this.listaPublicaciones.add(publi);
 		}
 	}
 
 	public void addAlbum(Album nuevoAlbum) {
 		if (nuevoAlbum != null)
-			listaAlbumes.add(nuevoAlbum);
+			this.getListaAlbumes().add(nuevoAlbum);
 	}
 
 	// NUEVA

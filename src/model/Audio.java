@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import exception.DuracionInvalidaException;
 
 public class Audio extends Publicacion implements Durable {
+
+	private static final long serialVersionUID = 1L;
 	private int velocidadBits;
 	private float duracion;
 	private float inicio;
