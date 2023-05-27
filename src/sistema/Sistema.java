@@ -15,9 +15,9 @@ import java.io.ObjectOutputStream;
 import java.time.LocalDate;
 //import java.time.LocalDate;
 import java.util.List;
+
+import Reportes.*;
 import model.PerfilInstagram;
-import reports.ReportePublicacion;
-import reports.*;
 
 public class Sistema {
 

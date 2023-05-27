@@ -1,10 +1,10 @@
-package utils;
+package utilidades;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-public class DateUtils {
+public class FechaUtilidades {
 	
 	public static boolean estaFechaEnRango(LocalDate inicio, LocalDate fin, LocalDate fecha) {
 	    return (fecha.isEqual(inicio) || fecha.isAfter(inicio)) && (fecha.isEqual(fin) || fecha.isBefore(fin));

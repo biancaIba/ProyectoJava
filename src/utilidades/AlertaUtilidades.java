@@ -1,6 +1,6 @@
-package utils;
+package utilidades;
 
-public class AlertUtils {
+public class AlertaUtilidades {
 	public static void mostrarAdvertencia(String mensaje) {
 		String ANSI_YELLOW = "\u001B[33m";
 	    String ANSI_RESET = "\u001B[0m";

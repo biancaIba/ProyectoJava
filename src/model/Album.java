@@ -3,9 +3,9 @@ package model;
 import java.io.Serializable;
 import java.util.*;
 
-import exception.AlbumExistenteException;
-import exception.AlbumNoEncontradoException;
-import exception.PublicacionNoEncontradaException;
+import excepciones.AlbumExistenteExcepcion;
+import excepciones.AlbumNoEncontradoExcepcion;
+import excepciones.PublicacionNoEncontradaExcepcion;
 
 public class Album implements Serializable {
 
@@ -80,10 +80,10 @@ public class Album implements Serializable {
 	 * este album y tambien hace esta misma accion para todos los subalbumes
 	 * asociados.
 	 * 
-	 * @throws AlbumNoEncontradoException
+	 * @throws AlbumNoEncontradoExcepcion
 	 */
 
-	public void desasociarReferenciasAPublicaciones() throws AlbumNoEncontradoException {
+	public void desasociarReferenciasAPublicaciones() throws AlbumNoEncontradoExcepcion {
 		for (Publicacion publicacion : listaPublicaciones) {
 			publicacion.sacarAlbum(this);// elimina el album de publicacion--> listaAlbumesPertenece
 		}
@@ -112,15 +112,15 @@ public class Album implements Serializable {
 			listaPublicaciones.add(publicacion);
 	}
 
-	public void sacarPublicacion(Publicacion publicacion) throws PublicacionNoEncontradaException {
+	public void sacarPublicacion(Publicacion publicacion) throws PublicacionNoEncontradaExcepcion {
 		boolean borrado = listaPublicaciones.remove(publicacion);
 		if (!borrado)
-			throw new PublicacionNoEncontradaException("Publicacion no encontrada");
+			throw new PublicacionNoEncontradaExcepcion("Publicacion no encontrada");
 	}
 
-	public void agregarSubAlbum(Album nuevoSubAlbum)throws AlbumExistenteException {
+	public void agregarSubAlbum(Album nuevoSubAlbum)throws AlbumExistenteExcepcion {
 		if(sublistaAlbumes.contains(nuevoSubAlbum)) {
-			throw new AlbumExistenteException("El Subalbum ya existe");
+			throw new AlbumExistenteExcepcion("El Subalbum ya existe");
 		}
 		else {
 			sublistaAlbumes.add(nuevoSubAlbum);
@@ -128,10 +128,10 @@ public class Album implements Serializable {
 		}
 	}
 
-	public void desasociarSubAlbum(Album subAlbumAEliminar) throws AlbumNoEncontradoException {
+	public void desasociarSubAlbum(Album subAlbumAEliminar) throws AlbumNoEncontradoExcepcion {
 		int subAlbumAEliminarIndice = sublistaAlbumes.indexOf(subAlbumAEliminar);
 		if (subAlbumAEliminarIndice == -1) {
-			throw new AlbumNoEncontradoException("SubAlbum no encontrado");
+			throw new AlbumNoEncontradoExcepcion("SubAlbum no encontrado");
 		} else {
 			sublistaAlbumes.remove(subAlbumAEliminar);
 		}

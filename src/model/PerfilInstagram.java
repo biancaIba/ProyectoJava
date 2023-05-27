@@ -1,15 +1,16 @@
 package model;
 
 import parser.CargaXML;
-import reports.ReporteAlbum;
-import reports.ReportePublicacion;
-import utils.DateUtils;
+import utilidades.FechaUtilidades;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import exception.*;
+import Reportes.ReporteAlbum;
+import Reportes.ReportePublicacion;
+import excepciones.*;
 
 public class PerfilInstagram implements Serializable {
 	
@@ -56,9 +57,9 @@ public class PerfilInstagram implements Serializable {
 		this.listaAlbumes = listaAlbumes;
 	}
 
-	public Set<Publicacion> getPublicaciones() throws SinDatosException {
+	public Set<Publicacion> getPublicaciones() throws SinDatosExcepcion {
 		if (listaPublicaciones.isEmpty()) {
-			throw new SinDatosException("No hay datos.");
+			throw new SinDatosExcepcion("No hay datos.");
 		}
 		Set<String> nombres = new TreeSet<>();
 		for (Publicacion p : listaPublicaciones) {
@@ -67,9 +68,9 @@ public class PerfilInstagram implements Serializable {
 		return listaPublicaciones;
 	}
 
-	public Set<String> getNombresPublicaciones() throws SinDatosException {
+	public Set<String> getNombresPublicaciones() throws SinDatosExcepcion {
 		if (listaPublicaciones.isEmpty()) {
-			throw new SinDatosException("No hay datos.");
+			throw new SinDatosExcepcion("No hay datos.");
 		}
 		Set<String> nombres = new TreeSet<>();
 		for (Publicacion p : listaPublicaciones) {
@@ -84,16 +85,16 @@ public class PerfilInstagram implements Serializable {
 		}
 	}
 
-	public void addAlbum(Album album) throws AlbumExistenteException {
+	public void addAlbum(Album album) throws AlbumExistenteExcepcion {
 	    if (listaAlbumes.contains(album)) {
-	        throw new AlbumExistenteException("El álbum ya existe");
+	        throw new AlbumExistenteExcepcion("El álbum ya existe");
 	    } else {
 	        listaAlbumes.add(album);
 	    }
 	}
 
 
-	public Album buscaAlbum(String nombre) throws AlbumNoEncontradoException {
+	public Album buscaAlbum(String nombre) throws AlbumNoEncontradoExcepcion {
 		for (Album album : listaAlbumes) {
 			if (album.getNombreAlbum().equals(nombre)) {
 				return album;
@@ -104,17 +105,17 @@ public class PerfilInstagram implements Serializable {
 				}
 			}
 		}
-		throw new AlbumNoEncontradoException("El álbum '" + nombre + "' no existe.");
+		throw new AlbumNoEncontradoExcepcion("El álbum '" + nombre + "' no existe.");
 	}
 
-	public Publicacion buscaPubli(String nombre) throws PublicacionNoEncontradaException {
+	public Publicacion buscaPubli(String nombre) throws PublicacionNoEncontradaExcepcion {
 		Iterator<Publicacion> i = listaPublicaciones.iterator();
 		while (i.hasNext()) {
 			Publicacion publi = i.next();
 			if (publi.getNombrePublicacion().equals(nombre))
 				return publi;
 		}
-		throw new PublicacionNoEncontradaException("La publicación no se encuentra en la lista.");
+		throw new PublicacionNoEncontradaExcepcion("La publicación no se encuentra en la lista.");
 	}
 
 	public Map<String, List<Publicacion>> agruparPublicacionesPorTipo() {
@@ -145,7 +146,7 @@ public class PerfilInstagram implements Serializable {
 				@Override
 				public int compare(Publicacion p1, Publicacion p2) {
 					// al cambiar el orden de p2 y p1 los ordena descendentemente
-					return Integer.compare(p2.getCantMG(), p1.getCantMG());
+					return Integer.compare(p2.getCantidadMG(), p1.getCantidadMG());
 				}
 			});
 		}
@@ -162,7 +163,7 @@ public class PerfilInstagram implements Serializable {
 			int sum = 0;
 			int totalPublicaciones = publicaciones.size();
 			for (Publicacion publi : publicaciones) {
-				sum += publi.getCantMG();
+				sum += publi.getCantidadMG();
 			}
 			promedio = (sum / totalPublicaciones);
 			reporte.add(new ReportePublicacion(tipoPublicacion, totalPublicaciones, promedio));
@@ -175,16 +176,16 @@ public class PerfilInstagram implements Serializable {
 		album.agregaPublicacionAalbum(publicacion);
 	}
 
-	public void eliminarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
+	public void eliminarAlbum(Album albumAEliminar) throws AlbumNoEncontradoExcepcion {
 		if (listaAlbumes.contains(albumAEliminar)) {
 			desasociarSubalbumDeAlbum(albumAEliminar);
 			eliminarAlbumYSubalbumes(albumAEliminar);
 		} else {
-			throw new AlbumNoEncontradoException("Album no encontrado");
+			throw new AlbumNoEncontradoExcepcion("Album no encontrado");
 		}
 	}
 	
-	private void eliminarAlbumYSubalbumes(Album albumAEliminar) throws AlbumNoEncontradoException {
+	private void eliminarAlbumYSubalbumes(Album albumAEliminar) throws AlbumNoEncontradoExcepcion {
 		if(listaAlbumes.contains(albumAEliminar)) {
 			albumAEliminar.desasociarReferenciasAPublicaciones();
 			for(Album subAlbum : albumAEliminar.getSublistaAlbumes()) {
@@ -192,11 +193,11 @@ public class PerfilInstagram implements Serializable {
 			}
 			listaAlbumes.remove(albumAEliminar);
 		} else {
-			throw new AlbumNoEncontradoException("Album no encontrado");
+			throw new AlbumNoEncontradoExcepcion("Album no encontrado");
 		}
 	}
 	
-	private void desasociarSubalbumDeAlbum(Album subAlbum) throws AlbumNoEncontradoException {
+	private void desasociarSubalbumDeAlbum(Album subAlbum) throws AlbumNoEncontradoExcepcion {
 		// Recorrer todos los albumes -> Por cada album recorrer todos los subalbumes hasta fijarse si se encontró ese subalbum -> eliminar de la lista de subalbumes.
 		// Esto se debería hacer siempre, por mas que el album no sea un subalbum, porque no se tiene esa información hasta que se finalice el recorrido.
 		// Esto se evitaría si agregamos un atributo albumPadre a la clase album. Este atributo, si es != null indica que el album actual es un subalbum, y además guarda la referencia a su padre
@@ -207,11 +208,11 @@ public class PerfilInstagram implements Serializable {
 				albumPadre.desasociarSubAlbum(subAlbum);
 			}
 		} else {
-			throw new AlbumNoEncontradoException("Album no encontrado");
+			throw new AlbumNoEncontradoExcepcion("Album no encontrado");
 		}
 	}
 
-	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaException, AlbumNoEncontradoException {
+	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaExcepcion, AlbumNoEncontradoExcepcion {
 		Iterator<Publicacion> iteradorPublicacion = listaPublicaciones.iterator();
 		while (iteradorPublicacion.hasNext()) {
 			Publicacion publicacion = iteradorPublicacion.next();
@@ -230,7 +231,7 @@ public class PerfilInstagram implements Serializable {
 	}
 
 	public void sacarPublicacionDelAlbum(Publicacion publicacionASacar, Album album)
-			throws PublicacionNoEncontradaException, AlbumNoEncontradoException {
+			throws PublicacionNoEncontradaExcepcion, AlbumNoEncontradoExcepcion {
 		album.sacarPublicacion(publicacionASacar);
 		publicacionASacar.sacarAlbum(album);
 	}
@@ -245,7 +246,7 @@ public class PerfilInstagram implements Serializable {
 				listaSubAlbumes.add(subAlbum);
 			}
 			ArrayList<Publicacion> publicaciones = (ArrayList<Publicacion>) album.getListaPublicaciones().stream()
-					.filter(publicacion -> DateUtils.estaFechaEnRango(inicio, fin, publicacion.getFechaSubida()))
+					.filter(publicacion -> FechaUtilidades.estaFechaEnRango(inicio, fin, publicacion.getFechaSubida()))
 					.collect(Collectors.toList());
 			int contPublicaciones = publicaciones.size();
 			contComentarios = publicaciones.stream().mapToInt(publicacion -> publicacion.getCantidadDeComentarios())
