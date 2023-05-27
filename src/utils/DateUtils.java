@@ -15,6 +15,11 @@ public class DateUtils {
     	return LocalDate.parse(fechaStr, formatter);
     }
     
+	public static String formatearFechaAString(LocalDate fecha) {
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+	    return fecha.format(formatter);
+	}
+	
 	public static boolean fechaEsMayorA(LocalDate fechaAnterior, LocalDate fechaPosterior) {
     	return fechaPosterior.isAfter(fechaAnterior);
     }

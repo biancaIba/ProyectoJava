@@ -1,8 +1,11 @@
 package view;
 
 import model.*;
+import utils.DateUtils;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
@@ -28,7 +31,13 @@ public class Reproduccion extends JPanel {
 	private JPanel panelLateral;
 	private List<Publicacion> publicacionesSeleccionadas;
 	private double tiempoTotal;
-	JProgressBar progressBar;
+	private JProgressBar progressBar;
+	private JLabel lblNombre;
+	private JLabel lblNombreValor;
+	private JLabel lblFecha;
+	private JLabel lblFechaValor;
+	private JLabel lblMG;
+	private JLabel lblMGValor;
 
 	public Reproduccion(List<Publicacion> publicacionesSeleccionadas) {
 		super();
@@ -41,7 +50,7 @@ public class Reproduccion extends JPanel {
 
 		panelInformacion = new JPanel();
 		add(panelInformacion, BorderLayout.CENTER);
-		panelInformacion.setLayout(new GridLayout(3, 1, 0, 0));
+		panelInformacion.setLayout(new GridLayout(4, 1, 0, 0));
 
 		cargarListaReproduccion(publicacionesSeleccionadas);
 		cargarPanelDeInformacion(publicacionesSeleccionadas);
@@ -171,14 +180,42 @@ public class Reproduccion extends JPanel {
 	}
 
 	public void renderizarPanelesDeInformacion(Publicacion publicacion) {
-		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO
-				|| publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
-			panelInformacion.add(new PanelReproduccionDuracion((Durable) publicacion));
-		}
-		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN
-				|| publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
-			panelInformacion.add(new PanelReproduccionFiltros((Filtrable) publicacion));
-		}
+	    lblNombre = new JLabel("La publicacion reproduciendose es:");
+	    lblNombre.setPreferredSize(new Dimension(100, 20));
+	    panelInformacion.add(lblNombre);
+
+	    lblNombreValor = new JLabel("");
+	    lblNombreValor.setPreferredSize(new Dimension(200, 20));
+	    lblNombreValor.setText(publicacion.getNombrePublicacion());
+	    panelInformacion.add(lblNombreValor);
+
+	    lblFecha = new JLabel("Fecha:");
+	    lblFecha.setPreferredSize(new Dimension(100, 20));
+	    panelInformacion.add(lblFecha);
+
+	    lblFechaValor = new JLabel("");
+	    lblFechaValor.setPreferredSize(new Dimension(200, 20));
+	    String fecha = DateUtils.formatearFechaAString(publicacion.getFechaSubida());
+	    lblFechaValor.setText(fecha);
+	    panelInformacion.add(lblFechaValor);
+
+	    lblMG = new JLabel("Cantidad de Me gusta:");
+	    lblMG.setPreferredSize(new Dimension(150, 20));
+	    panelInformacion.add(lblMG);
+
+	    lblMGValor = new JLabel("");
+	    lblMGValor.setPreferredSize(new Dimension(50, 20));
+	    lblMGValor.setText(String.valueOf(publicacion.getCantMG()));
+	    panelInformacion.add(lblMGValor);
+
+	    if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO
+	            || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
+	        panelInformacion.add(new PanelReproduccionDuracion((Durable) publicacion));
+	    }
+	    if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN
+	            || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
+	        panelInformacion.add(new PanelReproduccionFiltros((Filtrable) publicacion));
+	    }
 	}
 
 }
