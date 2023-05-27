@@ -99,8 +99,13 @@ public class PerfilUsuario extends JFrame {
 						"Crear Álbum", JOptionPane.PLAIN_MESSAGE);
 				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
 					Album nuevoAlbum = new Album(nombreAlbum);
-					perfilInstagram.addAlbum(nuevoAlbum);
-					JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+					try {
+						PerfilInstagram.getInstance().addAlbum(nuevoAlbum);
+						JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
+					} catch (AlbumExistenteException e1) {
+						JOptionPane.showMessageDialog(null, "El álbum ya existe");
+					}
+					
 				}
 			}
 		});
@@ -200,10 +205,15 @@ public class PerfilUsuario extends JFrame {
 							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
 					if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
 						try {
-							Album albumPadre = perfilInstagram.buscaAlbum(nombreAlbumPadre);
+							Album albumPadre = PerfilInstagram.getInstance().buscaAlbum(nombreAlbumPadre);
 							Album nuevoSubAlbum = new Album(nombreSubAlbum);
-							albumPadre.agregarSubAlbum(nuevoSubAlbum);
-							JOptionPane.showMessageDialog(null, "El subálbum fue agregado con éxito");
+							try {
+								albumPadre.agregarSubAlbum(nuevoSubAlbum);
+								JOptionPane.showMessageDialog(null, "El subálbum fue agregado con éxito");
+							} catch (AlbumExistenteException e1) {
+								JOptionPane.showMessageDialog(null, "El subálbum ya existe");
+							}
+							
 						} catch (AlbumNoEncontradoException ex) {
 							JOptionPane.showMessageDialog(null, "El álbum padre NO existe. Intente de nuevo.", "Error",
 									JOptionPane.ERROR_MESSAGE);

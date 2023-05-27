@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.NotSerializableException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.time.LocalDate;
 //import java.time.LocalDate;
 import java.util.List;
 import model.PerfilInstagram;
@@ -22,18 +23,24 @@ public class Sistema {
 
 	private static PerfilInstagram perfil;
 
+
 	public static void main(String[] args) {
 		
 		perfil = PerfilInstagram.getInstance();
 
-		File datos = new File("Perfil.ser");
+		File datos = new File("Perfil2.ser");
 		if (datos.exists()) {
 			recupera();
+			System.out.println("Cantidad de albumes al iniciar"+perfil.getListaAlbumes().size());
 		} else {
 			perfil.cargarPublicaciones();
 		}
 
-		/*List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
+		
+		
+		
+		/*
+		List<ReportePublicacion> listaReportes = perfil.cantidadYpromedioDeMg();
 		generarReportePublicacionEnArchivo(listaReportes);
 
 		LocalDate inicio = LocalDate.parse("2023-05-01");
@@ -48,6 +55,12 @@ public class Sistema {
 					+ reportes.getCantidadComentarios());
 		}*/
 
+		
+		
+		
+		
+		
+		
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				PerfilUsuario interfaz = new PerfilUsuario(perfil);
