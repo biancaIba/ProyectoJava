@@ -22,9 +22,13 @@ public class Histograma extends JPanel {
     }
 
     public void setHistogramData(int[] data, String[] labels) throws SinDatosExcepcion{
-        this.histogramData = data;
-        this.labels = labels;
-        repaint(); 
+        if (data == null || data.length == 0) {
+        	throw new SinDatosExcepcion("Sin datos");
+        }else {
+	    	this.histogramData = data;
+	        this.labels = labels;
+	        repaint(); 
+        }
     }
     @Override
     protected void paintComponent(Graphics g) {

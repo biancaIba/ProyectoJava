@@ -6,6 +6,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
+import excepciones.SinDatosExcepcion;
+
 import java.util.List;
 import java.util.Random;
 
@@ -15,15 +17,18 @@ public class GraficoTorta extends JPanel {
     private List<String> labels;
     
     	
-    public GraficoTorta(List<Integer> values, List<String> labels) {
-        this.values = values.stream().mapToInt(Integer::intValue).toArray();
-        this.colors = generarColoresAleatorios(values.size());
-        this.labels = labels;
+    public GraficoTorta(List<Integer> values, List<String> labels) throws SinDatosExcepcion {
+    	if (values == null || values.size() == 0) {
+    		throw new SinDatosExcepcion("Sin datos");
+    	}else {
+    		this.values = values.stream().mapToInt(Integer::intValue).toArray();
+    		this.colors = generarColoresAleatorios(values.size());
+    		this.labels = labels;
 
-        if (values.size() != colors.length || values.size() != labels.size()) {
-            throw new IllegalArgumentException("La cantidad de valores, colores y etiquetas no coincide");
-        }
-        setBackground(Color.DARK_GRAY); 
+    		if (values.size() != colors.length || values.size() != labels.size()) {
+    			throw new IllegalArgumentException("La cantidad de valores, colores y etiquetas no coincide");
+    		}
+    		setBackground(Color.DARK_GRAY); }
     }
 
     @Override

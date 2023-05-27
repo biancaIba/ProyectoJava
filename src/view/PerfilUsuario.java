@@ -297,16 +297,12 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem Histograma = new JMenuItem("Histograma");
 		Histograma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				
 				JFrame ventanaHistograma = new JFrame("Estadística: Histograma Publicaciones");
 				ventanaHistograma.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				ventanaHistograma.setSize(600, 600);
 
-				// Obtener la lista de reportes de cantidad de "Me gusta" por tipo de
-				// publicación
-				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram
-						.agruparPublicacionesPorTipo();
-
-				// Crear el arreglo de datos para el histograma
+				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram.agruparPublicacionesPorTipo();
 				int[] data = new int[listaPublicacionesPorTipo.size()];
 				String[] labels = new String[listaPublicacionesPorTipo.size()];
 				int index = 0;
@@ -344,10 +340,15 @@ public class PerfilUsuario extends JFrame {
 				List<Integer> valores = new ArrayList<>(cantidadEtiquetas.values());
 				List<String> etiquetas = new ArrayList<>(cantidadEtiquetas.keySet());
 
-				GraficoTorta panelGraficoTorta = new GraficoTorta(valores, etiquetas);
-				ventanaGraficoTorta.setContentPane(panelGraficoTorta);
-
-				ventanaGraficoTorta.setVisible(true);
+				GraficoTorta panelGraficoTorta;
+				try {
+					panelGraficoTorta = new GraficoTorta(valores, etiquetas);
+					ventanaGraficoTorta.setContentPane(panelGraficoTorta);
+					ventanaGraficoTorta.setVisible(true);
+				} catch (SinDatosExcepcion e1) {
+					JOptionPane.showMessageDialog(null, "No hay datos.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 
