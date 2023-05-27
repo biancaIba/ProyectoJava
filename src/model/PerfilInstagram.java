@@ -84,12 +84,15 @@ public class PerfilInstagram implements Serializable {
 		}
 	}
 
-	public void addAlbum(Album nuevoAlbum) {
-		if (nuevoAlbum != null)
-			this.getListaAlbumes().add(nuevoAlbum);
+	public void addAlbum(Album album) throws AlbumExistenteException {
+	    if (listaAlbumes.contains(album)) {
+	        throw new AlbumExistenteException("El álbum ya existe");
+	    } else {
+	        listaAlbumes.add(album);
+	    }
 	}
 
-	// NUEVA
+
 	public Album buscaAlbum(String nombre) throws AlbumNoEncontradoException {
 		for (Album album : listaAlbumes) {
 			if (album.getNombreAlbum().equals(nombre)) {

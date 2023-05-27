@@ -2,6 +2,8 @@ package model;
 
 import java.io.Serializable;
 import java.util.*;
+
+import exception.AlbumExistenteException;
 import exception.AlbumNoEncontradoException;
 import exception.PublicacionNoEncontradaException;
 
@@ -116,8 +118,11 @@ public class Album implements Serializable {
 			throw new PublicacionNoEncontradaException("Publicacion no encontrada");
 	}
 
-	public void agregarSubAlbum(Album nuevoSubAlbum) {
-		if (nuevoSubAlbum != null) {
+	public void agregarSubAlbum(Album nuevoSubAlbum)throws AlbumExistenteException {
+		if(sublistaAlbumes.contains(nuevoSubAlbum)) {
+			throw new AlbumExistenteException("El Subalbum ya existe");
+		}
+		else {
 			sublistaAlbumes.add(nuevoSubAlbum);
 			nuevoSubAlbum.setAlbumPadre(this);
 		}
