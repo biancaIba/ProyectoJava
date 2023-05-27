@@ -212,24 +212,6 @@ public class PerfilInstagram implements Serializable {
 		}
 	}
 
-	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaExcepcion, AlbumNoEncontradoExcepcion {
-		Iterator<Publicacion> iteradorPublicacion = listaPublicaciones.iterator();
-		while (iteradorPublicacion.hasNext()) {
-			Publicacion publicacion = iteradorPublicacion.next();
-			if (publicacion.equals(publicacionAEliminar)) {
-				iteradorPublicacion.remove();
-				break;
-			}
-		}
-		Iterator<Album> iteradorAlbum = listaAlbumes.iterator();
-		while (iteradorAlbum.hasNext()) {
-			Album album = iteradorAlbum.next();
-			if (album.existePublicacion(publicacionAEliminar)) {
-				album.desasociarReferenciasAPublicaciones();
-			}
-		}
-	}
-
 	public void sacarPublicacionDelAlbum(Publicacion publicacionASacar, Album album)
 			throws PublicacionNoEncontradaExcepcion, AlbumNoEncontradoExcepcion {
 		album.sacarPublicacion(publicacionASacar);

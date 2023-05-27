@@ -148,34 +148,7 @@ public class PerfilUsuario extends JFrame {
 		});
 
 		gestionaAlbum.add(gaAgregaPubli);
-
-		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación");
-		gaEliminaPubli.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombrePublicacion = JOptionPane.showInputDialog(null, "Ingrese el nombre de la Publicación",
-						"Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
-				if (nombrePublicacion != null && !nombrePublicacion.isEmpty()) {
-					try {
-						Publicacion publicacionAEliminar = perfilInstagram.buscaPubli(nombrePublicacion);
-						perfilInstagram.eliminarPublicacion(publicacionAEliminar);
-						contentPane.removeAll();
-						pantallaPrincipal();
-						menuTop();
-						JOptionPane.showMessageDialog(null, "La publicación se ha eliminado correctamente","Publicación eliminada",
-								JOptionPane.INFORMATION_MESSAGE);
-					} catch (PublicacionNoEncontradaExcepcion e1) {
-						JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					} catch (AlbumNoEncontradoExcepcion e1) {
-						JOptionPane.showMessageDialog(null, "El Álbum NO existe. Intente de nuevo.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-
-		gestionaAlbum.add(gaEliminaPubli);
-
+		
 		JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un Álbum");
 		gaSacarPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -412,55 +385,59 @@ public class PerfilUsuario extends JFrame {
 		JButton botonReproducir = new JButton("Reproducir");
 		botonReproducir.setFont(new Font("Arial", Font.PLAIN, 12));
 		botonReproducir.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				int eleccion = 0;
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        JPanel panelMensajes = new JPanel();
+		        panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.PAGE_AXIS));
+		        
+		        JLabel mensajeAplicarFiltros = new JLabel("No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
+	            mensajeAplicarFiltros.setAlignmentX(Component.CENTER_ALIGNMENT);
+		        panelMensajes.add(mensajeAplicarFiltros);
+		        panelMensajes.add(Box.createVerticalStrut(10));
 
-				JOptionPane.showMessageDialog(null,
-						"No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
-				JOptionPane.showMessageDialog(null,
-						"El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
-				if (duracionReproduccionTotal > 0) {
-					String[] opciones = { "Nombre", "Fecha", "Cantidad de MG" };
-					eleccion = JOptionPane.showOptionDialog(null, "Elija un orden para la reproducción",
-							"Orden de Reproducción", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-							null, opciones, opciones[0]);
-				}
+		        JLabel mensajeDuracionReproduccion = new JLabel("El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
+		        mensajeDuracionReproduccion.setAlignmentX(Component.CENTER_ALIGNMENT);
+		        panelMensajes.add(mensajeDuracionReproduccion);
+		        panelMensajes.add(Box.createVerticalStrut(10));
+		        
+		        JLabel mensajeSeleccioneOrden = new JLabel("Selecciona un orden de reproducción:");
+		        mensajeSeleccioneOrden.setAlignmentX(Component.CENTER_ALIGNMENT);
+		        panelMensajes.add(mensajeSeleccioneOrden);
 
-				if (eleccion == 0) {
-					Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
-						@Override
-						public int compare(Publicacion p1, Publicacion p2) {
-							return p1.getNombrePublicacion().compareToIgnoreCase(p2.getNombrePublicacion());
-						}
-					});
-				} else if (eleccion == 1) {
-					Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
-						@Override
-						public int compare(Publicacion p1, Publicacion p2) {
-							return p1.getFechaSubida().compareTo(p2.getFechaSubida());
-						}
-					});
-				} else if (eleccion == 2) {
-					Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
-						@Override
-						public int compare(Publicacion p1, Publicacion p2) {
-							return Integer.compare(p1.getCantidadMG(), p2.getCantidadMG());
-						}
-					});
-				}
+		        String[] opciones = { "Nombre", "Fecha", "Cantidad de MG" };
+		        JComboBox<String> comboBoxOrden = new JComboBox<>(opciones);
+		        panelMensajes.add(Box.createVerticalStrut(10));
+		        
+		        panelMensajes.add(comboBoxOrden);
 
-				JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
-				ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				ventanaReproduccion.setSize(700, 600);
+		        int opcionSeleccionada = JOptionPane.showOptionDialog(null, panelMensajes, "Orden de Reproducción",
+		                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		        
+		        if (opcionSeleccionada == JOptionPane.OK_OPTION) {
+		            String seleccionOrden = (String) comboBoxOrden.getSelectedItem();
+		            List<Publicacion> copiaPublicaciones = new ArrayList<>(publicacionesSeleccionadasPanel);
 
-				Reproduccion panelReproduccion = new Reproduccion(publicacionesSeleccionadasPanel);
-				ventanaReproduccion.setContentPane(panelReproduccion);
+		            if (seleccionOrden.equals("Nombre")) {
+		                Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getNombrePublicacion, String.CASE_INSENSITIVE_ORDER));
+		            } else if (seleccionOrden.equals("Fecha")) {
+		                Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getFechaSubida));
+		            } else if (seleccionOrden.equals("Cantidad de MG")) {
+		                Collections.sort(copiaPublicaciones, Comparator.comparingInt(Publicacion::getCantidadMG));
+		            }
+			        
+		            JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
+		            ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		            ventanaReproduccion.setSize(900, 900);
 
-				ventanaReproduccion.setVisible(true);
+		            Reproduccion panelReproduccion = new Reproduccion(copiaPublicaciones);
+		            ventanaReproduccion.setContentPane(panelReproduccion);
 
-			}
+		            ventanaReproduccion.setVisible(true);
+		        }
+		    }
 		});
+
+
 		tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
 		panelLateral.add(tiempoReproduccionPanel, BorderLayout.SOUTH);
 
