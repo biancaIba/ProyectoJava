@@ -181,7 +181,7 @@ public class ReportePublicaciones extends JDialog {
 				for (Album album : publicacion.getListaAlbumesPertenece() ) {
 					albumesStr+=album.getNombreAlbum()+", ";
 				}
-				model.addRow(new Object[] {publicacion.getNombrePublicacion(), publicacion.getTipoPublicacion(), publicacion.getCantMG(),publicacion.getFechaSubida(),albumesStr});
+				model.addRow(new Object[] {publicacion.getNombrePublicacion(), publicacion.getTipoPublicacion(), publicacion.getCantidadMG(),publicacion.getFechaSubida(),albumesStr});
 			}
 		}
     }

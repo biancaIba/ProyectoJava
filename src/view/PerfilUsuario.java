@@ -4,6 +4,7 @@ import model.*;
 import sistema.*;
 import utilidades.IconosUtilidades;
 import utilidades.TiempoUtilidades;
+import Reportes.*;
 
 import java.awt.*;
 import javax.swing.*;
@@ -12,6 +13,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import javax.swing.border.EmptyBorder;
 
@@ -241,13 +243,12 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem generaTXT = new JMenuItem("Generar TXT Publicaciones");
 		generaTXT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sistema.generarReportePublicacionEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
-				File reporte = new File("reporte.txt");
-				if (reporte.exists())
+				try {
+					ReportePublicacion.generarReportePublicacionEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-				else
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
+				}		
 			}
 		});
 
@@ -256,13 +257,12 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sistema.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumes(inicio, fin));
-				File reporteAlbumes = new File("reporteAlbumes.txt");
-				if (reporteAlbumes.exists())
+				try {
+					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumes(inicio, fin));
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-				else
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 

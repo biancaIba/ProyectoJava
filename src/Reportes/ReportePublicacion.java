@@ -1,6 +1,10 @@
 package Reportes;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.List;
 
 public class ReportePublicacion implements Serializable{
 	private String tipoPublicacion;
@@ -42,6 +46,23 @@ public class ReportePublicacion implements Serializable{
 				+ cantidadPublicaciones + ", promedio=" + promedio + "]";
 	}
 
-	
+    public static void generarReportePublicacionEnArchivo(List<ReportePublicacion> listaReportes) throws IOException {
+        String nombreArchivo = "Reporte de publicaciones.txt";
+        
+        try (FileWriter fileWriter = new FileWriter(nombreArchivo);
+             BufferedWriter bufferedWriter = new BufferedWriter(fileWriter)) {
+            
+            for (ReportePublicacion rep : listaReportes) {
+                bufferedWriter.write("Tipo: " + rep.getTipoPublicacion());
+                bufferedWriter.newLine();
+                bufferedWriter.write("Cantidad de publicaciones: " + rep.getCantidadPublicaciones());
+                bufferedWriter.newLine();
+                bufferedWriter.write("Promedio de Mg: " + rep.getPromedio());
+                bufferedWriter.newLine();
+                bufferedWriter.newLine();
+            }
+            
+        }
+    }
 	
 }

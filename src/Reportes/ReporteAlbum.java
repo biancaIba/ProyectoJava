@@ -1,5 +1,8 @@
 package Reportes;
 
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
 
@@ -53,5 +56,22 @@ public class ReporteAlbum implements Serializable {
 	public void setListaSubAlbumes(List<Album> listaSubAlbumes) {
 		this.listaSubAlbumes = listaSubAlbumes;
 	}
+	
+	public static void generarReporteAlbumesEnArchivo(List<ReporteAlbum> listaReportesAlbumes) throws IOException {
+	    String nombreArchivo = "Reporte de albumes.txt";
+	    FileWriter fileWriter = new FileWriter(nombreArchivo);
+	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
 
+	    for (ReporteAlbum rep : listaReportesAlbumes) {
+	        bufferedWriter.write("Nombre: " + rep.getNombreAlbum());
+	        bufferedWriter.newLine();
+	        bufferedWriter.write("Cantidad de publicaciones en rango de fechas: " + rep.getCantidadPublicaciones());
+	        bufferedWriter.newLine();
+	        bufferedWriter.write("Cantidad de comentarios: " + rep.getCantidadComentarios());
+	        bufferedWriter.newLine();
+	        bufferedWriter.newLine();
+	    }
+
+	    bufferedWriter.close();
+	}
 }
