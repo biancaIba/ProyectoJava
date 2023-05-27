@@ -11,6 +11,7 @@ public class Album implements Serializable {
 	private String nombreAlbum;
 	private ArrayList<Album> sublistaAlbumes;
 	private ArrayList<Publicacion> listaPublicaciones;
+	private Album albumPadre;
 
 	public Album(String nombreAlbum) {
 		this.nombreAlbum = nombreAlbum;
@@ -37,6 +38,14 @@ public class Album implements Serializable {
 
 	public String getNombreAlbum() {
 		return nombreAlbum;
+	}
+	
+	public Album getAlbumPadre() {
+		return albumPadre;
+	}
+
+	public void setAlbumPadre(Album albumPadre) {
+		this.albumPadre = albumPadre;
 	}
 
 	@Override
@@ -110,17 +119,15 @@ public class Album implements Serializable {
 	public void agregarSubAlbum(Album nuevoSubAlbum) {
 		if (nuevoSubAlbum != null) {
 			sublistaAlbumes.add(nuevoSubAlbum);
+			nuevoSubAlbum.setAlbumPadre(this);
 		}
 	}
 
-	public void eliminarSubAlbum(Album subAlbumAEliminar) throws AlbumNoEncontradoException {
-		// elimina album de la lista de albumes
+	public void desasociarSubAlbum(Album subAlbumAEliminar) throws AlbumNoEncontradoException {
 		int subAlbumAEliminarIndice = sublistaAlbumes.indexOf(subAlbumAEliminar);
 		if (subAlbumAEliminarIndice == -1) {
 			throw new AlbumNoEncontradoException("SubAlbum no encontrado");
 		} else {
-			Album album = sublistaAlbumes.get(subAlbumAEliminarIndice);
-			album.desasociarReferenciasAPublicaciones();
 			sublistaAlbumes.remove(subAlbumAEliminar);
 		}
 	}

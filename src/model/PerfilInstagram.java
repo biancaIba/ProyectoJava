@@ -17,7 +17,7 @@ public class PerfilInstagram implements Serializable {
 	 * Uso de Modelo Singleton
 	 */
 
-	String nombrePerfil;
+	private String nombrePerfil;
 	private static final long serialVersionUID = 1L;
 	private static PerfilInstagram perfil;
 	private Set<Publicacion> listaPublicaciones;
@@ -36,6 +36,10 @@ public class PerfilInstagram implements Serializable {
 	
 	public void setNombrePerfil(String nombre) {
 		this.nombrePerfil = nombre;
+	}
+	
+	public String getNombrePerfil() {
+		return this.nombrePerfil;
 	}
 
 	public void cargarPublicaciones() {
@@ -168,21 +172,43 @@ public class PerfilInstagram implements Serializable {
 		album.agregaPublicacionAalbum(publicacion);
 	}
 
-	public void eliminaAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
-		// elimina album de la lista de albumes
-		int albumAEliminarIndice = listaAlbumes.indexOf(albumAEliminar);
-		if (albumAEliminarIndice == -1) {
-			throw new AlbumNoEncontradoException("Album no encontrado");
+	public void eliminarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
+		if (listaAlbumes.contains(albumAEliminar)) {
+			desasociarSubalbumDeAlbum(albumAEliminar);
+			eliminarAlbumYSubalbumes(albumAEliminar);
 		} else {
-			Album album = listaAlbumes.get(albumAEliminarIndice);
-			album.desasociarReferenciasAPublicaciones();
+			throw new AlbumNoEncontradoException("Album no encontrado");
+		}
+	}
+	
+	private void eliminarAlbumYSubalbumes(Album albumAEliminar) throws AlbumNoEncontradoException {
+		if(listaAlbumes.contains(albumAEliminar)) {
+			albumAEliminar.desasociarReferenciasAPublicaciones();
+			for(Album subAlbum : albumAEliminar.getSublistaAlbumes()) {
+				eliminarAlbumYSubalbumes(subAlbum);
+			}
 			listaAlbumes.remove(albumAEliminar);
-			// en perfil instagram tenemos una referencia a las subAlbumes??
+		} else {
+			throw new AlbumNoEncontradoException("Album no encontrado");
+		}
+	}
+	
+	private void desasociarSubalbumDeAlbum(Album subAlbum) throws AlbumNoEncontradoException {
+		// Recorrer todos los albumes -> Por cada album recorrer todos los subalbumes hasta fijarse si se encontró ese subalbum -> eliminar de la lista de subalbumes.
+		// Esto se debería hacer siempre, por mas que el album no sea un subalbum, porque no se tiene esa información hasta que se finalice el recorrido.
+		// Esto se evitaría si agregamos un atributo albumPadre a la clase album. Este atributo, si es != null indica que el album actual es un subalbum, y además guarda la referencia a su padre
+		// (y recordar que su padre guarda una referencia al subalbum en el listado) -> Doble referencia.
+		if(listaAlbumes.contains(subAlbum)) {
+			Album albumPadre = subAlbum.getAlbumPadre();
+			if(albumPadre != null) {
+				albumPadre.desasociarSubAlbum(subAlbum);
+			}
+		} else {
+			throw new AlbumNoEncontradoException("Album no encontrado");
 		}
 	}
 
-	public void eliminarPublicacion(Publicacion publicacionAEliminar)
-			throws PublicacionNoEncontradaException, AlbumNoEncontradoException {
+	public void eliminarPublicacion(Publicacion publicacionAEliminar) throws PublicacionNoEncontradaException, AlbumNoEncontradoException {
 		Iterator<Publicacion> iteradorPublicacion = listaPublicaciones.iterator();
 		while (iteradorPublicacion.hasNext()) {
 			Publicacion publicacion = iteradorPublicacion.next();

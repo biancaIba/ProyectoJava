@@ -61,10 +61,8 @@ public class ReporteAlbumes extends JDialog {
 
 	private void renderizarTabla() {
 		String[] columnNames = { "Nombre", "Cantidad de Publicaciones", "Cantidad de Comentarios",
-				"Cantidad de subAlbumes" };
-		// Crear un DefaultTableModel con los datos y nombres de columnas
+				"Subálbumes asociados" };
 		model = new DefaultTableModel(null, columnNames);
-		// Crear un JTable con el DefaultTableModel
 		table = new JTable(model);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 11));
 		table.setBackground(new Color(186, 189, 182));
@@ -117,20 +115,16 @@ public class ReporteAlbumes extends JDialog {
 			if (!DateUtils.fechaEsMayorA(fechaInicio, fechaFin)) {
 				throw new IllegalArgumentException();
 			}
-			perfilInstagram = PerfilInstagram.getInstance();
-
 			List<ReporteAlbum> listadoDeAlbumes = perfilInstagram.listadoDeAlbumes(fechaInicio, fechaFin);
-
 			model.setRowCount(0);
 			for (ReporteAlbum album : listadoDeAlbumes) {
+				String subAlbumesStr = "";
 				List<Album> listaSubAlbumes = album.getListaSubAlbumes();
-				model.addRow(new Object[] { album.getNombreAlbum(), album.getCantidadPublicaciones(),
-						album.getCantidadComentarios(), album.getListaSubAlbumes() });
-
-				for (Album subAlbum : listaSubAlbumes) {
-					// Agregar una fila nuev para cada subalbum
-					model.addRow(new Object[] { subAlbum.getNombreAlbum(), 0, 0, null });
+				for (Album subAlbum : listaSubAlbumes ) {
+					subAlbumesStr+=subAlbum.getNombreAlbum()+", ";
 				}
+				model.addRow(new Object[] { album.getNombreAlbum(), album.getCantidadPublicaciones(),
+						album.getCantidadComentarios(), subAlbumesStr });
 
 			}
 		} catch (DateTimeParseException e) {

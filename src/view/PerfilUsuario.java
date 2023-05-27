@@ -21,14 +21,13 @@ public class PerfilUsuario extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
-	List<Publicacion> publicacionesSeleccionadas;
+	List<Publicacion> publicacionesSeleccionadasPanel;
 	private float duracionReproduccionTotal = 0;
 	JLabel informacionLabel;
 
 	public PerfilUsuario(PerfilInstagram perfil) {
 		perfilInstagram = perfil;
-
-		setTitle("Perfil del Usuario");
+		publicacionesSeleccionadasPanel = new ArrayList<>();
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setForeground(Color.DARK_GRAY);
 		setBackground(Color.GRAY);
@@ -52,7 +51,7 @@ public class PerfilUsuario extends JFrame {
 			else
 				perfilInstagram.setNombrePerfil(nombrePerfil);
 		}
-
+		setTitle("Perfil del usuario " + perfilInstagram.getNombrePerfil());
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowClosing(WindowEvent e) {
@@ -148,6 +147,11 @@ public class PerfilUsuario extends JFrame {
 					try {
 						Publicacion publicacionAEliminar = perfilInstagram.buscaPubli(nombrePublicacion);
 						perfilInstagram.eliminarPublicacion(publicacionAEliminar);
+						contentPane.removeAll();
+						pantallaPrincipal();
+						menuTop();
+						JOptionPane.showMessageDialog(null, "La publicación se ha eliminado correctamente","Publicación eliminada",
+								JOptionPane.INFORMATION_MESSAGE);
 					} catch (PublicacionNoEncontradaException e1) {
 						JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.", "Error",
 								JOptionPane.ERROR_MESSAGE);
@@ -190,22 +194,24 @@ public class PerfilUsuario extends JFrame {
 		});
 		gestionaAlbum.add(gaSacarPubli);
 
-		JMenuItem gaAgregaSubAlbum = new JMenuItem("Agregar un Sub Álbum");
+		JMenuItem gaAgregaSubAlbum = new JMenuItem("Crear un subálbum");
 		gaAgregaSubAlbum.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Sub Álbum",
+				String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del subálbum a crear",
 						"Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
+				// TODO: Verificar que el nombre ingresado no se repita en el listado de albumes.
 				if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
-					String nombreAlbumPadre = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum Padre",
+					String nombreAlbumPadre = JOptionPane.showInputDialog(null, "Ingrese el nombre del álbum Padre",
 							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
 					if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
 						try {
 							Album albumPadre = perfilInstagram.buscaAlbum(nombreAlbumPadre);
 							Album nuevoSubAlbum = new Album(nombreSubAlbum);
 							albumPadre.agregarSubAlbum(nuevoSubAlbum);
+							perfilInstagram.addAlbum(nuevoSubAlbum);
 							JOptionPane.showMessageDialog(null, "El subálbum fue agregado con éxito");
 						} catch (AlbumNoEncontradoException ex) {
-							JOptionPane.showMessageDialog(null, "El álbum padre NO existe. Intente de nuevo.", "Error",
+							JOptionPane.showMessageDialog(null, "El álbum padre no existe. Intente de nuevo.", "Error",
 									JOptionPane.ERROR_MESSAGE);
 						}
 					}
@@ -213,35 +219,6 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 		gestionaAlbum.add(gaAgregaSubAlbum);
-
-		JMenuItem gaEliminaSubAlbum = new JMenuItem("Eliminar un Sub Álbum");
-		gaEliminaSubAlbum.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombreSubAlbum = JOptionPane.showInputDialog(null, "Ingrese el nombre del Sub Álbum a eliminar",
-						"Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
-				if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
-					try {
-						Album subAlbumAEliminar = perfilInstagram.buscaAlbum(nombreSubAlbum);
-						String nombreAlbumPadre = JOptionPane.showInputDialog(null, "Ingrese el nombre del Álbum Padre",
-								"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
-						if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
-							try {
-								Album albumPadre = perfilInstagram.buscaAlbum(nombreAlbumPadre);
-								albumPadre.eliminarSubAlbum(subAlbumAEliminar);
-								JOptionPane.showMessageDialog(null, "El subálbum ha sido eliminado con éxito");
-							} catch (AlbumNoEncontradoException ex) {
-								JOptionPane.showMessageDialog(null, "El álbum padre NO existe. Intente de nuevo.",
-										"Error", JOptionPane.ERROR_MESSAGE);
-							}
-						}
-					} catch (AlbumNoEncontradoException ex) {
-						JOptionPane.showMessageDialog(null, "El sub álbum NO existe. Intente de nuevo.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-		gestionaAlbum.add(gaEliminaSubAlbum);
 
 		JMenuItem eliminaAlbum = new JMenuItem("Eliminar álbum");
 		eliminaAlbum.addActionListener(new ActionListener() {
@@ -251,7 +228,7 @@ public class PerfilUsuario extends JFrame {
 				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
 					try {
 						Album albumAEliminar = perfilInstagram.buscaAlbum(nombreAlbum);
-						perfilInstagram.eliminaAlbum(albumAEliminar);
+						perfilInstagram.eliminarAlbum(albumAEliminar);
 						JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
 					} catch (AlbumNoEncontradoException e2) {
 						JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.", "Error",
@@ -285,8 +262,8 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 
-		LocalDate inicio = LocalDate.parse("2023-04-20"); // deberia ser lo q el usuario ingresa
-		LocalDate fin = LocalDate.parse("2023-05-05"); // idem
+		LocalDate inicio = LocalDate.parse("2023-04-20");
+		LocalDate fin = LocalDate.parse("2023-05-05"); 
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -452,21 +429,21 @@ public class PerfilUsuario extends JFrame {
 					}
 
 					if (eleccion == 0) {
-						Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+						Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
 							@Override
 							public int compare(Publicacion p1, Publicacion p2) {
 								return p1.getNombrePublicacion().compareToIgnoreCase(p2.getNombrePublicacion());
 							}
 						});
 					} else if (eleccion == 1) {
-						Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+						Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
 							@Override
 							public int compare(Publicacion p1, Publicacion p2) {
 								return p1.getFechaSubida().compareTo(p2.getFechaSubida());
 							}
 						});
 					} else if (eleccion == 2) {
-						Collections.sort(publicacionesSeleccionadas, new Comparator<Publicacion>() {
+						Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
 							@Override
 							public int compare(Publicacion p1, Publicacion p2) {
 								return Integer.compare(p1.getCantMG(), p2.getCantMG());
@@ -478,7 +455,7 @@ public class PerfilUsuario extends JFrame {
 					ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					ventanaReproduccion.setSize(700, 600);
 
-					Reproduccion panelReproduccion = new Reproduccion(publicacionesSeleccionadas);
+					Reproduccion panelReproduccion = new Reproduccion(publicacionesSeleccionadasPanel);
 					ventanaReproduccion.setContentPane(panelReproduccion);
 
 					ventanaReproduccion.setVisible(true);
@@ -531,10 +508,8 @@ public class PerfilUsuario extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cBox.isSelected()) {
-
-							ArrayList<Publicacion> publicacionesSeleccionadas = new ArrayList<>();
 							
-							publicacionesSeleccionadas.add(publicacion);
+							publicacionesSeleccionadasPanel.add(publicacion);
 							final float[] duracionActual = { publicacion.getDuracion() };
 							duracionReproduccionTotal += duracionActual[0];
 
@@ -597,52 +572,12 @@ public class PerfilUsuario extends JFrame {
 								}
 							});
 							itemPanel.add(configurarButton);
-
-							gbc.gridx = 2;
-							gbc.weightx = 0.1;
-							JButton subirButton = new JButton("Subir");
-							subirButton.setFont(new Font("Arial", Font.PLAIN, 12));
-							subirButton.addActionListener(new ActionListener() {
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									// Lógica para subir la publicación en la lista de reproducción
-									int index = listaSeleccionadasPanel.getComponentZOrder(itemPanel);
-									if (index > 0) {
-										listaSeleccionadasPanel.remove(itemPanel);
-										listaSeleccionadasPanel.add(itemPanel, index - 1);
-										listaSeleccionadasPanel.revalidate();
-										listaSeleccionadasPanel.repaint();
-									}
-								}
-							});
-							itemPanel.add(subirButton);
-
-							gbc.gridx = 3;
-							gbc.weightx = 0.1;
-							JButton bajarButton = new JButton("Bajar");
-							bajarButton.setFont(new Font("Arial", Font.PLAIN, 12));
-							bajarButton.addActionListener(new ActionListener() {
-								@Override
-								public void actionPerformed(ActionEvent e) {
-									// Lógica para bajar la publicación en la lista de reproducción
-									int index = listaSeleccionadasPanel.getComponentZOrder(itemPanel);
-									int count = listaSeleccionadasPanel.getComponentCount();
-									if (index < count - 1) {
-										listaSeleccionadasPanel.remove(itemPanel);
-										listaSeleccionadasPanel.add(itemPanel, index + 1);
-										listaSeleccionadasPanel.revalidate();
-										listaSeleccionadasPanel.repaint();
-									}
-								}
-							});
-							itemPanel.add(bajarButton);
-
 							listaSeleccionadasPanel.revalidate();
 							listaSeleccionadasPanel.repaint();
 
 						} else {
-							publicacionesSeleccionadas.remove(publicacion);
-							duracionReproduccionTotal -= publicacion.getDuracion();
+							publicacionesSeleccionadasPanel.remove(publicacion);
+							duracionReproduccionTotal-= publicacion.getDuracion();
 
 							// Eliminar el panel de la publicación seleccionada de la lista lateral
 							Component[] components = listaSeleccionadasPanel.getComponents();
