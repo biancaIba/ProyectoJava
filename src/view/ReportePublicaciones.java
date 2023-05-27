@@ -13,11 +13,11 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.table.DefaultTableModel;
 
+import Reportes.ReportePublicacion;
 import model.Album;
 import model.PerfilInstagram;
 import model.Publicacion;
-import reports.ReportePublicacion;
-import utils.AssetsUtils;
+import utilidades.IconosUtilidades;
 
 import java.awt.GridLayout;
 import java.awt.Image;
@@ -83,7 +83,7 @@ public class ReportePublicaciones extends JDialog {
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		btnNewButton = new JButton("Actualizar datos");
-        btnNewButton.setIcon(AssetsUtils.obtenerIcono("reload"));
+        btnNewButton.setIcon(IconosUtilidades.obtenerIcono("reload"));
         
         btnNewButton.setBounds(940, 480, 196, 23);
 		contentPanel.setLayout(null);
@@ -103,13 +103,13 @@ public class ReportePublicaciones extends JDialog {
 		resumenPanel.setBounds(10, 433, 875, 117);
 		lblVideo = new JLabel("Video");
 		lblVideo.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblVideo.setIcon(AssetsUtils.obtenerIcono("video"));
+		lblVideo.setIcon(IconosUtilidades.obtenerIcono("video"));
 		lblAudio = new JLabel("Audio");
 		lblAudio.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblAudio.setIcon(AssetsUtils.obtenerIcono("audio"));
+		lblAudio.setIcon(IconosUtilidades.obtenerIcono("audio"));
 		lblImagen = new JLabel("Imagen");
 		lblImagen.setFont(new Font("Tahoma", Font.BOLD, 11));
-		lblImagen.setIcon(AssetsUtils.obtenerIcono("image"));
+		lblImagen.setIcon(IconosUtilidades.obtenerIcono("image"));
 		lblPromMGVideo = new JLabel("-");
 		lblPromMGVideo.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		lblPromMGAudio = new JLabel("-");
@@ -171,7 +171,7 @@ public class ReportePublicaciones extends JDialog {
     	cargarResumen();
     }
     
-    private void cargarTabla() {
+    public void cargarTabla() {
     	Map<String,List<Publicacion>> listaporMG = perfilInstagram.ordenarPublicacionesPorMg();
 		model.setRowCount(0);
 		for(Map.Entry<String, List<Publicacion>> entry: listaporMG.entrySet()) {
@@ -181,7 +181,7 @@ public class ReportePublicaciones extends JDialog {
 				for (Album album : publicacion.getListaAlbumesPertenece() ) {
 					albumesStr+=album.getNombreAlbum()+", ";
 				}
-				model.addRow(new Object[] {publicacion.getNombrePublicacion(), publicacion.getTipoPublicacion(), publicacion.getCantMG(),publicacion.getFechaSubida(),albumesStr});
+				model.addRow(new Object[] {publicacion.getNombrePublicacion(), publicacion.getTipoPublicacion(), publicacion.getCantidadMG(),publicacion.getFechaSubida(),albumesStr});
 			}
 		}
     }
@@ -193,21 +193,21 @@ public class ReportePublicaciones extends JDialog {
 			switch (reporte.getTipoPublicacion().toLowerCase()) {
 				case "video": 
 					lblPromMGVideo.setText(Float.toString(reporte.getPromedio()));
-					lblPromMGVideo.setIcon(AssetsUtils.obtenerIcono("like"));
+					lblPromMGVideo.setIcon(IconosUtilidades.obtenerIcono("like"));
 					lblCantPubliVideo.setText(Integer.toString(reporte.getCantidadPublicaciones()));
-					lblCantPubliVideo.setIcon(AssetsUtils.obtenerIcono("post"));
+					lblCantPubliVideo.setIcon(IconosUtilidades.obtenerIcono("post"));
 					break;
 				case "audio": 
 					lblPromMGAudio.setText(Float.toString(reporte.getPromedio()));
-					lblPromMGAudio.setIcon(AssetsUtils.obtenerIcono("like"));
+					lblPromMGAudio.setIcon(IconosUtilidades.obtenerIcono("like"));
 					lblCantPubliAudio.setText(Integer.toString(reporte.getCantidadPublicaciones()));
-					lblCantPubliAudio.setIcon(AssetsUtils.obtenerIcono("post"));
+					lblCantPubliAudio.setIcon(IconosUtilidades.obtenerIcono("post"));
 					break;
 				case "imagen": 
 					lblPromMGImagen.setText(Float.toString(reporte.getPromedio()));
-					lblPromMGImagen.setIcon(AssetsUtils.obtenerIcono("like"));
+					lblPromMGImagen.setIcon(IconosUtilidades.obtenerIcono("like"));
 					lblCantPubliImagen.setText(Integer.toString(reporte.getCantidadPublicaciones()));
-					lblCantPubliImagen.setIcon(AssetsUtils.obtenerIcono("post"));
+					lblCantPubliImagen.setIcon(IconosUtilidades.obtenerIcono("post"));
 					break;
 			}	
 		}

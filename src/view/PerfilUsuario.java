@@ -2,7 +2,10 @@ package view;
 
 import model.*;
 import sistema.*;
-import utils.AssetsUtils;
+import utilidades.IconosUtilidades;
+import utilidades.TiempoUtilidades;
+import Reportes.*;
+
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -10,20 +13,25 @@ import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.File;
+import java.io.IOException;
 import java.time.LocalDate;
 import javax.swing.border.EmptyBorder;
-import exception.*;
+
+import excepciones.*;
+
 import java.util.*;
 import java.util.List;
-
+import javax.swing.ToolTipManager;
 public class PerfilUsuario extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private static PerfilInstagram perfilInstagram;
-	List<Publicacion> publicacionesSeleccionadasPanel;
+	private List<Publicacion> publicacionesSeleccionadasPanel;
 	private float duracionReproduccionTotal = 0;
-	JLabel informacionLabel;
+	private JLabel informacionLabel;
+	private JPanel jpPublicaciones;
+	private JPanel listaSeleccionadasPanel;
 
 	public PerfilUsuario(PerfilInstagram perfil) {
 		perfilInstagram = perfil;
@@ -101,7 +109,7 @@ public class PerfilUsuario extends JFrame {
 					try {
 						PerfilInstagram.getInstance().addAlbum(nuevoAlbum);
 						JOptionPane.showMessageDialog(null, "El álbum fue agregado con éxito");
-					} catch (AlbumExistenteException e1) {
+					} catch (AlbumExistenteExcepcion e1) {
 						JOptionPane.showMessageDialog(null, "El álbum ya existe");
 					}
 					
@@ -128,12 +136,12 @@ public class PerfilUsuario extends JFrame {
 								Publicacion publicacion = perfilInstagram.buscaPubli(nombrePubli);
 								perfilInstagram.addPubliDentroAlbum(album, publicacion);
 								JOptionPane.showMessageDialog(null, "La publicación fue agregada con éxito");
-							} catch (PublicacionNoEncontradaException e1) {
+							} catch (PublicacionNoEncontradaExcepcion e1) {
 								JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.",
 										"Error", JOptionPane.ERROR_MESSAGE);
 							}
 						}
-					} catch (AlbumNoEncontradoException e1) {
+					} catch (AlbumNoEncontradoExcepcion e1) {
 						JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -142,34 +150,7 @@ public class PerfilUsuario extends JFrame {
 		});
 
 		gestionaAlbum.add(gaAgregaPubli);
-
-		JMenuItem gaEliminaPubli = new JMenuItem("Eliminar Publicación");
-		gaEliminaPubli.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				String nombrePublicacion = JOptionPane.showInputDialog(null, "Ingrese el nombre de la Publicación",
-						"Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
-				if (nombrePublicacion != null && !nombrePublicacion.isEmpty()) {
-					try {
-						Publicacion publicacionAEliminar = perfilInstagram.buscaPubli(nombrePublicacion);
-						perfilInstagram.eliminarPublicacion(publicacionAEliminar);
-						contentPane.removeAll();
-						pantallaPrincipal();
-						menuTop();
-						JOptionPane.showMessageDialog(null, "La publicación se ha eliminado correctamente","Publicación eliminada",
-								JOptionPane.INFORMATION_MESSAGE);
-					} catch (PublicacionNoEncontradaException e1) {
-						JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					} catch (AlbumNoEncontradoException e1) {
-						JOptionPane.showMessageDialog(null, "El Álbum NO existe. Intente de nuevo.", "Error",
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			}
-		});
-
-		gestionaAlbum.add(gaEliminaPubli);
-
+		
 		JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un Álbum");
 		gaSacarPubli.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -185,12 +166,12 @@ public class PerfilUsuario extends JFrame {
 								Album album = perfilInstagram.buscaAlbum(nombreAlbum);
 								perfilInstagram.sacarPublicacionDelAlbum(publicacionAEliminar, album);
 								JOptionPane.showMessageDialog(null, "Publicacion eliminada del álbum con éxito");
-							} catch (AlbumNoEncontradoException e1) {
+							} catch (AlbumNoEncontradoExcepcion e1) {
 								JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.", "Error",
 										JOptionPane.ERROR_MESSAGE);
 							}
 						}
-					} catch (PublicacionNoEncontradaException e1) {
+					} catch (PublicacionNoEncontradaExcepcion e1) {
 						JOptionPane.showMessageDialog(null, "La publicación NO existe. Intente de nuevo.", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -216,11 +197,11 @@ public class PerfilUsuario extends JFrame {
 								albumPadre.agregarSubAlbum(nuevoSubAlbum);
 								perfilInstagram.addAlbum(nuevoSubAlbum);
 								JOptionPane.showMessageDialog(null, "El subálbum fue agregado con éxito");
-							} catch (AlbumExistenteException e1) {
+							} catch (AlbumExistenteExcepcion e1) {
 								JOptionPane.showMessageDialog(null, "El subálbum ya existe");
 							}
 							
-						} catch (AlbumNoEncontradoException ex) {
+						} catch (AlbumNoEncontradoExcepcion ex) {
 							JOptionPane.showMessageDialog(null, "El álbum padre no existe. Intente de nuevo.", "Error",
 									JOptionPane.ERROR_MESSAGE);
 						}
@@ -240,7 +221,7 @@ public class PerfilUsuario extends JFrame {
 						Album albumAEliminar = perfilInstagram.buscaAlbum(nombreAlbum);
 						perfilInstagram.eliminarAlbum(albumAEliminar);
 						JOptionPane.showMessageDialog(null, "El álbum fue eliminado con éxito");
-					} catch (AlbumNoEncontradoException e2) {
+					} catch (AlbumNoEncontradoExcepcion e2) {
 						JOptionPane.showMessageDialog(null, "El álbum NO existe. Intente de nuevo.", "Error",
 								JOptionPane.ERROR_MESSAGE);
 					}
@@ -262,13 +243,12 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem generaTXT = new JMenuItem("Generar TXT Publicaciones");
 		generaTXT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sistema.generarReportePublicacionEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
-				File reporte = new File("reporte.txt");
-				if (reporte.exists())
+				try {
+					ReportePublicacion.generarReportePublicacionEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-				else
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
+				}		
 			}
 		});
 
@@ -277,13 +257,12 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Sistema.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumes(inicio, fin));
-				File reporteAlbumes = new File("reporteAlbumes.txt");
-				if (reporteAlbumes.exists())
+				try {
+					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumes(inicio, fin));
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-				else
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-							JOptionPane.ERROR_MESSAGE);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
+				}	
 			}
 		});
 
@@ -318,17 +297,12 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem Histograma = new JMenuItem("Histograma");
 		Histograma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Crear una nueva ventana JFrame
+				
 				JFrame ventanaHistograma = new JFrame("Estadística: Histograma Publicaciones");
 				ventanaHistograma.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				ventanaHistograma.setSize(600, 600);
 
-				// Obtener la lista de reportes de cantidad de "Me gusta" por tipo de
-				// publicación
-				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram
-						.agruparPublicacionesPorTipo();
-
-				// Crear el arreglo de datos para el histograma
+				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram.agruparPublicacionesPorTipo();
 				int[] data = new int[listaPublicacionesPorTipo.size()];
 				String[] labels = new String[listaPublicacionesPorTipo.size()];
 				int index = 0;
@@ -344,7 +318,7 @@ public class PerfilUsuario extends JFrame {
 				Histograma estadisticasPanel = new Histograma();
 				try {
 					estadisticasPanel.setHistogramData(data, labels);
-				} catch (SinDatosException e1) {
+				} catch (SinDatosExcepcion e1) {
 					JOptionPane.showMessageDialog(null, "No hay datos.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
 				ventanaHistograma.getContentPane().add(estadisticasPanel, BorderLayout.CENTER);
@@ -366,10 +340,15 @@ public class PerfilUsuario extends JFrame {
 				List<Integer> valores = new ArrayList<>(cantidadEtiquetas.values());
 				List<String> etiquetas = new ArrayList<>(cantidadEtiquetas.keySet());
 
-				GraficoTorta panelGraficoTorta = new GraficoTorta(valores, etiquetas);
-				ventanaGraficoTorta.setContentPane(panelGraficoTorta);
-
-				ventanaGraficoTorta.setVisible(true);
+				GraficoTorta panelGraficoTorta;
+				try {
+					panelGraficoTorta = new GraficoTorta(valores, etiquetas);
+					ventanaGraficoTorta.setContentPane(panelGraficoTorta);
+					ventanaGraficoTorta.setVisible(true);
+				} catch (SinDatosExcepcion e1) {
+					JOptionPane.showMessageDialog(null, "No hay datos.", "Error", JOptionPane.ERROR_MESSAGE);
+				}
+				
 			}
 		});
 
@@ -378,115 +357,113 @@ public class PerfilUsuario extends JFrame {
 	}
 
 	private void actualizarDuracionTotal() {
-		int horas = (int) (duracionReproduccionTotal / 3600);
-		int minutos = (int) ((duracionReproduccionTotal % 3600) / 60);
-		int segundos = (int) (duracionReproduccionTotal % 60);
-		String duracionFormateada = String.format("%02d:%02d:%02d", horas, minutos, segundos);
-
-		informacionLabel.setText(duracionFormateada);
+		informacionLabel.setText(TiempoUtilidades.duracionFormateada(duracionReproduccionTotal));
 	}
+	private void panelPublicacionesSeleccionadas() {
+		JPanel panelLateral = new JPanel();
+		panelLateral.setBackground(Color.WHITE);
+		panelLateral.setLayout(new BorderLayout());
 
+		JLabel tituloLabel = new JLabel("Publicaciones Seleccionadas");
+		tituloLabel.setFont(new Font("Open Sans", Font.BOLD, 14));
+		tituloLabel.setForeground(Color.WHITE);
+		tituloLabel.setHorizontalAlignment(JLabel.CENTER);
+		panelLateral.add(tituloLabel, BorderLayout.NORTH);
+		panelLateral.setBackground(Color.GRAY);
+
+		JPanel tiempoReproduccionPanel = new JPanel();
+		tiempoReproduccionPanel.setBackground(Color.WHITE);
+		tiempoReproduccionPanel.setLayout(new BorderLayout());
+
+		JLabel tiempoReproduccionLabel = new JLabel("Tiempo de reproducción Original: ");
+		tiempoReproduccionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		tiempoReproduccionPanel.add(tiempoReproduccionLabel, BorderLayout.NORTH);
+
+		informacionLabel = new JLabel("00:00:00");
+		informacionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
+		tiempoReproduccionPanel.add(informacionLabel, BorderLayout.CENTER);
+
+		JButton botonReproducir = new JButton("Reproducir");
+		botonReproducir.setFont(new Font("Arial", Font.PLAIN, 12));
+		botonReproducir.addActionListener(new ActionListener() {
+		    @Override
+		    public void actionPerformed(ActionEvent e) {
+		        JPanel panelMensajes = new JPanel();
+		        panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.PAGE_AXIS));
+		        
+		        JLabel mensajeAplicarFiltros = new JLabel("No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
+	            mensajeAplicarFiltros.setAlignmentX(Component.CENTER_ALIGNMENT);
+		        panelMensajes.add(mensajeAplicarFiltros);
+		        panelMensajes.add(Box.createVerticalStrut(10));
+
+		        JLabel mensajeDuracionReproduccion = new JLabel("El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
+		        mensajeDuracionReproduccion.setAlignmentX(Component.CENTER_ALIGNMENT);
+		        panelMensajes.add(mensajeDuracionReproduccion);
+		        panelMensajes.add(Box.createVerticalStrut(10));
+		        
+		        JLabel mensajeSeleccioneOrden = new JLabel("Selecciona un orden de reproducción:");
+		        mensajeSeleccioneOrden.setAlignmentX(Component.CENTER_ALIGNMENT);
+		        panelMensajes.add(mensajeSeleccioneOrden);
+
+		        String[] opciones = { "Nombre", "Fecha", "Cantidad de MG" };
+		        JComboBox<String> comboBoxOrden = new JComboBox<>(opciones);
+		        panelMensajes.add(Box.createVerticalStrut(10));
+		        
+		        panelMensajes.add(comboBoxOrden);
+
+		        int opcionSeleccionada = JOptionPane.showOptionDialog(null, panelMensajes, "Orden de Reproducción",
+		                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+		        
+		        if (opcionSeleccionada == JOptionPane.OK_OPTION) {
+		            String seleccionOrden = (String) comboBoxOrden.getSelectedItem();
+		            List<Publicacion> copiaPublicaciones = new ArrayList<>(publicacionesSeleccionadasPanel);
+
+		            if (seleccionOrden.equals("Nombre")) {
+		                Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getNombrePublicacion, String.CASE_INSENSITIVE_ORDER));
+		            } else if (seleccionOrden.equals("Fecha")) {
+		                Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getFechaSubida));
+		            } else if (seleccionOrden.equals("Cantidad de MG")) {
+		                Collections.sort(copiaPublicaciones, Comparator.comparingInt(Publicacion::getCantidadMG));
+		            }
+			        
+		            JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
+		            ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		            ventanaReproduccion.setSize(900, 900);
+
+		            Reproduccion panelReproduccion = new Reproduccion(copiaPublicaciones);
+		            ventanaReproduccion.setContentPane(panelReproduccion);
+
+		            ventanaReproduccion.setVisible(true);
+		        }
+		    }
+		});
+
+
+		tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
+		panelLateral.add(tiempoReproduccionPanel, BorderLayout.SOUTH);
+
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
+		listaSeleccionadasPanel = new JPanel();
+		listaSeleccionadasPanel.setBackground(Color.LIGHT_GRAY);
+		listaSeleccionadasPanel.setLayout(new BoxLayout(listaSeleccionadasPanel, BoxLayout.Y_AXIS));
+
+		scrollPane.setViewportView(listaSeleccionadasPanel);
+		panelLateral.add(scrollPane, BorderLayout.CENTER);
+		contentPane.add(panelLateral, BorderLayout.WEST);
+
+	}
+	
+	
 	public void pantallaPrincipal() {
-		JPanel jpPublicaciones = new JPanel();
+		jpPublicaciones = new JPanel();
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);
 		jpPublicaciones.setFont(new Font("Open Sans", Font.PLAIN, 20));
 		jpPublicaciones.setLayout(new GridLayout(0, 3, 10, 10)); // GridLayout con 3 columnas y espacios de 10 pix
-
+		panelPublicacionesSeleccionadas();
 		try {
 			Set<Publicacion> listaPublicaciones = perfilInstagram.getPublicaciones();
-
-			// PANEL LATERAL //
-
-			JPanel panelLateral = new JPanel();
-			panelLateral.setBackground(Color.WHITE);
-			panelLateral.setLayout(new BorderLayout());
-
-			JLabel tituloLabel = new JLabel("Publicaciones Seleccionadas");
-			tituloLabel.setFont(new Font("Open Sans", Font.BOLD, 14));
-			tituloLabel.setForeground(Color.WHITE);
-			tituloLabel.setHorizontalAlignment(JLabel.CENTER);
-			panelLateral.add(tituloLabel, BorderLayout.NORTH);
-			panelLateral.setBackground(Color.GRAY);
-
-			JPanel tiempoReproduccionPanel = new JPanel();
-			tiempoReproduccionPanel.setBackground(Color.WHITE);
-			tiempoReproduccionPanel.setLayout(new BorderLayout());
-
-			JLabel tiempoReproduccionLabel = new JLabel("Tiempo de reproducción Original: ");
-			tiempoReproduccionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-			tiempoReproduccionPanel.add(tiempoReproduccionLabel, BorderLayout.NORTH);
-
-			informacionLabel = new JLabel("00:00:00");
-			informacionLabel.setFont(new Font("Arial", Font.PLAIN, 12));
-			tiempoReproduccionPanel.add(informacionLabel, BorderLayout.CENTER);
-
-			JButton botonReproducir = new JButton("Reproducir");
-			botonReproducir.setFont(new Font("Arial", Font.PLAIN, 12));
-			botonReproducir.addActionListener(new ActionListener() {
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					int eleccion = 0;
-
-					JOptionPane.showMessageDialog(null,
-							"No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
-					JOptionPane.showMessageDialog(null,
-							"El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
-					if (duracionReproduccionTotal > 0) {
-						String[] opciones = { "Nombre", "Fecha", "Cantidad de MG" };
-						eleccion = JOptionPane.showOptionDialog(null, "Elija un orden para la reproducción",
-								"Orden de Reproducción", JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE,
-								null, opciones, opciones[0]);
-					}
-
-					if (eleccion == 0) {
-						Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
-							@Override
-							public int compare(Publicacion p1, Publicacion p2) {
-								return p1.getNombrePublicacion().compareToIgnoreCase(p2.getNombrePublicacion());
-							}
-						});
-					} else if (eleccion == 1) {
-						Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
-							@Override
-							public int compare(Publicacion p1, Publicacion p2) {
-								return p1.getFechaSubida().compareTo(p2.getFechaSubida());
-							}
-						});
-					} else if (eleccion == 2) {
-						Collections.sort(publicacionesSeleccionadasPanel, new Comparator<Publicacion>() {
-							@Override
-							public int compare(Publicacion p1, Publicacion p2) {
-								return Integer.compare(p1.getCantMG(), p2.getCantMG());
-							}
-						});
-					}
-
-					JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
-					ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					ventanaReproduccion.setSize(700, 600);
-
-					Reproduccion panelReproduccion = new Reproduccion(publicacionesSeleccionadasPanel);
-					ventanaReproduccion.setContentPane(panelReproduccion);
-
-					ventanaReproduccion.setVisible(true);
-
-				}
-			});
-			tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
-			panelLateral.add(tiempoReproduccionPanel, BorderLayout.SOUTH);
-
-			JScrollPane scrollPane = new JScrollPane();
-			scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-
-			JPanel listaSeleccionadasPanel = new JPanel();
-			listaSeleccionadasPanel.setBackground(Color.LIGHT_GRAY);
-			listaSeleccionadasPanel.setLayout(new BoxLayout(listaSeleccionadasPanel, BoxLayout.Y_AXIS));
-
-			scrollPane.setViewportView(listaSeleccionadasPanel);
-			panelLateral.add(scrollPane, BorderLayout.CENTER);
-			contentPane.add(panelLateral, BorderLayout.WEST);
-
-			// FIN PANEL LATERAL//
 
 			for (Publicacion publicacion : listaPublicaciones) {
 				JPanel panel = new JPanel();
@@ -496,14 +473,17 @@ public class PerfilUsuario extends JFrame {
 				EnumTipoPublicacion tipoPublicacion = publicacion.getTipoPublicacion();
 				JLabel imageLabel = new JLabel();
 				if (tipoPublicacion == EnumTipoPublicacion.AUDIO) {
-					imageLabel.setIcon(AssetsUtils.obtenerIcono("audio"));
+					imageLabel.setIcon(IconosUtilidades.obtenerIcono("audio"));
 					panel.setBackground(Color.GRAY);
+					panel.setToolTipText("Audio");
 				} else if (tipoPublicacion == EnumTipoPublicacion.IMAGEN) {
-					imageLabel.setIcon(AssetsUtils.obtenerIcono("image"));
+					imageLabel.setIcon(IconosUtilidades.obtenerIcono("image"));
 					panel.setBackground(Color.GRAY);
+					panel.setToolTipText("Imagen");
 				} else {
-					imageLabel.setIcon(AssetsUtils.obtenerIcono("video"));
+					imageLabel.setIcon(IconosUtilidades.obtenerIcono("video"));
 					panel.setBackground(Color.GRAY);
+					panel.setToolTipText("Video");
 				}
 				imageLabel.setHorizontalAlignment(JLabel.CENTER);
 
@@ -526,7 +506,6 @@ public class PerfilUsuario extends JFrame {
 							JPanel itemPanel = new JPanel();
 							itemPanel.setBackground(Color.WHITE);
 
-							// restricciones del GridBagConstraints
 							GridBagConstraints gbc = new GridBagConstraints();
 							gbc.gridx = 0;
 							gbc.gridy = GridBagConstraints.RELATIVE;
@@ -607,7 +586,6 @@ public class PerfilUsuario extends JFrame {
 							listaSeleccionadasPanel.repaint();
 
 						}
-						// Convertir la duración total a un formato de tiempo (HH:mm:ss)
 						actualizarDuracionTotal();
 					}
 				});
@@ -617,6 +595,8 @@ public class PerfilUsuario extends JFrame {
 				panel.add(cBox);
 
 				jpPublicaciones.add(panel);
+				ToolTipManager.sharedInstance().setInitialDelay(20); 
+				ToolTipManager.sharedInstance().setDismissDelay(10000); 
 			}
 			JPanel panelContenedor = new JPanel(new BorderLayout());
 			panelContenedor.add(jpPublicaciones, BorderLayout.CENTER);
@@ -624,7 +604,7 @@ public class PerfilUsuario extends JFrame {
 			contentPane.add(panelContenedor, BorderLayout.CENTER);
 			contentPane.revalidate();
 			contentPane.repaint();
-		} catch (SinDatosException e) {
+		} catch (SinDatosExcepcion e) {
 			jpPublicaciones.setVisible(false);
 		}
 	}

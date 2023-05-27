@@ -2,7 +2,7 @@ package model;
 
 import java.time.LocalDate;
 
-import exception.DuracionInvalidaException;
+import excepciones.DuracionInvalidaExcepcion;
 
 public class Audio extends Publicacion implements Durable {
 
@@ -59,22 +59,22 @@ public class Audio extends Publicacion implements Durable {
 		this.duracion = this.finReproduccion - this.inicio;
 	}
 
-	public void avanzar(float inicioRelativo) throws DuracionInvalidaException {
+	public void avanzar(float inicioRelativo) throws DuracionInvalidaExcepcion {
 		if (inicioRelativo >= 0 && inicioRelativo < this.finReproduccion) {
 			this.inicio = inicioRelativo;
 			actualizarDuracion();
 		} else {
-			throw new DuracionInvalidaException(
+			throw new DuracionInvalidaExcepcion(
 					"El tiempo de inicio debe ser menor al de detención y mayor o igual a 0");
 		}
 	}
 
-	public void detener(float finRelativo) throws DuracionInvalidaException {
+	public void detener(float finRelativo) throws DuracionInvalidaExcepcion {
 		if (finRelativo > this.inicio && finRelativo <= this.fin) {
 			this.finReproduccion = finRelativo;
 			actualizarDuracion();
 		} else {
-			throw new DuracionInvalidaException(
+			throw new DuracionInvalidaExcepcion(
 					"El tiempo de detención debe ser mayor al de inicio y menor o igual a la duración original");
 		}
 	}

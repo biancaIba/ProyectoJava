@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.JPanel;
 
-import exception.SinDatosException;
+import excepciones.SinDatosExcepcion;
 
 import java.awt.Color;
 import java.awt.Font;
@@ -21,10 +21,14 @@ public class Histograma extends JPanel {
     	setBackground(Color.DARK_GRAY); 
     }
 
-    public void setHistogramData(int[] data, String[] labels) throws SinDatosException{
-        this.histogramData = data;
-        this.labels = labels;
-        repaint(); 
+    public void setHistogramData(int[] data, String[] labels) throws SinDatosExcepcion{
+        if (data == null || data.length == 0) {
+        	throw new SinDatosExcepcion("Sin datos");
+        }else {
+	    	this.histogramData = data;
+	        this.labels = labels;
+	        repaint(); 
+        }
     }
     @Override
     protected void paintComponent(Graphics g) {

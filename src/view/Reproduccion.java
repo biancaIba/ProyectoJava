@@ -1,7 +1,8 @@
 package view;
 
 import model.*;
-import utils.DateUtils;
+import utilidades.FechaUtilidades;
+import utilidades.TiempoUtilidades;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -108,7 +109,6 @@ public class Reproduccion extends JPanel {
 			JPanel itemPanel = new JPanel();
 			itemPanel.setBackground(Color.WHITE);
 
-			// restricciones del GridBagConstraints
 			GridBagConstraints gbc = new GridBagConstraints();
 			gbc.gridx = 0;
 			gbc.gridy = GridBagConstraints.RELATIVE;
@@ -121,7 +121,6 @@ public class Reproduccion extends JPanel {
 			itemPanel.add(nombrePublicacion);
 
 			listaSeleccionadasPanel.add(itemPanel, gbc);
-
 		}
 	}
 
@@ -172,11 +171,7 @@ public class Reproduccion extends JPanel {
 	}
 
 	public void renderizarTiempoTotal() {
-		int horas = (int) (tiempoTotal / 3600);
-		int minutos = (int) ((tiempoTotal % 3600) / 60);
-		int segundos = (int) (tiempoTotal % 60);
-		String duracionFormateada = String.format("%02d:%02d:%02d", horas, minutos, segundos);
-		lblTiempoTotalValor.setText(duracionFormateada);
+		lblTiempoTotalValor.setText(TiempoUtilidades.duracionFormateada(tiempoTotal));
 	}
 
 	public void renderizarPanelesDeInformacion(Publicacion publicacion) {
@@ -195,7 +190,7 @@ public class Reproduccion extends JPanel {
 
 	    lblFechaValor = new JLabel("");
 	    lblFechaValor.setPreferredSize(new Dimension(200, 20));
-	    String fecha = DateUtils.formatearFechaAString(publicacion.getFechaSubida());
+	    String fecha = FechaUtilidades.formatearFechaAString(publicacion.getFechaSubida());
 	    lblFechaValor.setText(fecha);
 	    panelInformacion.add(lblFechaValor);
 
@@ -205,7 +200,7 @@ public class Reproduccion extends JPanel {
 
 	    lblMGValor = new JLabel("");
 	    lblMGValor.setPreferredSize(new Dimension(50, 20));
-	    lblMGValor.setText(String.valueOf(publicacion.getCantMG()));
+	    lblMGValor.setText(String.valueOf(publicacion.getCantidadMG()));
 	    panelInformacion.add(lblMGValor);
 
 	    if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO

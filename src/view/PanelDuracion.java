@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 
-import exception.DuracionInvalidaException;
+import excepciones.DuracionInvalidaExcepcion;
 import model.Durable;
 
 public class PanelDuracion extends JPanel {
@@ -49,7 +49,7 @@ public class PanelDuracion extends JPanel {
 				try {
 					publicacion.avanzar(inicioRelativoNuevo);
 					cargarDatosDuracion();
-				} catch (DuracionInvalidaException error) {
+				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
 							"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -64,7 +64,7 @@ public class PanelDuracion extends JPanel {
 				try {
 					publicacion.avanzar(inicioRelativoNuevo);
 					cargarDatosDuracion();
-				} catch (DuracionInvalidaException error) {
+				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
 							"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -85,7 +85,7 @@ public class PanelDuracion extends JPanel {
 				try {
 					publicacion.detener(finRelativo);
 					cargarDatosDuracion();
-				} catch (DuracionInvalidaException error) {
+				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
 							"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -102,7 +102,7 @@ public class PanelDuracion extends JPanel {
 				try {
 					publicacion.detener(finRelativo);
 					cargarDatosDuracion();
-				} catch (DuracionInvalidaException error) {
+				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
 							"Error",JOptionPane.ERROR_MESSAGE);
 				}

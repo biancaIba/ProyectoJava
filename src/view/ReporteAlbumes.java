@@ -18,11 +18,11 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import Reportes.ReporteAlbum;
 import model.Album;
 import model.PerfilInstagram;
-import reports.ReporteAlbum;
-import utils.AssetsUtils;
-import utils.DateUtils;
+import utilidades.FechaUtilidades;
+import utilidades.IconosUtilidades;
 
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -48,9 +48,9 @@ public class ReporteAlbumes extends JDialog {
 	public ReporteAlbumes(PerfilInstagram perfil) {
 
 		perfilInstagram = perfil;
-		LocalDate inicio = LocalDate.parse("2023-04-20"); // deberia ser lo q el usuario ingresa
-		LocalDate fin = LocalDate.parse("2023-05-05"); // idem
-		setTitle("Reporte de Publicaciones");
+		LocalDate inicio = LocalDate.parse("2023-04-20"); 
+		LocalDate fin = LocalDate.parse("2023-05-05"); 
+		setTitle("Reporte de albumes");
 		setAlwaysOnTop(true);
 		setSize(1200, 600);
 		setBackground(Color.LIGHT_GRAY);
@@ -63,7 +63,7 @@ public class ReporteAlbumes extends JDialog {
 
 	private void renderizarTabla() {
 		String[] columnNames = { "Nombre", "Cantidad de Publicaciones", "Cantidad de Comentarios",
-				"Subálbumes asociados" };
+				"Subálbumes asociados"};
 		model = new DefaultTableModel(null, columnNames);
 		table = new JTable(model);
 		table.setFont(new Font("Tahoma", Font.PLAIN, 11));
@@ -79,7 +79,7 @@ public class ReporteAlbumes extends JDialog {
 		scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 		btnFiltrar = new JButton("Filtrar");
-		btnFiltrar.setIcon(AssetsUtils.obtenerIcono("filtrar"));
+		btnFiltrar.setIcon(IconosUtilidades.obtenerIcono("filtrar"));
 
 		btnFiltrar.setBounds(721, 410, 196, 23);
 		contentPanel.setLayout(null);
@@ -112,9 +112,9 @@ public class ReporteAlbumes extends JDialog {
 
 	private void cargarTabla(String fechaInicioStr, String fechaFinStr) {
 		try {
-			LocalDate fechaInicio = DateUtils.formatearFecha(fechaInicioStr);
-			LocalDate fechaFin = DateUtils.formatearFecha(fechaFinStr);
-			if (!DateUtils.fechaEsMayorA(fechaInicio, fechaFin)) {
+			LocalDate fechaInicio = FechaUtilidades.formatearFecha(fechaInicioStr);
+			LocalDate fechaFin = FechaUtilidades.formatearFecha(fechaFinStr);
+			if (!FechaUtilidades.fechaEsMayorA(fechaInicio, fechaFin)) {
 				throw new IllegalArgumentException();
 			}
 

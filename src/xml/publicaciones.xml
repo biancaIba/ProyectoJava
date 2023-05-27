@@ -42,7 +42,7 @@
 			<cantMG>350</cantMG>
 			<resolucion>_4K</resolucion>
 			<cantCuadros>60</cantCuadros>
-			<duracion>150</duracion>
+			<duracion>13</duracion>
 			<etiquetas>
 				<etiqueta>video</etiqueta>
 				<etiqueta>ejemplo</etiqueta>
@@ -60,7 +60,7 @@
 			<fechaSubida>2023-04-21</fechaSubida>
 			<cantMG>120</cantMG>
 			<velocidadBits>256</velocidadBits>
-			<duracion>60</duracion>
+			<duracion>27</duracion>
 			<etiquetas>
 				<etiqueta>audio</etiqueta>
 				<etiqueta>music</etiqueta>
@@ -94,7 +94,7 @@
 			<fechaSubida>2023-04-18</fechaSubida>
 			<cantMG>190</cantMG>
 			<velocidadBits>128</velocidadBits>
-			<duracion>120</duracion>
+			<duracion>12</duracion>
 			<etiquetas>
 				<etiqueta>audio</etiqueta>
 				<etiqueta>music</etiqueta>
@@ -166,7 +166,7 @@
 			<cantMG>400</cantMG>
 			<resolucion>HD</resolucion>
 			<cantCuadros>30</cantCuadros>
-			<duracion>90</duracion>
+			<duracion>35</duracion>
 			<etiquetas>
 				<etiqueta>video</etiqueta>
 				<etiqueta>deporte</etiqueta>
@@ -184,7 +184,7 @@
 			<cantMG>450</cantMG>
 			<resolucion>_4K</resolucion>
 			<cantCuadros>24</cantCuadros>
-			<duracion>900</duracion>
+			<duracion>21</duracion>
 			<etiquetas>
 				<etiqueta>video</etiqueta>
 				<etiqueta>viaje</etiqueta>
@@ -202,7 +202,7 @@
 			<cantMG>500</cantMG>
 			<resolucion>_4K</resolucion>
 			<cantCuadros>60</cantCuadros>
-			<duracion>500</duracion>
+			<duracion>13</duracion>
 			<etiquetas>
 				<etiqueta>video</etiqueta>
 				<etiqueta>4K</etiqueta>
@@ -220,7 +220,7 @@
 			<cantMG>550</cantMG>
 			<resolucion>_8K</resolucion>
 			<cantCuadros>48</cantCuadros>
-			<duracion>80</duracion>
+			<duracion>20</duracion>
 			<etiquetas>
 				<etiqueta>video</etiqueta>
 				<etiqueta>documental</etiqueta>
@@ -236,7 +236,7 @@
 			<cantMG>600</cantMG>
 			<resolucion>HD</resolucion>
 			<cantCuadros>120</cantCuadros>
-			<duracion>55</duracion>
+			<duracion>21</duracion>
 			<etiquetas>
 				<etiqueta>video</etiqueta>
 				<etiqueta>acción</etiqueta>

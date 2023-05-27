@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-import exception.AlbumNoEncontradoException;
+import excepciones.AlbumNoEncontradoExcepcion;
 
 import java.io.Serializable;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 	private static final long serialVersionUID = 1L;
 	private String nombrePublicacion;
 	private LocalDate fechaSubida;
-	private int cantMG;
+	private int cantidadMG;
 	private ArrayList<String> listaEtiquetas;
 	private ArrayList<String> listaComentarios;
 	private ArrayList<Album> listaAlbumesPertenece; // 0 o mas albumes
@@ -22,7 +22,7 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 			EnumTipoPublicacion tipoPublicacion) {
 		this.nombrePublicacion = nombrePublicacion;
 		this.fechaSubida = fechaSubida;
-		this.cantMG = cantMG;
+		this.cantidadMG = cantMG;
 		this.tipoPublicacion = tipoPublicacion;
 		this.listaEtiquetas = new ArrayList<String>();
 		this.listaComentarios = new ArrayList<String>();
@@ -45,12 +45,12 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 		this.fechaSubida = fechaSubida;
 	}
 
-	public int getCantMG() {
-		return cantMG;
+	public int getCantidadMG() {
+		return cantidadMG;
 	}
 
-	public void setCantMG(int cantMG) {
-		this.cantMG = cantMG;
+	public void setCantidadMG(int cantMG) {
+		this.cantidadMG = cantMG;
 	}
 
 	public abstract float getDuracion();
@@ -60,7 +60,7 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 	@Override
 	public String toString() {
 		return "nombrePublicacion{='" + nombrePublicacion + '\'' + ", fechaSubida='" + fechaSubida + '\'' + ", cantMG="
-				+ cantMG + ", etiquetas=" + listaEtiquetas + ", comentarios=" + listaComentarios + ", albumes="
+				+ cantidadMG + ", etiquetas=" + listaEtiquetas + ", comentarios=" + listaComentarios + ", albumes="
 				+ listaAlbumesPertenece + '}';
 	}
 
@@ -116,10 +116,10 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 		return this.nombrePublicacion.compareToIgnoreCase(otraPublicacion.nombrePublicacion);
 	}
 
-	public void sacarAlbum(Album albumAEliminar) throws AlbumNoEncontradoException {
+	public void sacarAlbum(Album albumAEliminar) throws AlbumNoEncontradoExcepcion {
 		boolean borrado = this.listaAlbumesPertenece.remove(albumAEliminar);
 		if (!borrado) {
-			throw new AlbumNoEncontradoException("Album no encontrado");
+			throw new AlbumNoEncontradoExcepcion("Album no encontrado");
 		}
 	}
 
