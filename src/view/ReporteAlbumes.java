@@ -44,10 +44,12 @@ public class ReporteAlbumes extends JDialog {
 	private JTextField txtFechaInicio;
 	private JTextField txtFechaFin;
 
+
 	public ReporteAlbumes(PerfilInstagram perfil) {
 
 		perfilInstagram = perfil;
-
+		LocalDate inicio = LocalDate.parse("2023-04-20"); // deberia ser lo q el usuario ingresa
+		LocalDate fin = LocalDate.parse("2023-05-05"); // idem
 		setTitle("Reporte de Publicaciones");
 		setAlwaysOnTop(true);
 		setSize(1200, 600);
@@ -117,10 +119,10 @@ public class ReporteAlbumes extends JDialog {
 			if (!DateUtils.fechaEsMayorA(fechaInicio, fechaFin)) {
 				throw new IllegalArgumentException();
 			}
+			
 			perfilInstagram = PerfilInstagram.getInstance();
 
 			List<ReporteAlbum> listadoDeAlbumes = perfilInstagram.listadoDeAlbumes(fechaInicio, fechaFin);
-
 			model.setRowCount(0);
 			for (ReporteAlbum album : listadoDeAlbumes) {
 				List<Album> listaSubAlbumes = album.getListaSubAlbumes();
