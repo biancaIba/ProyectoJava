@@ -102,7 +102,6 @@ public class Audio extends Publicacion implements IDurable {
 	 *
 	 * @return tiempo de inicio [segundos]
 	 */
-	 */
 	public float getInicioReproduccion() {
 		return inicio;
 	}

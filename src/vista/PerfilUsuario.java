@@ -1,6 +1,3 @@
-/*
- * 
- */
 package vista;
 
 import java.awt.BorderLayout;
@@ -23,7 +20,6 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -39,7 +35,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.ToolTipManager;
 import javax.swing.border.EmptyBorder;
-
 import excepciones.AlbumExistenteExcepcion;
 import excepciones.AlbumNoEncontradoExcepcion;
 import excepciones.PublicacionNoEncontradaExcepcion;
@@ -67,31 +62,31 @@ public class PerfilUsuario extends JFrame {
 
 	/** El número de versión para la serialización. */
 	private static final long serialVersionUID = 1L;
-	
+
 	/** El panel de contenido. */
 	private JPanel contentPane;
-	
+
 	/** La instancia del perfil de Instagram. */
 	private static PerfilInstagram perfilInstagram;
-	
+
 	/** La lista de publicaciones seleccionadas en el panel. */
 	private List<Publicacion> publicacionesSeleccionadasPanel;
-	
+
 	/** La duración total de reproducción. */
 	private float duracionReproduccionTotal = 0;
-	
+
 	/** La etiqueta de información. */
 	private JLabel informacionLabel;
-	
+
 	/** El panel de publicaciones. */
 	private JPanel jpPublicaciones;
-	
+
 	/** El panel de lista seleccionadas. */
 	private JPanel listaSeleccionadasPanel;
 
 	/**
-	 * Constructor de la clase PerfilUsuario.
-	 * Inicializa el perfil de Instagram, la lista de publicaciones seleccionadas y configura la interfaz gráfica.
+	 * Constructor de la clase PerfilUsuario. Inicializa el perfil de Instagram, la
+	 * lista de publicaciones seleccionadas y configura la interfaz gráfica.
 	 */
 	public PerfilUsuario() {
 		perfilInstagram = PerfilInstagram.getInstance();
@@ -109,11 +104,11 @@ public class PerfilUsuario extends JFrame {
 
 		menuTop();
 		pantallaPrincipal();
-		
+
 		File datos = new File("Perfil.ser");
 		if (!datos.exists()) {
-			String nombrePerfil = JOptionPane.showInputDialog(null, "Ingrese el nombre del Perfil",
-					"Nombre del Perfil", JOptionPane.PLAIN_MESSAGE);
+			String nombrePerfil = JOptionPane.showInputDialog(null, "Ingrese el nombre del Perfil", "Nombre del Perfil",
+					JOptionPane.PLAIN_MESSAGE);
 			if (nombrePerfil == null || nombrePerfil.isEmpty())
 				System.exit(0);
 			else
@@ -133,9 +128,10 @@ public class PerfilUsuario extends JFrame {
 	}
 
 	/**
-	 * Crea y muestra el menú superior de la aplicación.
-	 * Este método agrega diferentes menús desplegables al menú principal, como álbumes, reportes, estadísticas y opciones.
-	 * El menú se muestra en la parte superior de la interfaz gráfica de usuario.
+	 * Crea y muestra el menú superior de la aplicación. Este método agrega
+	 * diferentes menús desplegables al menú principal, como álbumes, reportes,
+	 * estadísticas y opciones. El menú se muestra en la parte superior de la
+	 * interfaz gráfica de usuario.
 	 */
 	public void menuTop() {
 		JMenuBar menuPrincipal = new JMenuBar();
@@ -149,168 +145,176 @@ public class PerfilUsuario extends JFrame {
 		menuPrincipal.add(menuTOPreportes());
 		menuPrincipal.add(menuTOPestadisticas());
 		menuPrincipal.add(menuTOPopciones());
-		
 
 		contentPane.setLayout(new BorderLayout(0, 0));
 		contentPane.add(menuPrincipal, BorderLayout.NORTH);
-
 	}
 
 	/**
 	 * Crea y retorna un menú desplegable para administrar los álbumes.
 	 *
-	 * @return El menú desplegable JMenu con las opciones relacionadas a los álbumes el cual incluye el boton de crear album, gestion albumes (agregar publicacion, sacar publicacion de un album, crear subalbum), eliminar album.
+	 * @return El menú desplegable JMenu con las opciones relacionadas a los álbumes
+	 *         el cual incluye el boton de crear album, gestion albumes (agregar
+	 *         publicacion, sacar publicacion de un album, crear subalbum), eliminar
+	 *         album.
 	 */
 	public static JMenu menuTOPalbumes() {
-	    JMenu albumes = new JMenu("Álbumes");
-	    albumes.setFont(new Font("Open Sans", Font.PLAIN, 15));
+		JMenu albumes = new JMenu("Álbumes");
+		albumes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 
-	    JMenuItem crearAlbum = new JMenuItem("Crear álbum");
+		JMenuItem crearAlbum = new JMenuItem("Crear álbum");
 
-	    crearAlbum.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            JFrame frame = new JFrame();
-	            frame.setAlwaysOnTop(true);
-	            String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del nuevo Álbum", "Crear Álbum", JOptionPane.PLAIN_MESSAGE);
+		crearAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				frame.setAlwaysOnTop(true);
+				String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del nuevo Álbum",
+						"Crear Álbum", JOptionPane.PLAIN_MESSAGE);
 
-	            if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
-	                Album nuevoAlbum = new Album(nombreAlbum);
-	                try {
-	                    PerfilInstagram.getInstance().agregarAlbum(nuevoAlbum);
-	                    JOptionPane.showMessageDialog(frame, "El álbum fue agregado con éxito");
-	                } catch (AlbumExistenteExcepcion e1) {
-	                    JOptionPane.showMessageDialog(frame, "El álbum ya existe");
-	                }
-	            }
-	        }
-	    });
+				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
+					Album nuevoAlbum = new Album(nombreAlbum);
+					try {
+						perfilInstagram.agregarAlbum(nuevoAlbum);
+						JOptionPane.showMessageDialog(frame, "El álbum fue agregado con éxito");
+					} catch (AlbumExistenteExcepcion e1) {
+						JOptionPane.showMessageDialog(frame, "El álbum ya existe");
+					}
+				}
+			}
+		});
 
-	    JMenuItem gestionaAlbum = new JMenu("Gestionar álbumes");
+		JMenuItem gestionaAlbum = new JMenu("Gestionar álbumes");
 
-	    JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
-	    gaAgregaPubli.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            JFrame frame = new JFrame();
-	            frame.setAlwaysOnTop(true);
-	            String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del Álbum", "Ingresar Album",
-	                    JOptionPane.PLAIN_MESSAGE);
-	            if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
-	                try {
-	                    Album album = perfilInstagram.buscarAlbum(nombreAlbum);
-	                    String nombrePubli = JOptionPane.showInputDialog(frame, "Ingrese el nombre de la Publicación", "Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
-	                    if (nombrePubli != null && !nombrePubli.isEmpty()) {
-	                        try {
-	                            Publicacion publicacion = perfilInstagram.buscarPublicacion(nombrePubli);
-	                            perfilInstagram.agregarPublicacionDentroAlbum(album, publicacion);
-	                            JOptionPane.showMessageDialog(frame, "La publicación fue agregada con éxito");
-	                        } catch (PublicacionNoEncontradaExcepcion e1) {
-	                            JOptionPane.showMessageDialog(frame, "La publicación NO existe. Intente de nuevo.", "Error", JOptionPane.ERROR_MESSAGE);
-	                        }
-	                    }
-	                } catch (AlbumNoEncontradoExcepcion e1) {
-	                    JOptionPane.showMessageDialog(frame, "El álbum NO existe. Intente de nuevo.", "Error",
-	                            JOptionPane.ERROR_MESSAGE);
-	                }
-	            }
-	        }
-	    });
+		JMenuItem gaAgregaPubli = new JMenuItem("Agregar Publicación a un Álbum");
+		gaAgregaPubli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				frame.setAlwaysOnTop(true);
+				String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del Álbum", "Ingresar Album",
+						JOptionPane.PLAIN_MESSAGE);
+				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
+					try {
+						Album album = perfilInstagram.buscarAlbum(nombreAlbum);
+						String nombrePubli = JOptionPane.showInputDialog(frame, "Ingrese el nombre de la Publicación",
+								"Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
+						if (nombrePubli != null && !nombrePubli.isEmpty()) {
+							try {
+								Publicacion publicacion = perfilInstagram.buscarPublicacion(nombrePubli);
+								perfilInstagram.agregarPublicacionDentroAlbum(album, publicacion);
+								JOptionPane.showMessageDialog(frame, "La publicación fue agregada con éxito");
+							} catch (PublicacionNoEncontradaExcepcion e1) {
+								JOptionPane.showMessageDialog(frame, "La publicación NO existe. Intente de nuevo.",
+										"Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					} catch (AlbumNoEncontradoExcepcion e1) {
+						JOptionPane.showMessageDialog(frame, "El álbum NO existe. Intente de nuevo.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 
-	    gestionaAlbum.add(gaAgregaPubli);
+		gestionaAlbum.add(gaAgregaPubli);
 
-	    JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un álbum");
-	    gaSacarPubli.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            JFrame frame = new JFrame();
-	            frame.setAlwaysOnTop(true);
-	            String nombrePublicacion = JOptionPane.showInputDialog(frame, "Ingrese el nombre de la Publicación", "Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
-	            if (nombrePublicacion != null && !nombrePublicacion.isEmpty()) {
-	                try {
-	                    String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del Álbum",
-	                            "Ingresar Álbum", JOptionPane.PLAIN_MESSAGE);
-	                    if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
-	                        try {
-	                            Publicacion publicacionAEliminar = perfilInstagram.buscarPublicacion(nombrePublicacion);
-	                            Album album = perfilInstagram.buscarAlbum(nombreAlbum);
-	                            perfilInstagram.sacarPublicacionDelAlbum(publicacionAEliminar, album);
-	                            JOptionPane.showMessageDialog(frame, "Publicacion eliminada del álbum con éxito");
-	                        } catch (AlbumNoEncontradoExcepcion e1) {
-	                            JOptionPane.showMessageDialog(frame, "El álbum NO existe. Intente de nuevo.", "Error",
-	                                    JOptionPane.ERROR_MESSAGE);
-	                        }
-	                    }
-	                } catch (PublicacionNoEncontradaExcepcion e1) {
-	                    JOptionPane.showMessageDialog(frame, "La publicación NO existe. Intente de nuevo.", "Error",
-	                            JOptionPane.ERROR_MESSAGE);
-	                }
-	            }
-	        }
-	    });
-	    gestionaAlbum.add(gaSacarPubli);
+		JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un álbum");
+		gaSacarPubli.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				frame.setAlwaysOnTop(true);
+				String nombrePublicacion = JOptionPane.showInputDialog(frame, "Ingrese el nombre de la Publicación",
+						"Ingresar Publicacion", JOptionPane.PLAIN_MESSAGE);
+				if (nombrePublicacion != null && !nombrePublicacion.isEmpty()) {
+					try {
+						String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del Álbum",
+								"Ingresar Álbum", JOptionPane.PLAIN_MESSAGE);
+						if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
+							try {
+								Publicacion publicacionAEliminar = perfilInstagram.buscarPublicacion(nombrePublicacion);
+								Album album = perfilInstagram.buscarAlbum(nombreAlbum);
+								perfilInstagram.sacarPublicacionDelAlbum(publicacionAEliminar, album);
+								JOptionPane.showMessageDialog(frame, "Publicacion eliminada del álbum con éxito");
+							} catch (AlbumNoEncontradoExcepcion e1) {
+								JOptionPane.showMessageDialog(frame, "El álbum NO existe. Intente de nuevo.", "Error",
+										JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					} catch (PublicacionNoEncontradaExcepcion e1) {
+						JOptionPane.showMessageDialog(frame, "La publicación NO existe. Intente de nuevo.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
+		gestionaAlbum.add(gaSacarPubli);
 
-	    JMenuItem gaAgregaSubAlbum = new JMenuItem("Crear un subálbum");
-	    gaAgregaSubAlbum.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            JFrame frame = new JFrame();
-	            frame.setAlwaysOnTop(true);
-	            String nombreSubAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del subálbum a crear", "Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
-	            // TODO: Verificar que el nombre ingresado no se repita en el listado de albumes.
-	            if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
-	                String nombreAlbumPadre = JOptionPane.showInputDialog(frame, "Ingrese el nombre del álbum Padre",
-	                        "Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
-	                if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
-	                    try {
-	                        Album albumPadre = PerfilInstagram.getInstance().buscarAlbum(nombreAlbumPadre);
-	                        Album nuevoSubAlbum = new Album(nombreSubAlbum);
-	                        try {
-	                            albumPadre.agregarSubAlbum(nuevoSubAlbum);
-	                            perfilInstagram.agregarAlbum(nuevoSubAlbum);
-	                            JOptionPane.showMessageDialog(frame, "El subálbum fue agregado con éxito");
-	                        } catch (AlbumExistenteExcepcion e1) {
-	                            JOptionPane.showMessageDialog(frame, "El subálbum ya existe");
-	                        }
+		JMenuItem gaAgregaSubAlbum = new JMenuItem("Crear un subálbum");
+		gaAgregaSubAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				frame.setAlwaysOnTop(true);
+				String nombreSubAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del subálbum a crear",
+						"Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
+				// TODO: Verificar que el nombre ingresado no se repita en el listado de
+				// albumes.
+				if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
+					String nombreAlbumPadre = JOptionPane.showInputDialog(frame, "Ingrese el nombre del álbum Padre",
+							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
+					if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
+						try {
+							Album albumPadre = PerfilInstagram.getInstance().buscarAlbum(nombreAlbumPadre);
+							Album nuevoSubAlbum = new Album(nombreSubAlbum);
+							try {
+								albumPadre.agregarSubAlbum(nuevoSubAlbum);
+								perfilInstagram.agregarAlbum(nuevoSubAlbum);
+								JOptionPane.showMessageDialog(frame, "El subálbum fue agregado con éxito");
+							} catch (AlbumExistenteExcepcion e1) {
+								JOptionPane.showMessageDialog(frame, "El subálbum ya existe");
+							}
 
-	                    } catch (AlbumNoEncontradoExcepcion ex) {
-	                        JOptionPane.showMessageDialog(frame, "El álbum padre no existe. Intente de nuevo.", "Error",
-	                                JOptionPane.ERROR_MESSAGE);
-	                    }
-	                }
-	            }
-	        }
-	    });
-	    gestionaAlbum.add(gaAgregaSubAlbum);
+						} catch (AlbumNoEncontradoExcepcion ex) {
+							JOptionPane.showMessageDialog(frame, "El álbum padre no existe. Intente de nuevo.", "Error",
+									JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}
+			}
+		});
+		gestionaAlbum.add(gaAgregaSubAlbum);
 
-	    JMenuItem eliminaAlbum = new JMenuItem("Eliminar álbum");
-	    eliminaAlbum.addActionListener(new ActionListener() {
-	        public void actionPerformed(ActionEvent e) {
-	            JFrame frame = new JFrame();
-	            frame.setAlwaysOnTop(true);
-	            String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del Álbum a eliminar", "Ingresar Álbum", JOptionPane.PLAIN_MESSAGE);
-	            if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
-	                try {
-	                    Album albumAEliminar = perfilInstagram.buscarAlbum(nombreAlbum);
-	                    perfilInstagram.eliminarAlbum(albumAEliminar);
-	                    JOptionPane.showMessageDialog(frame, "El álbum fue eliminado con éxito");
-	                } catch (AlbumNoEncontradoExcepcion e2) {
-	                    JOptionPane.showMessageDialog(frame, "El álbum NO existe. Intente de nuevo.", "Error",
-	                            JOptionPane.ERROR_MESSAGE);
-	                }
-	            }
-	        }
-	    });
+		JMenuItem eliminaAlbum = new JMenuItem("Eliminar álbum");
+		eliminaAlbum.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame frame = new JFrame();
+				frame.setAlwaysOnTop(true);
+				String nombreAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del Álbum a eliminar",
+						"Ingresar Álbum", JOptionPane.PLAIN_MESSAGE);
+				if (nombreAlbum != null && !nombreAlbum.isEmpty()) {
+					try {
+						Album albumAEliminar = perfilInstagram.buscarAlbum(nombreAlbum);
+						perfilInstagram.eliminarAlbum(albumAEliminar);
+						JOptionPane.showMessageDialog(frame, "El álbum fue eliminado con éxito");
+					} catch (AlbumNoEncontradoExcepcion e2) {
+						JOptionPane.showMessageDialog(frame, "El álbum NO existe. Intente de nuevo.", "Error",
+								JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			}
+		});
 
-	    albumes.add(crearAlbum);
-	    albumes.add(gestionaAlbum);
-	    albumes.add(eliminaAlbum);
+		albumes.add(crearAlbum);
+		albumes.add(gestionaAlbum);
+		albumes.add(eliminaAlbum);
 
-	    return albumes;
+		return albumes;
 	}
-
-
 
 	/**
 	 * Crea y devuelve el menú de reportes.
 	 *
-	 * @return El objeto JMenu que representa el menú de reportes, el cual incluye el boton de reporte de albumes en pantalla y txt, reporte de publicaciones en pantalla y txt.
+	 * @return El objeto JMenu que representa el menú de reportes, el cual incluye
+	 *         el boton de reporte de albumes en pantalla y txt, reporte de
+	 *         publicaciones en pantalla y txt.
 	 */
 	public JMenu menuTOPreportes() {
 		JMenu reportes = new JMenu("Reportes");
@@ -320,25 +324,29 @@ public class PerfilUsuario extends JFrame {
 		generaTXT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ReportePublicacion.generarReportePublicacionEnArchivo(perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
+					ReportePublicacion.generarReportePublicacionEnArchivo(
+							perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
-				}		
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
 		LocalDate inicio = LocalDate.parse("2023-04-20");
-		LocalDate fin = LocalDate.parse("2023-05-05"); 
+		LocalDate fin = LocalDate.parse("2023-05-05");
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumesFiltradoPorFecha(inicio, fin));
+					ReporteAlbum.generarReporteAlbumesEnArchivo(
+							perfilInstagram.listadoDeAlbumesFiltradoPorFecha(inicio, fin));
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
-				}	
+					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
+							JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 
@@ -378,12 +386,13 @@ public class PerfilUsuario extends JFrame {
 		JMenuItem Histograma = new JMenuItem("Histograma");
 		Histograma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				JFrame ventanaHistograma = new JFrame("Estadística: Histograma Publicaciones");
 				ventanaHistograma.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 				ventanaHistograma.setSize(600, 600);
 
-				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram.agruparPublicacionesPorTipo();
+				Map<String, List<Publicacion>> listaPublicacionesPorTipo = perfilInstagram
+						.agruparPublicacionesPorTipo();
 				int[] data = new int[listaPublicacionesPorTipo.size()];
 				String[] labels = new String[listaPublicacionesPorTipo.size()];
 				int index = 0;
@@ -429,18 +438,19 @@ public class PerfilUsuario extends JFrame {
 				} catch (SinDatosExcepcion e1) {
 					JOptionPane.showMessageDialog(null, "No hay datos.", "Error", JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		});
 
 		estadisticas.add(mntmGraficoDeTorta);
 		return estadisticas;
 	}
-	
+
 	/**
 	 * Crea y devuelve el menú de opciones.
 	 *
-	 * @return El objeto JMenu que representa el menú de opciones, el cual incluye el boton de cargar datos.
+	 * @return El objeto JMenu que representa el menú de opciones, el cual incluye
+	 *         el boton de cargar datos.
 	 */
 	public JMenu menuTOPopciones() {
 		JMenu opciones = new JMenu("Opciones");
@@ -464,10 +474,10 @@ public class PerfilUsuario extends JFrame {
 	private void actualizarDuracionTotal() {
 		informacionLabel.setText(TiempoUtilidades.duracionFormateada(duracionReproduccionTotal));
 	}
-	
+
 	/**
-	 * Crea el panel de publicaciones seleccionadas para reproducir.
-	 * Informa la duración de reproducción total en base a la configuración seleccionada.
+	 * Crea el panel de publicaciones seleccionadas para reproducir. Informa la
+	 * duración de reproducción total en base a la configuración seleccionada.
 	 * Permite configurar el orden de reproducción.
 	 */
 	private void panelPublicacionesSeleccionadas() {
@@ -497,58 +507,60 @@ public class PerfilUsuario extends JFrame {
 		JButton botonReproducir = new JButton("Reproducir");
 		botonReproducir.setFont(new Font("Arial", Font.PLAIN, 12));
 		botonReproducir.addActionListener(new ActionListener() {
-		    @Override
-		    public void actionPerformed(ActionEvent e) {
-		        JPanel panelMensajes = new JPanel();
-		        panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.PAGE_AXIS));
-		        
-		        JLabel mensajeAplicarFiltros = new JLabel("No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
-	            mensajeAplicarFiltros.setAlignmentX(Component.CENTER_ALIGNMENT);
-		        panelMensajes.add(mensajeAplicarFiltros);
-		        panelMensajes.add(Box.createVerticalStrut(10));
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				JPanel panelMensajes = new JPanel();
+				panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.PAGE_AXIS));
 
-		        JLabel mensajeDuracionReproduccion = new JLabel("El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
-		        mensajeDuracionReproduccion.setAlignmentX(Component.CENTER_ALIGNMENT);
-		        panelMensajes.add(mensajeDuracionReproduccion);
-		        panelMensajes.add(Box.createVerticalStrut(10));
-		        
-		        JLabel mensajeSeleccioneOrden = new JLabel("Selecciona un orden de reproducción:");
-		        mensajeSeleccioneOrden.setAlignmentX(Component.CENTER_ALIGNMENT);
-		        panelMensajes.add(mensajeSeleccioneOrden);
+				JLabel mensajeAplicarFiltros = new JLabel(
+						"No olvides aplicar filtros y seleccionar publicaciones para Reproducir.");
+				mensajeAplicarFiltros.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panelMensajes.add(mensajeAplicarFiltros);
+				panelMensajes.add(Box.createVerticalStrut(10));
 
-		        String[] opciones = { "Nombre", "Fecha", "Cantidad de MG" };
-		        JComboBox<String> comboBoxOrden = new JComboBox<>(opciones);
-		        panelMensajes.add(Box.createVerticalStrut(10));
-		        
-		        panelMensajes.add(comboBoxOrden);
+				JLabel mensajeDuracionReproduccion = new JLabel(
+						"El tiempo de reproducción total es de: " + duracionReproduccionTotal + " segundos.");
+				mensajeDuracionReproduccion.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panelMensajes.add(mensajeDuracionReproduccion);
+				panelMensajes.add(Box.createVerticalStrut(10));
 
-		        int opcionSeleccionada = JOptionPane.showOptionDialog(null, panelMensajes, "Orden de Reproducción",
-		                JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
-		        
-		        if (opcionSeleccionada == JOptionPane.OK_OPTION) {
-		            String seleccionOrden = (String) comboBoxOrden.getSelectedItem();
-		            List<Publicacion> copiaPublicaciones = new ArrayList<>(publicacionesSeleccionadasPanel);
+				JLabel mensajeSeleccioneOrden = new JLabel("Selecciona un orden de reproducción:");
+				mensajeSeleccioneOrden.setAlignmentX(Component.CENTER_ALIGNMENT);
+				panelMensajes.add(mensajeSeleccioneOrden);
 
-		            if (seleccionOrden.equals("Nombre")) {
-		                Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getNombrePublicacion, String.CASE_INSENSITIVE_ORDER));
-		            } else if (seleccionOrden.equals("Fecha")) {
-		                Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getFechaSubida));
-		            } else if (seleccionOrden.equals("Cantidad de MG")) {
-		                Collections.sort(copiaPublicaciones, Comparator.comparingInt(Publicacion::getCantidadMG));
-		            }
-			        
-		            JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
-		            ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		            ventanaReproduccion.setSize(600, 600);
+				String[] opciones = { "Nombre", "Fecha", "Cantidad de MG" };
+				JComboBox<String> comboBoxOrden = new JComboBox<>(opciones);
+				panelMensajes.add(Box.createVerticalStrut(10));
 
-		            Reproduccion panelReproduccion = new Reproduccion(copiaPublicaciones);
-		            ventanaReproduccion.setContentPane(panelReproduccion);
+				panelMensajes.add(comboBoxOrden);
 
-		            ventanaReproduccion.setVisible(true);
-		        }
-		    }
+				int opcionSeleccionada = JOptionPane.showOptionDialog(null, panelMensajes, "Orden de Reproducción",
+						JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null, null, null);
+
+				if (opcionSeleccionada == JOptionPane.OK_OPTION) {
+					String seleccionOrden = (String) comboBoxOrden.getSelectedItem();
+					List<Publicacion> copiaPublicaciones = new ArrayList<>(publicacionesSeleccionadasPanel);
+
+					if (seleccionOrden.equals("Nombre")) {
+						Collections.sort(copiaPublicaciones,
+								Comparator.comparing(Publicacion::getNombrePublicacion, String.CASE_INSENSITIVE_ORDER));
+					} else if (seleccionOrden.equals("Fecha")) {
+						Collections.sort(copiaPublicaciones, Comparator.comparing(Publicacion::getFechaSubida));
+					} else if (seleccionOrden.equals("Cantidad de MG")) {
+						Collections.sort(copiaPublicaciones, Comparator.comparingInt(Publicacion::getCantidadMG));
+					}
+
+					JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
+					ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+					ventanaReproduccion.setSize(600, 600);
+
+					Reproduccion panelReproduccion = new Reproduccion(copiaPublicaciones);
+					ventanaReproduccion.setContentPane(panelReproduccion);
+
+					ventanaReproduccion.setVisible(true);
+				}
+			}
 		});
-
 
 		tiempoReproduccionPanel.add(botonReproducir, BorderLayout.SOUTH);
 		panelLateral.add(tiempoReproduccionPanel, BorderLayout.SOUTH);
@@ -562,17 +574,17 @@ public class PerfilUsuario extends JFrame {
 
 		scrollPane.setViewportView(listaSeleccionadasPanel);
 		panelLateral.add(scrollPane, BorderLayout.CENTER);
-		if(contentPane.getComponentCount() > 1) {
-			contentPane.remove(1);			
+		if (contentPane.getComponentCount() > 1) {
+			contentPane.remove(1);
 		}
 		contentPane.add(panelLateral, BorderLayout.WEST);
 	}
-	
+
 	/**
-	 * Crea y muestra la pantalla principal de la aplicación.
-	 * Esta pantalla muestra las publicaciones disponibles para seleccionar.
-	 * Permite agregar las publicaciones seleccionadas a la lista de reproducción.
-	 * También permite configurar y editar las publicaciones seleccionadas.
+	 * Crea y muestra la pantalla principal de la aplicación. Esta pantalla muestra
+	 * las publicaciones disponibles para seleccionar. Permite agregar las
+	 * publicaciones seleccionadas a la lista de reproducción. También permite
+	 * configurar y editar las publicaciones seleccionadas.
 	 */
 	public void pantallaPrincipal() {
 		jpPublicaciones = new JPanel();
@@ -616,7 +628,7 @@ public class PerfilUsuario extends JFrame {
 					@Override
 					public void actionPerformed(ActionEvent e) {
 						if (cBox.isSelected()) {
-							
+
 							publicacionesSeleccionadasPanel.add(publicacion);
 							final float[] duracionActual = { publicacion.getDuracion() };
 							duracionReproduccionTotal += duracionActual[0];
@@ -684,7 +696,7 @@ public class PerfilUsuario extends JFrame {
 
 						} else {
 							publicacionesSeleccionadasPanel.remove(publicacion);
-							duracionReproduccionTotal-= publicacion.getDuracion();
+							duracionReproduccionTotal -= publicacion.getDuracion();
 
 							// Eliminar el panel de la publicación seleccionada de la lista lateral
 							Component[] components = listaSeleccionadasPanel.getComponents();
@@ -713,8 +725,8 @@ public class PerfilUsuario extends JFrame {
 				panel.add(cBox);
 
 				jpPublicaciones.add(panel);
-				ToolTipManager.sharedInstance().setInitialDelay(20); 
-				ToolTipManager.sharedInstance().setDismissDelay(10000); 
+				ToolTipManager.sharedInstance().setInitialDelay(20);
+				ToolTipManager.sharedInstance().setDismissDelay(10000);
 			}
 			JPanel panelContenedor = new JPanel(new BorderLayout());
 			panelContenedor.add(jpPublicaciones, BorderLayout.CENTER);
