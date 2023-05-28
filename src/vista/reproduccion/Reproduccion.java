@@ -2,6 +2,7 @@ package vista.reproduccion;
 
 import utilidades.FechaUtilidades;
 import utilidades.TiempoUtilidades;
+import vista.edicion.PanelGeneralEdicion;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -57,24 +58,6 @@ public class Reproduccion extends JPanel {
 	/** Barra de progreso de reproducción. */
 	private JProgressBar progressBar;
 
-	/** Etiqueta para el nombre de la publicación. */
-	private JLabel lblNombre;
-
-	/** Etiqueta para el valor del nombre de la publicación. */
-	private JLabel lblNombreValor;
-
-	/** Etiqueta para la fecha de la publicación. */
-	private JLabel lblFecha;
-
-	/** Etiqueta para el valor de la fecha de la publicación. */
-	private JLabel lblFechaValor;
-
-	/** Etiqueta para la cantidad de "Me gusta" de la publicación. */
-	private JLabel lblMG;
-
-	/** Etiqueta para el valor de la cantidad de "Me gusta" de la publicación. */
-	private JLabel lblMGValor;
-
 	/**
 	 * Constructor de la clase Reproduccion.
 	 *
@@ -91,7 +74,7 @@ public class Reproduccion extends JPanel {
 
 		panelInformacion = new JPanel();
 		add(panelInformacion, BorderLayout.CENTER);
-		panelInformacion.setLayout(new GridLayout(4, 1, 0, 0));
+		panelInformacion.setLayout(new GridLayout(3, 0, 0, 0));
 
 		cargarListaReproduccion(publicacionesSeleccionadas);
 		cargarPanelDeInformacion(publicacionesSeleccionadas);
@@ -244,34 +227,10 @@ public class Reproduccion extends JPanel {
 	  * @param publicacion : Publicación actualmente reproduciéndose.
 	 */
 	public void renderizarPanelesDeInformacion(Publicacion publicacion) {
-	    lblNombre = new JLabel("La publicacion reproduciendose es:");
-	    lblNombre.setPreferredSize(new Dimension(100, 20));
-	    panelInformacion.add(lblNombre);
-
-	    lblNombreValor = new JLabel("");
-	    lblNombreValor.setPreferredSize(new Dimension(200, 20));
-	    lblNombreValor.setText(publicacion.getNombrePublicacion());
-	    panelInformacion.add(lblNombreValor);
-
-	    lblFecha = new JLabel("Fecha:");
-	    lblFecha.setPreferredSize(new Dimension(100, 20));
-	    panelInformacion.add(lblFecha);
-
-	    lblFechaValor = new JLabel("");
-	    lblFechaValor.setPreferredSize(new Dimension(200, 20));
-	    String fecha = FechaUtilidades.formatearFechaAString(publicacion.getFechaSubida());
-	    lblFechaValor.setText(fecha);
-	    panelInformacion.add(lblFechaValor);
-
-	    lblMG = new JLabel("Cantidad de Me gusta:");
-	    lblMG.setPreferredSize(new Dimension(150, 20));
-	    panelInformacion.add(lblMG);
-
-	    lblMGValor = new JLabel("");
-	    lblMGValor.setPreferredSize(new Dimension(50, 20));
-	    lblMGValor.setText(String.valueOf(publicacion.getCantidadMG()));
-	    panelInformacion.add(lblMGValor);
-
+		
+		PanelGeneralReproduccion panelGeneral = new PanelGeneralReproduccion(publicacion);
+		panelInformacion.add(panelGeneral);
+	    
 	    if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO
 	            || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
 	        panelInformacion.add(new PanelReproduccionDuracion((IDurable) publicacion));

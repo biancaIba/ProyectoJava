@@ -539,7 +539,7 @@ public class PerfilUsuario extends JFrame {
 			        
 		            JFrame ventanaReproduccion = new JFrame("Edición de la publicación");
 		            ventanaReproduccion.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		            ventanaReproduccion.setSize(900, 900);
+		            ventanaReproduccion.setSize(600, 600);
 
 		            Reproduccion panelReproduccion = new Reproduccion(copiaPublicaciones);
 		            ventanaReproduccion.setContentPane(panelReproduccion);

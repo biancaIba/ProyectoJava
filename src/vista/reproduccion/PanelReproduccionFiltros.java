@@ -1,11 +1,14 @@
 package vista.reproduccion;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import modelo.interfaces.IFiltrable;
+import javax.swing.SwingConstants;
 
 /**
  * Clase PanelReproduccionFiltros.
@@ -39,13 +42,15 @@ public class PanelReproduccionFiltros  extends JPanel  {
 	 * Instancia los componentes del panel de filtros.
 	 */
 	public void instanciarPanelfiltros() {
-		
+		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new GridLayout(0, 2, 0, 0));
 		
 		lblFiltro = new JLabel("Filtro aplicado:");
+		lblFiltro.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblFiltro);
 		
 		lblFiltroValor = new JLabel("..Valor...");
+		lblFiltroValor.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblFiltroValor);
 		
 		add(lblFiltroValor);

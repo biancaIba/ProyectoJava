@@ -1,12 +1,14 @@
 package vista.reproduccion;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JProgressBar;
+import javax.swing.border.LineBorder;
 
 import modelo.interfaces.IDurable;
+import javax.swing.SwingConstants;
 
 /**
  * Clase PanelReproduccionDuracion.
@@ -30,15 +32,6 @@ public class PanelReproduccionDuracion  extends JPanel  {
 	/** Etiqueta fin valor. */
 	private JLabel lblFinValor;
 	
-	/** Etiqueta duracion. */
-	private JLabel lblDuracion;
-	
-	/** Etiqueta duracion valor. */
-	private JLabel lblDuracionValor;
-	
-	/** The progress bar. */
-	private JProgressBar progressBar;
-	
 	 /**
      * Crea un nuevo objeto PanelReproduccionDuracion.
      *
@@ -57,28 +50,25 @@ public class PanelReproduccionDuracion  extends JPanel  {
      * Este método configura un layout de rejilla (GridLayout) y crea y agrega las etiquetas correspondientes.
      */
 	public void instanciarPanelDuracion() {
-	
+		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(new GridLayout(3, 2, 0, 0));
 		
 		lblInicio = new JLabel("Inicio:");
+		lblInicio.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblInicio);
 		
 		lblInicioValor = new JLabel("..Valor..");
+		lblInicioValor.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblInicioValor);
 		
 		lblFin = new JLabel("Fin:");
+		lblFin.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblFin);
 		
 		lblFinValor = new JLabel("..Valor..");
+		lblFinValor.setHorizontalAlignment(SwingConstants.CENTER);
 		add(lblFinValor);
 		
-		lblDuracion = new JLabel("Duracion:");
-		add(lblDuracion);
-		
-		lblDuracionValor = new JLabel("...Valor..");
-		add(lblDuracionValor);
-		
-		add(lblDuracionValor);
 	}
 	
 	/**
@@ -87,6 +77,5 @@ public class PanelReproduccionDuracion  extends JPanel  {
 	public void cargarPanelDuracion() {
 		lblInicioValor.setText(Float.toString(this.publicacion.getInicioReproduccion()));
 		lblFinValor.setText(Float.toString(this.publicacion.getFinReproduccion()));
-		lblDuracionValor.setText(Float.toString(this.publicacion.getFinReproduccion() - this.publicacion.getInicioReproduccion()));
 	}
 }

@@ -17,13 +17,17 @@ import utilidades.TiempoUtilidades;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-
-public class PanelGeneral extends JPanel {
+/**
+ * Clase PanelGeneralEdicion.
+ * 
+ * Panel que muestra los datos de la publicacion que se esta configurando la reproduccion.
+ */
+public class PanelGeneralEdicion extends JPanel {
 	private Publicacion publicacion;
 	private JLabel lblDuracionActualValor;
 	private JLabel lblNombrePublicacionValor;
 
-	public PanelGeneral(Publicacion publicacion) {
+	public PanelGeneralEdicion(Publicacion publicacion) {
 		super();
 		this.publicacion = publicacion;
 		instanciarPanelDuracionGeneral();

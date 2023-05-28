@@ -35,10 +35,10 @@ public class Edicion extends JPanel {
         Border compoundBorder = BorderFactory.createCompoundBorder(lineBorder, paddingBorder);
         this.setBorder(compoundBorder);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        PanelGeneral panelDuracionGeneral = new PanelGeneral(publicacion);
-        add(panelDuracionGeneral);
+        PanelGeneralEdicion panelGeneral = new PanelGeneralEdicion(publicacion);
+        add(panelGeneral);
 		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
-			add(new PanelDuracion((IDurable)publicacion, panelDuracionGeneral::cargarDatosDuracion));
+			add(new PanelDuracion((IDurable)publicacion, panelGeneral::cargarDatosDuracion));
 		}
 		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
 			add(new PanelFiltros((IFiltrable)publicacion));
