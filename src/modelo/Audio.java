@@ -99,7 +99,7 @@ public class Audio extends Publicacion implements IDurable {
 	 *
 	 * @return el inicio
 	 */
-	public float getInicio() {
+	public float getInicioReproduccion() {
 		return inicio;
 	}
 
@@ -108,7 +108,7 @@ public class Audio extends Publicacion implements IDurable {
 	 *
 	 * @return el fin
 	 */
-	public float getFin() {
+	public float getFinOriginal() {
 		return fin;
 	}
 

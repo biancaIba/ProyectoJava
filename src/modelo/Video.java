@@ -130,7 +130,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	 *
 	 * @return the inicio
 	 */
-	public float getInicio() {
+	public float getInicioReproduccion() {
 		return inicio;
 	}
 
@@ -139,7 +139,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	 *
 	 * @return the fin
 	 */
-	public float getFin() {
+	public float getFinOriginal() {
 		return fin;
 	}
 

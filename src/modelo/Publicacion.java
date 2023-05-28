@@ -58,6 +58,14 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 		this.listaComentarios = new ArrayList<String>();
 		this.listaAlbumesPertenece = new ArrayList<Album>();
 	}
+	
+	/**
+	 * Obtiene la duracion actualizada según la configuración particular de la reproducción.
+	 *
+	 * @return duracion [segundos]
+	 */
+	//
+	public abstract float getDuracion();
 
 	/**
 	 * Obtiene el nombre de la publicacion.
@@ -112,13 +120,6 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 	public void setCantidadMG(int cantMG) {
 		this.cantidadMG = cantMG;
 	}
-
-	/**
-	 * Metodo abstracto que obtiene la duracion.
-	 *
-	 * @return la duracion
-	 */
-	public abstract float getDuracion();
 
 	/**
 	 * To string.

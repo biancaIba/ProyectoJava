@@ -12,6 +12,7 @@ import modelo.Publicacion;
 import modelo.enums.EnumTipoPublicacion;
 import modelo.interfaces.IDurable;
 import modelo.interfaces.IFiltrable;
+import javax.swing.BoxLayout;
 
 /**
  * Clase Edicion.
@@ -29,14 +30,15 @@ public class Edicion extends JPanel {
 	public Edicion(Publicacion publicacion) {
 		super();
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-		setLayout(new GridLayout(2, 1, 0, 15));
 		Border paddingBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border lineBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
         Border compoundBorder = BorderFactory.createCompoundBorder(lineBorder, paddingBorder);
         this.setBorder(compoundBorder);
-        
+        setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
+        PanelGeneral panelDuracionGeneral = new PanelGeneral(publicacion);
+        add(panelDuracionGeneral);
 		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
-			add(new PanelDuracion((IDurable)publicacion));
+			add(new PanelDuracion((IDurable)publicacion, panelDuracionGeneral::cargarDatosDuracion));
 		}
 		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
 			add(new PanelFiltros((IFiltrable)publicacion));

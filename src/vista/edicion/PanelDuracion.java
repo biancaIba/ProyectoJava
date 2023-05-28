@@ -34,9 +34,6 @@ public class PanelDuracion extends JPanel {
 	/** Etiqueta para mostrar el valor de fin. */
 	private JLabel lblFinValor;
 	
-	/** Etiqueta para mostrar el valor de duración actual. */
-	private JLabel lblDuracionActualValor;
-	
 	/** Etiqueta para mostrar el valor de duración original. */
 	private JLabel lblDuracionOriginalValor;
 	
@@ -45,17 +42,17 @@ public class PanelDuracion extends JPanel {
 	 *
 	 * @param publicacion : la publicación asociada al panel de duración.
 	 */
-	public PanelDuracion(IDurable publicacion) {
+	public PanelDuracion(IDurable publicacion, Runnable onChangeDuration) {
 		super();
 		this.publicacion = publicacion;
-		instanciarPanelDuracion();
+		instanciarPanelDuracion(onChangeDuration);
 		cargarDatosDuracion();
 	}
 	
 	/**
 	 * Configura y crea los elementos del panel de duración.
 	 */
-	private void instanciarPanelDuracion() {
+	private void instanciarPanelDuracion(Runnable onChangeDuracion) {
 		Border paddingBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border lineBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
         Border compoundBorder = BorderFactory.createCompoundBorder(lineBorder, paddingBorder);
@@ -65,15 +62,16 @@ public class PanelDuracion extends JPanel {
 		JLabel lblInicio = new JLabel("Inicio:");
 		add(lblInicio);
 		
-		lblInicioValor = new JLabel("...Valor...");
+		lblInicioValor = new JLabel("");
 		add(lblInicioValor);
 		
 		JButton btnAtrasarInicio = new JButton("<");
 		btnAtrasarInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				float inicioRelativoNuevo = publicacion.getInicio() - 1;
+				float inicioRelativoNuevo = publicacion.getInicioReproduccion() - 1;
 				try {
 					publicacion.avanzar(inicioRelativoNuevo);
+					onChangeDuracion.run();
 					cargarDatosDuracion();
 				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
@@ -86,9 +84,10 @@ public class PanelDuracion extends JPanel {
 		JButton btnAdelantarInicio = new JButton(">");
 		btnAdelantarInicio.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				float inicioRelativoNuevo = publicacion.getInicio() + 1;
+				float inicioRelativoNuevo = publicacion.getInicioReproduccion() + 1;
 				try {
 					publicacion.avanzar(inicioRelativoNuevo);
+					onChangeDuracion.run();
 					cargarDatosDuracion();
 				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
@@ -101,7 +100,7 @@ public class PanelDuracion extends JPanel {
 		JLabel lblFin = new JLabel("Fin:");
 		add(lblFin);
 		
-		lblFinValor = new JLabel("...Valor...");
+		lblFinValor = new JLabel("");
 		add(lblFinValor);
 		
 		JButton btnAtrasarFin = new JButton("<");
@@ -110,6 +109,7 @@ public class PanelDuracion extends JPanel {
 				float finRelativo = publicacion.getFinReproduccion() - 1 ;
 				try {
 					publicacion.detener(finRelativo);
+					onChangeDuracion.run();
 					cargarDatosDuracion();
 				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
@@ -127,6 +127,7 @@ public class PanelDuracion extends JPanel {
 				float finRelativo = publicacion.getFinReproduccion() + 1 ;
 				try {
 					publicacion.detener(finRelativo);
+					onChangeDuracion.run();
 					cargarDatosDuracion();
 				} catch (DuracionInvalidaExcepcion error) {
 					JOptionPane.showMessageDialog(null,error.getMessage(),
@@ -136,22 +137,10 @@ public class PanelDuracion extends JPanel {
 		});
 		add(btnAdelantarFin);
 		
-		JLabel lblDuracionActual = new JLabel("Duración actual:");
-		add(lblDuracionActual);
-		
-		lblDuracionActualValor = new JLabel("...Valor...");
-		add(lblDuracionActualValor);
-		
-		JLabel lblEmpty_1 = new JLabel("");
-		add(lblEmpty_1);
-		
-		JLabel lblEmpty_2 = new JLabel("");
-		add(lblEmpty_2);
-		
 		JLabel lblDuracionOriginal = new JLabel("Duración original:");
 		add(lblDuracionOriginal);
 		
-		lblDuracionOriginalValor = new JLabel("...Valor...");
+		lblDuracionOriginalValor = new JLabel("");
 		add(lblDuracionOriginalValor);
 	}
 	
@@ -159,9 +148,8 @@ public class PanelDuracion extends JPanel {
 	 * Carga los datos de duración actual en las etiquetas correspondientes.
 	 */
 	private void cargarDatosDuracion() {
-		this.lblInicioValor.setText(Float.toString(this.publicacion.getInicio()));
+		this.lblInicioValor.setText(Float.toString(this.publicacion.getInicioReproduccion()));
 		this.lblFinValor.setText(Float.toString(this.publicacion.getFinReproduccion()));
-		this.lblDuracionActualValor.setText(Float.toString(this.publicacion.getDuracion()));
-		this.lblDuracionOriginalValor.setText(Float.toString(this.publicacion.getFin()));
+		this.lblDuracionOriginalValor.setText(Float.toString(this.publicacion.getFinOriginal()));
 	}
 }

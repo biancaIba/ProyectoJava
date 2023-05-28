@@ -3,14 +3,14 @@ package modelo.interfaces;
 import excepciones.DuracionInvalidaExcepcion;
 
 /**
- * La Interface Durable.
+ * Interface Durable.
  */
 public interface IDurable {
 
 	/**
 	 * Avanzar.
 	 *
-	 * @param inicioRelativo
+	 * @param inicioRelativo [segundos]
 	 * @throws DuracionInvalidaExcepcion
 	 */
 	void avanzar(float inicioRelativo) throws DuracionInvalidaExcepcion;
@@ -18,36 +18,29 @@ public interface IDurable {
 	/**
 	 * Detener.
 	 *
-	 * @param finRelativo
+	 * @param finRelativo [segundos]
 	 * @throws DuracionInvalidaExcepcion
 	 */
 	void detener(float finRelativo) throws DuracionInvalidaExcepcion;
 
 	/**
-	 * Obtiene el inicio.
+	 * Obtiene el tiempo de inicio configurado en la reproducción.
 	 *
-	 * @return el inicio
+	 * @return tiempo de inicio [segundos]
 	 */
-	float getInicio();
+	float getInicioReproduccion();
 
 	/**
-	 * Obtiene el fin.
+	 * Obtiene el tiempo de finalización original.
 	 *
-	 * @return el fin
+	 * @return tiempo de finalización original [segundos]
 	 */
-	float getFin();
+	float getFinOriginal();
 
 	/**
-	 * Obtiene el fin de reproduccion.
+	 * Obtiene el fin configurado en la reproducción.
 	 *
-	 * @return el fin reproduccion
+	 * @return tiempo de detencón configurada en la reproducción [segundos]
 	 */
 	float getFinReproduccion();
-
-	/**
-	 * Obtiene la duracion.
-	 *
-	 * @return the duracion
-	 */
-	float getDuracion();
 }
