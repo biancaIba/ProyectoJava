@@ -65,7 +65,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Setea la resolucion.
 	 *
-	 * @param resolucion the new resolucion
+	 * @param resolucion la  nueva resolucion
 	 */
 	public void setResolucion(String resolucion) {
 		this.resolucion = resolucion;
@@ -83,7 +83,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Setea el ancho.
 	 *
-	 * @param ancho the new ancho
+	 * @param ancho el nuevo ancho
 	 */
 	public void setAncho(int ancho) {
 		this.ancho = ancho;
@@ -101,7 +101,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Setea el alto.
 	 *
-	 * @param alto the new alto
+	 * @param alto el nuevo alto
 	 */
 	public void setAlto(int alto) {
 		this.alto = alto;
@@ -121,7 +121,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Aplicar filtro. De la interface Filtrable.
 	 *
-	 * @param filtro the filtro
+	 * @param filtro el filtro
 	 */
 	public void aplicarFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
