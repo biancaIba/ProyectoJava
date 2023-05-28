@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
-
 import excepciones.AlbumExistenteExcepcion;
 import excepciones.AlbumNoEncontradoExcepcion;
 import excepciones.PublicacionNoEncontradaExcepcion;
@@ -31,18 +30,41 @@ import modelo.reportes.ReportePublicacion;
 import utilidades.CargaXML;
 import utilidades.FechaUtilidades;
 
+/**
+ * La Class PerfilInstagram.
+ * Implementa Serializable.
+ * Modelo Singelton.
+ */
 public class PerfilInstagram implements Serializable {
+	
+	/** El nombre del perfil. */
 	private String nombrePerfil;
+	
+	/** Estatico serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** El perfil. */
 	private static PerfilInstagram perfil;
+	
+	/** La lista de publicaciones. */
 	private Set<Publicacion> listaPublicaciones;
+	
+	/** La lista de albumes. */
 	private List<Album> listaAlbumes;
 
+	/**
+	 * Instacia un perfil.
+	 */
 	private PerfilInstagram() {
 		this.listaPublicaciones = new TreeSet<Publicacion>();
 		this.listaAlbumes = new ArrayList<Album>();
 	}
 
+	/**
+	 * Obtiene la unica instacia de PerfilInstagram.
+	 *
+	 * @return la unica instacia del perfil
+	 */
 	public static PerfilInstagram getInstance() {
 		if (perfil == null) {
 			PerfilInstagram _perfil = PerfilInstagram.recuperaPerfilSerializado();
@@ -50,7 +72,12 @@ public class PerfilInstagram implements Serializable {
 		}
 		return perfil;
 	}
-	
+
+	/**
+	 * Recupera perfil serializado.
+	 *
+	 * @return la unica instacia del perfil
+	 */
 	private static PerfilInstagram recuperaPerfilSerializado() {
 		try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("Perfil.ser"))) {
 			return (PerfilInstagram) in.readObject();
@@ -63,15 +90,17 @@ public class PerfilInstagram implements Serializable {
 		}
 		return null;
 	}
-	
+
+	/**
+	 * Serializa los datos en un archivo "Perfil.ser".
+	 */
 	public static void serializar() {
 		File datos = new File("Perfil.ser");
-        if (datos.exists()) {
-            datos.delete(); 
-        }
-        
-        try (
-        	ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Perfil.ser"))) {
+		if (datos.exists()) {
+			datos.delete();
+		}
+
+		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Perfil.ser"))) {
 			out.writeObject(PerfilInstagram.getInstance());
 		} catch (NotSerializableException e) {
 			System.out.println("Un objeto no es serializable: " + e.getMessage());
@@ -80,29 +109,60 @@ public class PerfilInstagram implements Serializable {
 		}
 
 	}
-	
+
+	/**
+	 * Setea el nombre del perfil.
+	 *
+	 * @param nombre
+	 */
 	public void setNombrePerfil(String nombre) {
 		this.nombrePerfil = nombre;
 	}
-	
+
+	/**
+	 * Obtiene el nombre del perfil.
+	 *
+	 * @return el nombre del perfil
+	 */
 	public String getNombrePerfil() {
 		return this.nombrePerfil;
 	}
 
+	/**
+	 * Carga las publicaciones y datos del perfil desde un XML.
+	 * Instancia un objeto de la clase CargaXML
+	 * e invoca al metodo cargarPublicacionesXML().
+	 */
 	public void cargarPublicaciones() {
 		CargaXML cargador = new CargaXML();
 		cargador.cargarPublicacionesXML(this);
 
 	}
 
+	/**
+	 * Obtiene la lista de albumes.
+	 *
+	 * @return la lista de albumes
+	 */
 	public List<Album> getListaAlbumes() {
 		return listaAlbumes;
 	}
 
+	/**
+	 * Setea la lista de albumes.
+	 *
+	 * @param listaAlbumes
+	 */
 	public void setListaAlbumes(List<Album> listaAlbumes) {
 		this.listaAlbumes = listaAlbumes;
 	}
 
+	/**
+	 * Obtiene la lista de publicaciones.
+	 *
+	 * @return lista de publicaciones
+	 * @throws SinDatosExcepcion
+	 */
 	public Set<Publicacion> getPublicaciones() throws SinDatosExcepcion {
 		if (listaPublicaciones.isEmpty()) {
 			throw new SinDatosExcepcion("No hay datos.");
@@ -114,6 +174,12 @@ public class PerfilInstagram implements Serializable {
 		return listaPublicaciones;
 	}
 
+	/**
+	 * Obtiene los nombres de todas las publicaciones en una lista.
+	 *
+	 * @return la lista de nombres
+	 * @throws SinDatosExcepcion
+	 */
 	public Set<String> getNombresPublicaciones() throws SinDatosExcepcion {
 		if (listaPublicaciones.isEmpty()) {
 			throw new SinDatosExcepcion("No hay datos.");
@@ -125,21 +191,38 @@ public class PerfilInstagram implements Serializable {
 		return nombres;
 	}
 
+	/**
+	 * Agrega una publicacion a la lista de publicaciones.
+	 *
+	 * @param publi publicacion
+	 */
 	public void agregarPublicacion(Publicacion publi) {
 		if (publi != null) {
 			this.listaPublicaciones.add(publi);
 		}
 	}
 
+	/**
+	 * Agrega un album a la lista de albumes del perfil.
+	 *
+	 * @param album
+	 * @throws AlbumExistenteExcepcion
+	 */
 	public void agregarAlbum(Album album) throws AlbumExistenteExcepcion {
-	    if (listaAlbumes.contains(album)) {
-	        throw new AlbumExistenteExcepcion("El álbum ya existe");
-	    } else {
-	        listaAlbumes.add(album);
-	    }
+		if (listaAlbumes.contains(album)) {
+			throw new AlbumExistenteExcepcion("El álbum ya existe");
+		} else {
+			listaAlbumes.add(album);
+		}
 	}
 
-
+	/**
+	 * Busca el album por nombre.
+	 *
+	 * @param nombre nombre del album a buscar
+	 * @return el album si existe
+	 * @throws AlbumNoEncontradoExcepcion
+	 */
 	public Album buscarAlbum(String nombre) throws AlbumNoEncontradoExcepcion {
 		for (Album album : listaAlbumes) {
 			if (album.getNombreAlbum().equals(nombre)) {
@@ -154,6 +237,13 @@ public class PerfilInstagram implements Serializable {
 		throw new AlbumNoEncontradoExcepcion("El álbum '" + nombre + "' no existe.");
 	}
 
+	/**
+	 * Busca la publicacion por nombre.
+	 *
+	 * @param nombre nombre de la publicacion a buscar
+	 * @return la publicacion si existe
+	 * @throws PublicacionNoEncontradaExcepcion
+	 */
 	public Publicacion buscarPublicacion(String nombre) throws PublicacionNoEncontradaExcepcion {
 		Iterator<Publicacion> i = listaPublicaciones.iterator();
 		while (i.hasNext()) {
@@ -164,6 +254,11 @@ public class PerfilInstagram implements Serializable {
 		throw new PublicacionNoEncontradaExcepcion("La publicación no se encuentra en la lista.");
 	}
 
+	/**
+	 * Agrupa publicaciones por tipo.
+	 *
+	 * @return el mapa
+	 */
 	public Map<String, List<Publicacion>> agruparPublicacionesPorTipo() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = new HashMap<>();
 		for (Publicacion publicacion : listaPublicaciones) {
@@ -174,6 +269,9 @@ public class PerfilInstagram implements Serializable {
 		return publicacionesPorTipo;
 	}
 
+	/**
+	 * Muestra las publicaciones por tipo.
+	 */
 	public void mostrarPublicacionesPorTipo() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = this.ordenarPublicacionesPorMg();
 		for (Map.Entry<String, List<Publicacion>> entry : publicacionesPorTipo.entrySet()) {
@@ -184,14 +282,18 @@ public class PerfilInstagram implements Serializable {
 		}
 	}
 
+	/**
+	 * Ordena las publicaciones por cantidad de Me Gustas.
+	 *
+	 * @return el mapa
+	 */
 	public Map<String, List<Publicacion>> ordenarPublicacionesPorMg() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = this.agruparPublicacionesPorTipo();
 		for (Map.Entry<String, List<Publicacion>> entry : publicacionesPorTipo.entrySet()) {
-			List<Publicacion> publicaciones = entry.getValue();// obtengo la lista completa
+			List<Publicacion> publicaciones = entry.getValue();
 			Collections.sort(publicaciones, new Comparator<Publicacion>() {
 				@Override
 				public int compare(Publicacion p1, Publicacion p2) {
-					// al cambiar el orden de p2 y p1 los ordena descendentemente
 					return Integer.compare(p2.getCantidadMG(), p1.getCantidadMG());
 				}
 			});
@@ -199,6 +301,11 @@ public class PerfilInstagram implements Serializable {
 		return publicacionesPorTipo;
 	}
 
+	/**
+	 * Cantidad y promedio de mg.
+	 *
+	 * @return la lista
+	 */
 	public List<ReportePublicacion> cantidadYpromedioDeMg() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = this.ordenarPublicacionesPorMg();
 		List<ReportePublicacion> reporte = new ArrayList<ReportePublicacion>();
@@ -217,11 +324,23 @@ public class PerfilInstagram implements Serializable {
 		return reporte;
 	}
 
+	/**
+	 * Agrega una publicacion dentro de un album.
+	 *
+	 * @param album
+	 * @param publicacion
+	 */
 	public void agregarPublicacionDentroAlbum(Album album, Publicacion publicacion) {
 		publicacion.agregaAlbumPertenece(album);
 		album.agregaPublicacionAalbum(publicacion);
 	}
 
+	/**
+	 * Elimina un album de la lista de albumes.
+	 *
+	 * @param albumAEliminar
+	 * @throws AlbumNoEncontradoExcepcion
+	 */
 	public void eliminarAlbum(Album albumAEliminar) throws AlbumNoEncontradoExcepcion {
 		if (listaAlbumes.contains(albumAEliminar)) {
 			desasociarSubalbumDeAlbum(albumAEliminar);
@@ -230,11 +349,17 @@ public class PerfilInstagram implements Serializable {
 			throw new AlbumNoEncontradoExcepcion("Album no encontrado");
 		}
 	}
-	
+
+	/**
+	 * Elimina un album y sus subalbumes.
+	 *
+	 * @param albumAEliminar
+	 * @throws AlbumNoEncontradoExcepcion
+	 */
 	private void eliminarAlbumYSubalbumes(Album albumAEliminar) throws AlbumNoEncontradoExcepcion {
-		if(listaAlbumes.contains(albumAEliminar)) {
+		if (listaAlbumes.contains(albumAEliminar)) {
 			albumAEliminar.desasociarReferenciasAPublicaciones();
-			for(Album subAlbum : albumAEliminar.getSublistaAlbumes()) {
+			for (Album subAlbum : albumAEliminar.getSublistaAlbumes()) {
 				eliminarAlbumYSubalbumes(subAlbum);
 			}
 			listaAlbumes.remove(albumAEliminar);
@@ -242,15 +367,21 @@ public class PerfilInstagram implements Serializable {
 			throw new AlbumNoEncontradoExcepcion("Album no encontrado");
 		}
 	}
-	
+
+	/**
+	 * Desasocia un subalbum de su album padre.
+	 * Recorre todos los albumes. Y por cada album recorre todos los subalbumes 
+	 * hasta fijarse si encontró el subalbum y eliminarlo de la lista de subalbumes.
+	 * Esto se hace siempre, aunque el album no sea un subalbum,
+	 * porque no se tiene esa información hasta que se finaliza el recorrido.
+	 *
+	 * @param subAlbum
+	 * @throws AlbumNoEncontradoExcepcion
+	 */
 	private void desasociarSubalbumDeAlbum(Album subAlbum) throws AlbumNoEncontradoExcepcion {
-		// Recorrer todos los albumes -> Por cada album recorrer todos los subalbumes hasta fijarse si se encontró ese subalbum -> eliminar de la lista de subalbumes.
-		// Esto se debería hacer siempre, por mas que el album no sea un subalbum, porque no se tiene esa información hasta que se finalice el recorrido.
-		// Esto se evitaría si agregamos un atributo albumPadre a la clase album. Este atributo, si es != null indica que el album actual es un subalbum, y además guarda la referencia a su padre
-		// (y recordar que su padre guarda una referencia al subalbum en el listado) -> Doble referencia.
-		if(listaAlbumes.contains(subAlbum)) {
+		if (listaAlbumes.contains(subAlbum)) {
 			Album albumPadre = subAlbum.getAlbumPadre();
-			if(albumPadre != null) {
+			if (albumPadre != null) {
 				albumPadre.desasociarSubAlbum(subAlbum);
 			}
 		} else {
@@ -258,12 +389,27 @@ public class PerfilInstagram implements Serializable {
 		}
 	}
 
+	/**
+	 * Saca una publicacion de un album.
+	 *
+	 * @param publicacionASacar
+	 * @param album 
+	 * @throws PublicacionNoEncontradaExcepcion 
+	 * @throws AlbumNoEncontradoExcepcion
+	 */
 	public void sacarPublicacionDelAlbum(Publicacion publicacionASacar, Album album)
 			throws PublicacionNoEncontradaExcepcion, AlbumNoEncontradoExcepcion {
 		album.sacarPublicacion(publicacionASacar);
 		publicacionASacar.sacarAlbum(album);
 	}
 
+	/**
+	 * Listado de albumes.
+	 *
+	 * @param inicio
+	 * @param fin
+	 * @return la lista de albumes
+	 */
 	public List<ReporteAlbum> listadoDeAlbumes(LocalDate inicio, LocalDate fin) {
 		List<ReporteAlbum> listaReportesAlbumes = new ArrayList<ReporteAlbum>();
 		for (Album album : listaAlbumes) {
@@ -286,6 +432,11 @@ public class PerfilInstagram implements Serializable {
 		return listaReportesAlbumes;
 	}
 
+	/**
+	 * Cantidad de etiquetas por nombre.
+	 *
+	 * @return el mapa
+	 */
 	public Map<String, Integer> cantidadDeEtiquetasPorNombre() {
 		Map<String, Integer> etiquetasContador = new HashMap<>();
 		for (Publicacion publicacion : listaPublicaciones) {
@@ -298,6 +449,11 @@ public class PerfilInstagram implements Serializable {
 		return etiquetasContador;
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		StringBuilder sb = new StringBuilder();

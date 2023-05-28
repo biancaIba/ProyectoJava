@@ -1,28 +1,53 @@
 package modelo;
 
 import java.time.LocalDate;
-
 import excepciones.DuracionInvalidaExcepcion;
 import modelo.enums.EnumTipoFiltro;
 import modelo.enums.EnumTipoPublicacion;
 import modelo.interfaces.IDurable;
 import modelo.interfaces.IFiltrable;
 
+/**
+ * La Clase Video.
+ * Extiende Publicacion.
+ * Implementa Durable y Filtrable.
+ */
 public class Video extends Publicacion implements IDurable, IFiltrable {
 
+	/** Estatico serialVersionUID. */
 	private static final long serialVersionUID = 1L;
+	
+	/** La resolucion. */
 	private String resolucion;
+	
+	/** La cantidad de cuadros. */
 	private int cantidadCuadros;
+	
+	/** La duracion. */
 	private float duracion;
+	
+	/** El inicio. */
 	private float inicio;
+	
+	/** El fin. */
 	private float fin;
+	
+	/** El fin de reproduccion. */
 	private float finReproduccion;
+	
+	/** El filtro. */
 	private EnumTipoFiltro filtro;
 
-	public float getFinReproduccion() {
-		return finReproduccion;
-	}
-
+	/**
+	 * Instancia un nuevo video.
+	 *
+	 * @param nombrePublicacion el nombre de la publicacion
+	 * @param fechaSubida la fecha subida
+	 * @param cantMG la cantidad de Me Gustas
+	 * @param resolucion la resolucion
+	 * @param cantCuadros la cantidad de cuadros
+	 * @param duracion la duracion
+	 */
 	public Video(String nombrePublicacion, LocalDate fechaSubida, int cantMG, String resolucion, int cantCuadros,
 			float duracion) {
 		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.VIDEO);
@@ -34,49 +59,104 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 		this.finReproduccion = duracion;
 		this.filtro = EnumTipoFiltro.SIN_FILTRO;
 	}
+	
+	/**
+	 * Obtiene el fin de reproduccion.
+	 *
+	 * @return el fin reproduccion
+	 */
+	public float getFinReproduccion() {
+		return finReproduccion;
+	}
 
+	/**
+	 * Obtiene la resolucion.
+	 *
+	 * @return la resolucion
+	 */
 	public String getResolucion() {
 		return resolucion;
 	}
 
+	/**
+	 * Setea la resolucion.
+	 *
+	 * @param resolucion
+	 */
 	public void setResolucion(String resolucion) {
 		this.resolucion = resolucion;
 	}
 
+	/**
+	 * Obtiene la cantidad de cuadros.
+	 *
+	 * @return la cantidad de cuadros
+	 */
 	public int getCantidadCuadros() {
 		return cantidadCuadros;
 	}
 
+	/**
+	 * Setea la cantidad de cuadros.
+	 *
+	 * @param cantCuadros
+	 */
 	public void setCantCuadros(int cantCuadros) {
 		this.cantidadCuadros = cantCuadros;
 	}
 
+	/**
+	 * Obtiene la duracion.
+	 *
+	 * @return la duracion
+	 */
 	public float getDuracion() {
 		return duracion;
 	}
 
+	/**
+	 * To string.
+	 *
+	 * @return the string
+	 */
 	@Override
 	public String toString() {
 		return "Video{" + super.toString() + ", Resolucion=" + resolucion + ", Cantidad de cuadros=" + cantidadCuadros
 				+ '}';
 	}
 
+	/**
+	 * Obtiene el inicio.
+	 *
+	 * @return the inicio
+	 */
 	public float getInicio() {
 		return inicio;
 	}
 
+	/**
+	 * Obtiene el fin.
+	 *
+	 * @return the fin
+	 */
 	public float getFin() {
 		return fin;
 	}
 
-	public void reproducir() {
-
-	}
-
+	/**
+	 * Actualiza la duracion de la reproduccion.
+	 */
 	private void actualizarDuracion() {
 		this.duracion = this.finReproduccion - this.inicio;
 	}
 
+	/**
+	 * Avanzar. De la interface Durable.
+	 * Actualiza la duracion de la reproduccion del video.
+	 *
+	 * @param inicioRelativo
+	 * @throws DuracionInvalidaExcepcion
+	 */
 	public void avanzar(float inicioRelativo) throws DuracionInvalidaExcepcion {
 		System.out.println("inicioRelativo " + inicioRelativo + " this.finReproduccion " + this.finReproduccion);
 		if (inicioRelativo >= 0 && inicioRelativo < this.finReproduccion) {
@@ -88,6 +168,13 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 		}
 	}
 
+	/**
+	 * Detener. De la interface Durable.
+	 * Actualiza la duracion de la reproduccion del video.
+	 *
+	 * @param finRelativo
+	 * @throws DuracionInvalidaExcepcion
+	 */
 	public void detener(float finRelativo) throws DuracionInvalidaExcepcion {
 		if (finRelativo > this.inicio && finRelativo <= this.fin) {
 			this.finReproduccion = finRelativo;
@@ -98,10 +185,20 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 		}
 	}
 
+	/**
+	 * Aplicar filtro. De la interface Filtrable.
+	 *
+	 * @param filtro
+	 */
 	public void aplicarFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
 	}
 
+	/**
+	 * Obtiene el filtro.
+	 *
+	 * @return el filtro
+	 */
 	public EnumTipoFiltro getFiltro() {
 		return filtro;
 	}
