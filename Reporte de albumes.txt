@@ -1,12 +1,11 @@
-Nombre: 11
+Listado de albumes con sus publicaciones en el rango de fechas seleccionado: 
+Fecha de inicio:2023-04-26 Fecha de fin: 2023-04-29
+
+Nombre: dalila
 Cantidad de publicaciones en rango de fechas: 0
 Cantidad de comentarios: 0
 
-Nombre: yyy
-Cantidad de publicaciones en rango de fechas: 1
-Cantidad de comentarios: 2
-
-Nombre: 333
-Cantidad de publicaciones en rango de fechas: 0
-Cantidad de comentarios: 0
+Nombre: album2
+Cantidad de publicaciones en rango de fechas: 2
+Cantidad de comentarios: 4
 

@@ -190,7 +190,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	 *
 	 * @param filtro
 	 */
-	public void aplicarFiltro(EnumTipoFiltro filtro) {
+	public void setFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
 	}
 

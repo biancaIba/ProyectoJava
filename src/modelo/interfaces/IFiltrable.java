@@ -12,7 +12,7 @@ public interface IFiltrable {
 	 *
 	 * @param filtro
 	 */
-	void aplicarFiltro(EnumTipoFiltro filtro);
+	void setFiltro(EnumTipoFiltro filtro);
 
 	/**
 	 * Obtiene el filtro.

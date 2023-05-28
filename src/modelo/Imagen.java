@@ -5,6 +5,7 @@ import modelo.enums.EnumTipoFiltro;
 import modelo.enums.EnumTipoPublicacion;
 import modelo.interfaces.IFiltrable;
 
+// TODO: Auto-generated Javadoc
 /**
  * La Clase Imagen. 
  * Extiende de La Clase Publicacion. 
@@ -64,7 +65,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Setea la resolucion.
 	 *
-	 * @param resolucion
+	 * @param resolucion the new resolucion
 	 */
 	public void setResolucion(String resolucion) {
 		this.resolucion = resolucion;
@@ -82,7 +83,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Setea el ancho.
 	 *
-	 * @param ancho
+	 * @param ancho the new ancho
 	 */
 	public void setAncho(int ancho) {
 		this.ancho = ancho;
@@ -100,7 +101,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Setea el alto.
 	 *
-	 * @param alto
+	 * @param alto the new alto
 	 */
 	public void setAlto(int alto) {
 		this.alto = alto;
@@ -120,9 +121,9 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * Aplicar filtro. De la interface Filtrable.
 	 *
-	 * @param filtro
+	 * @param filtro the filtro
 	 */
-	public void aplicarFiltro(EnumTipoFiltro filtro) {
+	public void setFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
 	}
 
@@ -144,5 +145,6 @@ public class Imagen extends Publicacion implements IFiltrable {
 	public float getDuracion() {
 		return duracion;
 	}
+
 
 }
