@@ -87,6 +87,6 @@ public class PanelReproduccionDuracion  extends JPanel  {
 	public void cargarPanelDuracion() {
 		lblInicioValor.setText(Float.toString(this.publicacion.getInicioReproduccion()));
 		lblFinValor.setText(Float.toString(this.publicacion.getFinReproduccion()));
-		lblDuracionValor.setText(Float.toString(this.publicacion.getDuracion()));
+		lblDuracionValor.setText(Float.toString(this.publicacion.getFinReproduccion() - this.publicacion.getInicioReproduccion()));
 	}
 }
