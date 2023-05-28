@@ -123,7 +123,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	 *
 	 * @param filtro the filtro
 	 */
-	public void setFiltro(EnumTipoFiltro filtro) {
+	public void aplicarFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
 	}
 

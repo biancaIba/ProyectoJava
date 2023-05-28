@@ -99,7 +99,6 @@ public class PerfilInstagram implements Serializable {
 		if (datos.exists()) {
 			datos.delete();
 		}
-
 		try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("Perfil.ser"))) {
 			out.writeObject(PerfilInstagram.getInstance());
 		} catch (NotSerializableException e) {
@@ -107,7 +106,6 @@ public class PerfilInstagram implements Serializable {
 		} catch (IOException e) {
 			System.out.println("Error de E/S: " + e.getMessage());
 		}
-
 	}
 
 	/**
@@ -224,12 +222,13 @@ public class PerfilInstagram implements Serializable {
 	 * @throws AlbumNoEncontradoExcepcion
 	 */
 	public Album buscarAlbum(String nombre) throws AlbumNoEncontradoExcepcion {
+		String nombreMinuscula = nombre.toLowerCase();
 		for (Album album : listaAlbumes) {
-			if (album.getNombreAlbum().equals(nombre)) {
+			if (album.getNombreAlbum().equals(nombreMinuscula)) {
 				return album;
 			}
 			for (Album subAlbum : album.getSublistaAlbumes()) {
-				if (subAlbum.getNombreAlbum().equals(nombre)) {
+				if (subAlbum.getNombreAlbum().equals(nombreMinuscula)) {
 					return subAlbum;
 				}
 			}
@@ -245,10 +244,11 @@ public class PerfilInstagram implements Serializable {
 	 * @throws PublicacionNoEncontradaExcepcion.
 	 */
 	public Publicacion buscarPublicacion(String nombre) throws PublicacionNoEncontradaExcepcion {
+		String nombreMinuscula = nombre.toLowerCase();
 		Iterator<Publicacion> i = listaPublicaciones.iterator();
 		while (i.hasNext()) {
 			Publicacion publi = i.next();
-			if (publi.getNombrePublicacion().equals(nombre))
+			if (publi.getNombrePublicacion().equals(nombreMinuscula))
 				return publi;
 		}
 		throw new PublicacionNoEncontradaExcepcion("La publicación no se encuentra en la lista.");
