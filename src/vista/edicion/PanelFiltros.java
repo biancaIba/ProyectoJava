@@ -63,7 +63,7 @@ public class PanelFiltros extends JPanel {
 		comboBox.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				EnumTipoFiltro filtroAplicado = (EnumTipoFiltro) comboBox.getSelectedItem();
-				publicacion.aplicarFiltro(filtroAplicado);
+				publicacion.setFiltro(filtroAplicado);
 			}
 		});
 		comboBox.setBounds(201, 62, 143, 22);

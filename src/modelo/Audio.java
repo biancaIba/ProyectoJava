@@ -49,9 +49,9 @@ public class Audio extends Publicacion implements IDurable {
 	}
 	
 	/**
-	 * Obtiene el momento del fin de la reproduccion.
+	 * Obtiene el fin configurado en la reproducción.
 	 *
-	 * @return el fin reproduccion
+	 * @return tiempo de detencón configurada en la reproducción [segundos]
 	 */
 	public float getFinReproduccion() {
 		return finReproduccion;
@@ -60,7 +60,7 @@ public class Audio extends Publicacion implements IDurable {
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return una cadena de texto que representa los atributos particulares del audio.
 	 */
 	@Override
 	public String toString() {
@@ -68,15 +68,17 @@ public class Audio extends Publicacion implements IDurable {
 	}
 
 	/**
+	 * getVelocidadBits
 	 * Obtiene la velocidad en bits.
 	 *
-	 * @return la velocidad en bits
+	 * @return la velocidad en bits[int]
 	 */
 	public int getVelocidadBits() {
 		return velocidadBits;
 	}
 
 	/**
+	 * setVelocidadBits
 	 * Setea la velocidad en bits.
 	 *
 	 * @param velocidadBits
@@ -86,28 +88,30 @@ public class Audio extends Publicacion implements IDurable {
 	}
 
 	/**
-	 * Obtiene la duracion.
+	 * Obtiene la duracion actualizada según la configuración particular de la reproducción.
 	 *
-	 * @return la duracion
+	 * @return duracion [segundos]
 	 */
+	//
 	public float getDuracion() {
 		return duracion;
 	}
 
 	/**
-	 * Obtiene el inicio de la reproduccion.
+	 * Obtiene el tiempo de inicio configurado en la reproducción.
 	 *
-	 * @return el inicio
+	 * @return tiempo de inicio [segundos]
+	 */
 	 */
 	public float getInicioReproduccion() {
 		return inicio;
 	}
 
-	/**
-	 * Obtiene el fin.
-	 *
-	 * @return el fin
-	 */
+	 /**
+		 * Obtiene el tiempo de finalización original.
+		 *
+		 * @return tiempo de finalización original [segundos]
+		 */
 	public float getFinOriginal() {
 		return fin;
 	}
@@ -123,7 +127,7 @@ public class Audio extends Publicacion implements IDurable {
 	 * Avanzar. De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del audio.
 	 *
-	 * @param inicioRelativo
+	 * @param inicioRelativo [segundos]
 	 * @throws DuracionInvalidaExcepcion
 	 */
 	public void avanzar(float inicioRelativo) throws DuracionInvalidaExcepcion {
@@ -140,7 +144,7 @@ public class Audio extends Publicacion implements IDurable {
 	 * Detener. De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del audio.
 	 *
-	 * @param finRelativo
+	 * @param finRelativo [segundos]
 	 * @throws DuracionInvalidaExcepcion
 	 */
 	public void detener(float finRelativo) throws DuracionInvalidaExcepcion {

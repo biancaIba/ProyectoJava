@@ -230,7 +230,7 @@ public class ReportePublicaciones extends JDialog {
     
     /**
      * Carga tabla.
-     * Obtiene las publicaciones ordenadas por Me gusta y las muestra en la tabla.
+     * Devuelve las publicaciones ordenadas por Me gusta y las muestra en la tabla.
      */
     public void cargarTabla() {
     	Map<String,List<Publicacion>> listaporMG = perfilInstagram.ordenarPublicacionesPorMg();
@@ -249,11 +249,11 @@ public class ReportePublicaciones extends JDialog {
     
     /**
      * Carga resumen.
-     * Obtiene los reportes de cantidad y promedio de Me gusta por tipo de publicación
+     * Devuelve los reportes de cantidad y promedio de Me gusta por tipo de publicación
      * y actualiza las etiquetas correspondientes en el resumen.
      */
     private void cargarResumen() {
-    	List<ReportePublicacion> reportes = perfilInstagram.cantidadYpromedioDeMg();
+    	List<ReportePublicacion> reportes = perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg();
 		for (ReportePublicacion reporte : reportes) {
 			
 			switch (reporte.getTipoPublicacion().toLowerCase()) {

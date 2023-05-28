@@ -238,11 +238,11 @@ public class PerfilInstagram implements Serializable {
 	}
 
 	/**
-	 * Busca la publicacion por nombre.
+	 * Busca una publicacion por nombre.
 	 *
-	 * @param nombre nombre de la publicacion a buscar
-	 * @return la publicacion si existe
-	 * @throws PublicacionNoEncontradaExcepcion
+	 * @param nombre nombre de la publicacion a buscar.
+	 * @return la publicacion si existe.
+	 * @throws PublicacionNoEncontradaExcepcion.
 	 */
 	public Publicacion buscarPublicacion(String nombre) throws PublicacionNoEncontradaExcepcion {
 		Iterator<Publicacion> i = listaPublicaciones.iterator();
@@ -255,9 +255,8 @@ public class PerfilInstagram implements Serializable {
 	}
 
 	/**
-	 * Agrupa publicaciones por tipo.
-	 *
-	 * @return el mapa
+	 * Agrupa las publicaciones por tipo.
+	 *@return una lista que contiene las publicaciones agrupadas por tipo.
 	 */
 	public Map<String, List<Publicacion>> agruparPublicacionesPorTipo() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = new HashMap<>();
@@ -270,7 +269,7 @@ public class PerfilInstagram implements Serializable {
 	}
 
 	/**
-	 * Muestra las publicaciones por tipo.
+	 * Muestra las publicaciones ordenadas por tipo.
 	 */
 	public void mostrarPublicacionesPorTipo() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = this.ordenarPublicacionesPorMg();
@@ -283,9 +282,9 @@ public class PerfilInstagram implements Serializable {
 	}
 
 	/**
-	 * Ordena las publicaciones por cantidad de Me Gustas.
-	 *
-	 * @return el mapa
+	 *Ordenar las publicaciones por cantidad de "Me gusta".
+	 *@return una lista que contiene las publicaciones agrupadas por tipo, 
+	 *ordenadas por la cantidad de "Me gusta" de forma descendente.
 	 */
 	public Map<String, List<Publicacion>> ordenarPublicacionesPorMg() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = this.agruparPublicacionesPorTipo();
@@ -302,11 +301,12 @@ public class PerfilInstagram implements Serializable {
 	}
 
 	/**
-	 * Cantidad y promedio de mg.
-	 *
-	 * @return la lista
+	 * Ordenar publicaciones por cantidad y promedio de "Me gusta".
+	 * @return una lista de objetos ReportePublicacion que contiene el tipo de publicación,
+	 * la cantidad total de publicaciones y el promedio de "Me gusta",
+	 * ordenados por la cantidad de "Me gusta" de forma descendente
 	 */
-	public List<ReportePublicacion> cantidadYpromedioDeMg() {
+	public List<ReportePublicacion> ordenarPublicacionPorCantidadYPromedioDeMg() {
 		Map<String, List<Publicacion>> publicacionesPorTipo = this.ordenarPublicacionesPorMg();
 		List<ReportePublicacion> reporte = new ArrayList<ReportePublicacion>();
 		for (Map.Entry<String, List<Publicacion>> entry : publicacionesPorTipo.entrySet()) {
@@ -327,8 +327,8 @@ public class PerfilInstagram implements Serializable {
 	/**
 	 * Agrega una publicacion dentro de un album.
 	 *
-	 * @param album
-	 * @param publicacion
+	 * @param album ya existente.
+	 * @param publicacion a agregar al album.
 	 */
 	public void agregarPublicacionDentroAlbum(Album album, Publicacion publicacion) {
 		publicacion.agregaAlbumPertenece(album);
@@ -339,7 +339,7 @@ public class PerfilInstagram implements Serializable {
 	 * Elimina un album de la lista de albumes.
 	 *
 	 * @param albumAEliminar
-	 * @throws AlbumNoEncontradoExcepcion
+	 * @throws AlbumNoEncontradoExcepcion.
 	 */
 	public void eliminarAlbum(Album albumAEliminar) throws AlbumNoEncontradoExcepcion {
 		if (listaAlbumes.contains(albumAEliminar)) {
@@ -392,10 +392,10 @@ public class PerfilInstagram implements Serializable {
 	/**
 	 * Saca una publicacion de un album.
 	 *
-	 * @param publicacionASacar
-	 * @param album 
-	 * @throws PublicacionNoEncontradaExcepcion 
-	 * @throws AlbumNoEncontradoExcepcion
+	 * @param publicacionASacar.
+	 * @param album.
+	 * @throws PublicacionNoEncontradaExcepcion.
+	 * @throws AlbumNoEncontradoExcepcion.
 	 */
 	public void sacarPublicacionDelAlbum(Publicacion publicacionASacar, Album album)
 			throws PublicacionNoEncontradaExcepcion, AlbumNoEncontradoExcepcion {
@@ -405,12 +405,13 @@ public class PerfilInstagram implements Serializable {
 
 	/**
 	 * Listado de albumes.
+	 *Filtra las publicaciones de los albumes por una fecha indicada de inicio y fin. 
 	 *
-	 * @param inicio
-	 * @param fin
-	 * @return la lista de albumes
+	 *@param inicio la fecha de inicio del rango de filtrado.
+	 *@param fin la fecha de fin del rango de filtrado.
+	 *@return la lista de ReporteAlbum con la información filtrada por fecha.
 	 */
-	public List<ReporteAlbum> listadoDeAlbumes(LocalDate inicio, LocalDate fin) {
+	public List<ReporteAlbum> listadoDeAlbumesFiltradoPorFecha(LocalDate inicio, LocalDate fin) {
 		List<ReporteAlbum> listaReportesAlbumes = new ArrayList<ReporteAlbum>();
 		for (Album album : listaAlbumes) {
 			String nombreAlbum = album.getNombreAlbum();
@@ -435,7 +436,7 @@ public class PerfilInstagram implements Serializable {
 	/**
 	 * Cantidad de etiquetas por nombre.
 	 *
-	 * @return el mapa
+	 * @return una lista que contiene el nombre de la etiqueta como clave y la cantidad de veces que aparece como valor
 	 */
 	public Map<String, Integer> cantidadDeEtiquetasPorNombre() {
 		Map<String, Integer> etiquetasContador = new HashMap<>();
@@ -452,7 +453,7 @@ public class PerfilInstagram implements Serializable {
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return una cadena de texto que representa la lista de publicaciones y la lista de álbumes.
 	 */
 	@Override
 	public String toString() {

@@ -156,7 +156,7 @@ public class ReporteAlbumes extends JDialog {
 				throw new IllegalArgumentException();
 			}
 
-			List<ReporteAlbum> listadoDeAlbumes = perfilInstagram.listadoDeAlbumes(fechaInicio, fechaFin);
+			List<ReporteAlbum> listadoDeAlbumes = perfilInstagram.listadoDeAlbumesFiltradoPorFecha(fechaInicio, fechaFin);
 			model.setRowCount(0);
 			for (ReporteAlbum album : listadoDeAlbumes) {
 				String subAlbumesStr = "";

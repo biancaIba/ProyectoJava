@@ -40,8 +40,8 @@ public class Album implements Serializable {
 
 	/**
 	 * Hash code.
-	 *
-	 * @return the int
+	 *Devuelve el código hash del objeto.
+	 * @return un entero que representa el código hash del objeto.
 	 */
 	@Override
 	public int hashCode() {
@@ -50,9 +50,9 @@ public class Album implements Serializable {
 
 	/**
 	 * Equals.
-	 *
-	 * @param obj
-	 * @return verdadero, si tiene exito
+	 *Compara si el objeto actual es igual a otro objeto dado.
+	 * @param obj el objeto a comparar.
+	 * @return true si los objetos son iguales, false en caso contrario.
 	 */
 	@Override
 	public boolean equals(Object obj) {
@@ -67,27 +67,30 @@ public class Album implements Serializable {
 	}
 
 	/**
+	 *getNombreAlbum.
 	 * Obtiene el nombre del album.
 	 *
-	 * @return el nombre del album
+	 * @return una cadena de texto que representa el nombre del album.
 	 */
 	public String getNombreAlbum() {
 		return nombreAlbum;
 	}
 
 	/**
+	 * getAlbumPadre
 	 * Obtiene el album padre.
 	 *
-	 * @return el album padre
+	 * @return el album padre o null si no tiene padre.
 	 */
 	public Album getAlbumPadre() {
 		return albumPadre;
 	}
 
 	/**
-	 * Setea el album padre.
+	 * setAlbumPadre
+	 * Carga el album padre.
 	 *
-	 * @param albumPadre el objeto album padre
+	 * @param albumPadre el objeto album padre.
 	 */
 	public void setAlbumPadre(Album albumPadre) {
 		this.albumPadre = albumPadre;
@@ -96,7 +99,7 @@ public class Album implements Serializable {
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return una cadena de texto que representa el nombre del album.
 	 */
 	@Override
 	public String toString() {

@@ -109,7 +109,7 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return una cadena de texto que representa los atributos particulares de la imagen.
 	 */
 	@Override
 	public String toString() {
@@ -136,10 +136,11 @@ public class Imagen extends Publicacion implements IFiltrable {
 	}
 
 	/**
-	 * Obtiene la duracion.
+	 * Obtiene la duracion actualizada según la configuración particular de la reproducción.
 	 *
-	 * @return la duracion
+	 * @return duracion [segundos]
 	 */
+	//
 	public float getDuracion() {
 		return duracion;
 	}

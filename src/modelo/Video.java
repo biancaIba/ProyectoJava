@@ -61,9 +61,9 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 	
 	/**
-	 * Obtiene el fin de reproduccion.
+	 * Obtiene el fin configurado en la reproducción.
 	 *
-	 * @return el fin reproduccion
+	 * @return tiempo de detencón configurada en la reproducción [segundos]
 	 */
 	public float getFinReproduccion() {
 		return finReproduccion;
@@ -104,12 +104,12 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	public void setCantCuadros(int cantCuadros) {
 		this.cantidadCuadros = cantCuadros;
 	}
-
 	/**
-	 * Obtiene la duracion.
+	 * Obtiene la duracion actualizada según la configuración particular de la reproducción.
 	 *
-	 * @return la duracion
+	 * @return duracion [segundos]
 	 */
+	//
 	public float getDuracion() {
 		return duracion;
 	}
@@ -117,7 +117,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	/**
 	 * To string.
 	 *
-	 * @return the string
+	 * @return una cadena de texto que representa los atributos particulares de los videos.
 	 */
 	@Override
 	public String toString() {
@@ -126,18 +126,18 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Obtiene el inicio.
+	 * Obtiene el tiempo de inicio configurado en la reproducción.
 	 *
-	 * @return the inicio
+	 * @return tiempo de inicio [segundos]
 	 */
 	public float getInicioReproduccion() {
 		return inicio;
 	}
 
 	/**
-	 * Obtiene el fin.
+	 * Obtiene el tiempo de finalización original.
 	 *
-	 * @return the fin
+	 * @return tiempo de finalización original [segundos]
 	 */
 	public float getFinOriginal() {
 		return fin;
@@ -154,7 +154,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	 * Avanzar. De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del video.
 	 *
-	 * @param inicioRelativo
+	 * @param inicioRelativo [segundos]
 	 * @throws DuracionInvalidaExcepcion
 	 */
 	public void avanzar(float inicioRelativo) throws DuracionInvalidaExcepcion {
@@ -172,7 +172,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	 * Detener. De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del video.
 	 *
-	 * @param finRelativo
+	 * @param finRelativo [segundos]
 	 * @throws DuracionInvalidaExcepcion
 	 */
 	public void detener(float finRelativo) throws DuracionInvalidaExcepcion {

@@ -320,7 +320,7 @@ public class PerfilUsuario extends JFrame {
 		generaTXT.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ReportePublicacion.generarReportePublicacionEnArchivo(perfilInstagram.cantidadYpromedioDeMg());
+					ReportePublicacion.generarReportePublicacionEnArchivo(perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
@@ -334,7 +334,7 @@ public class PerfilUsuario extends JFrame {
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumes(inicio, fin));
+					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumesFiltradoPorFecha(inicio, fin));
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",JOptionPane.ERROR_MESSAGE);
