@@ -337,11 +337,8 @@ public class PerfilUsuario extends JFrame {
 		
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				// Mostrar diálogo de entrada de texto para la fecha de inicio
 		        String inicioStr = JOptionPane.showInputDialog(null, "Ingrese la fecha de inicio (dd/MM/yyyy):");
 		        LocalDate inicio = LocalDate.parse(inicioStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-
-		        // Mostrar diálogo de entrada de texto para la fecha de fin
 		        String finStr = JOptionPane.showInputDialog(null, "Ingrese la fecha de fin (dd/MM/yyyy):");
 		        LocalDate fin = LocalDate.parse(finStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				try {
