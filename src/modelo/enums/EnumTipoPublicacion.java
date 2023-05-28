@@ -1,17 +1,37 @@
 package modelo.enums;
 
+/**
+ * El Enum EnumTipoPublicacion.
+ */
 public enum EnumTipoPublicacion {
-    IMAGEN("Imagen"),
-    VIDEO("Video"),
-    AUDIO("Audio");
 
-    private final String displayName;
+	/** Publicacion Imagen */
+	IMAGEN("Imagen"),
 
-    private EnumTipoPublicacion(String displayName) {
-        this.displayName = displayName;
-    }
+	/** Publicacion Video */
+	VIDEO("Video"),
 
-    public String getDisplayName() {
-        return displayName;
-    }
+	/** Publicacion Audio */
+	AUDIO("Audio");
+
+	/** El display name. */
+	private final String displayName;
+
+	/**
+	 * Instancia un nuevo enum tipo publicacion.
+	 *
+	 * @param displayName
+	 */
+	private EnumTipoPublicacion(String displayName) {
+		this.displayName = displayName;
+	}
+
+	/**
+	 * Obtiene el display name.
+	 *
+	 * @return el display name
+	 */
+	public String getDisplayName() {
+		return displayName;
+	}
 }
