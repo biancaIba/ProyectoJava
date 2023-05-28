@@ -15,13 +15,36 @@ import javax.swing.border.Border;
 import excepciones.DuracionInvalidaExcepcion;
 import modelo.interfaces.IDurable;
 
+
+/**
+ * Clase PanelDuracion.
+ * 
+ * La clase PanelDuracion representa un panel de edición para la duración de una publicación.
+ * Proporciona opciones para ajustar el inicio y el fin de reproducción de la publicación.
+ */
+
 public class PanelDuracion extends JPanel {
+	
+	/** La publicación asociada al panel de duración. */
 	IDurable publicacion;
+	
+	/** Etiqueta para mostrar el valor de inicio. */
 	private JLabel lblInicioValor;
+	
+	/** Etiqueta para mostrar el valor de fin. */
 	private JLabel lblFinValor;
+	
+	/** Etiqueta para mostrar el valor de duración actual. */
 	private JLabel lblDuracionActualValor;
+	
+	/** Etiqueta para mostrar el valor de duración original. */
 	private JLabel lblDuracionOriginalValor;
 	
+	/**
+	 * Crea una instancia del panel de duración para una publicación dada.
+	 *
+	 * @param publicacion : la publicación asociada al panel de duración.
+	 */
 	public PanelDuracion(IDurable publicacion) {
 		super();
 		this.publicacion = publicacion;
@@ -29,6 +52,9 @@ public class PanelDuracion extends JPanel {
 		cargarDatosDuracion();
 	}
 	
+	/**
+	 * Configura y crea los elementos del panel de duración.
+	 */
 	private void instanciarPanelDuracion() {
 		Border paddingBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
         Border lineBorder = BorderFactory.createLineBorder(Color.GRAY, 1);
@@ -129,6 +155,9 @@ public class PanelDuracion extends JPanel {
 		add(lblDuracionOriginalValor);
 	}
 	
+	/**
+	 * Carga los datos de duración actual en las etiquetas correspondientes.
+	 */
 	private void cargarDatosDuracion() {
 		this.lblInicioValor.setText(Float.toString(this.publicacion.getInicio()));
 		this.lblFinValor.setText(Float.toString(this.publicacion.getFinReproduccion()));

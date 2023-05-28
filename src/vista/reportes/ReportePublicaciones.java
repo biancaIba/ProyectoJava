@@ -30,28 +30,76 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.SoftBevelBorder;
 
 
+
+/**
+ * Clase ReportePublicaciones.
+ * 
+ * La clase ReportePublicaciones representa una ventana de diálogo que muestra una tabla ordenada por tipo y cantidad de "me gusta" y un informe de las publicaciones de un perfil de Instagram.
+ */
 public class ReportePublicaciones extends JDialog {
 
+	/** El contentPanel. */
 	private final JPanel contentPanel = new JPanel();
+    
+    /** El perfil de Instagram. */
     private static PerfilInstagram perfilInstagram;
+    
+    /** El modelo. */
     private DefaultTableModel model;
+    
+    /** La tabla. */
     private JTable table;
+    
+    /** El panel de desplazamiento. */
     private JScrollPane scrollPane;
+    
+    /** El botón de actualización. */
     private JButton btnNewButton;
+    
+    /** La etiqueta para videos. */
     private JLabel lblVideo;
+    
+    /** La etiqueta para audios. */
     private JLabel lblAudio;
+    
+    /** La etiqueta para imágenes. */
     private JLabel lblImagen;
+    
+    /** La etiqueta para el promedio de Me gusta. */
     private JLabel lblPromedioMG;
+    
+    /** La etiqueta para el promedio de cantidad de publicaciones. */
     private JLabel lblPromedioCantPub;
+    
+    /** La etiqueta para el promedio de Me gusta en videos. */
     private JLabel lblPromMGVideo;
+    
+    /** La etiqueta para la cantidad de publicaciones de videos. */
     private JLabel lblCantPubliVideo;
+    
+    /** La etiqueta para el promedio de Me gusta en audios. */
     private JLabel lblPromMGAudio;
+    
+    /** La etiqueta para el promedio de Me gusta en imágenes. */
     private JLabel lblPromMGImagen;
+    
+    /** La etiqueta para la cantidad de publicaciones de audios. */
     private JLabel lblCantPubliAudio;
+    
+    /** La etiqueta para la cantidad de publicaciones de imágenes. */
     private JLabel lblCantPubliImagen;
+    
+    /** El panel de resumen. */
     private JPanel resumenPanel;
+    
+    /** La etiqueta. */
     private JLabel label;
 
+    /**
+     * Crea una nueva instancia de ReportePublicaciones.
+     *
+     * @param perfil : el perfil de Instagram.
+     */
     public ReportePublicaciones(PerfilInstagram perfil) {
     	perfilInstagram = perfil;
         setTitle("Reporte de Publicaciones");
@@ -65,11 +113,12 @@ public class ReportePublicaciones extends JDialog {
 	    cargarDatos();
 	}
     
+    /**
+     * Renderizar tabla.
+     */
     private void renderizarTabla() {
     	String[] columnNames = { "Nombre", "Tipo de publicacion", "Cantidad de Me gusta","Fecha de subida","Albumes asociados" };
-    	// Crear un DefaultTableModel con los datos y nombres de columnas
         model = new DefaultTableModel(null, columnNames);
-        // Crear un JTable con el DefaultTableModel
         table = new JTable(model);
         table.setFont(new Font("Tahoma", Font.PLAIN, 11));
         table.setBackground(new Color(186, 189, 182));
@@ -98,6 +147,10 @@ public class ReportePublicaciones extends JDialog {
 	    });
     }
     
+    /**
+     * Renderizar resumen.
+     * Este método crea y configura los componentes visuales del resumen.
+     */
     private void renderizarResumen() {
     	resumenPanel = new JPanel();
     	resumenPanel.setBorder(null);
@@ -166,11 +219,19 @@ public class ReportePublicaciones extends JDialog {
 		contentPanel.add(lblResumen);
     }
     
+    /**
+     * Carga datos.
+     * Este método invoca los métodos para cargar la tabla y el resumen.
+     */
     private void cargarDatos() {
     	cargarTabla();
     	cargarResumen();
     }
     
+    /**
+     * Carga tabla.
+     * Obtiene las publicaciones ordenadas por Me gusta y las muestra en la tabla.
+     */
     public void cargarTabla() {
     	Map<String,List<Publicacion>> listaporMG = perfilInstagram.ordenarPublicacionesPorMg();
 		model.setRowCount(0);
@@ -186,6 +247,11 @@ public class ReportePublicaciones extends JDialog {
 		}
     }
     
+    /**
+     * Carga resumen.
+     * Obtiene los reportes de cantidad y promedio de Me gusta por tipo de publicación
+     * y actualiza las etiquetas correspondientes en el resumen.
+     */
     private void cargarResumen() {
     	List<ReportePublicacion> reportes = perfilInstagram.cantidadYpromedioDeMg();
 		for (ReportePublicacion reporte : reportes) {

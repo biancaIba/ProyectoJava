@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package vista;
 
 import java.awt.BorderLayout;
@@ -55,17 +58,41 @@ import vista.estadisticas.Histograma;
 import vista.reportes.ReporteAlbumes;
 import vista.reportes.ReportePublicaciones;
 import vista.reproduccion.Reproduccion;
+
+/**
+ * Clase PerfilUsuario.
+ */
+
 public class PerfilUsuario extends JFrame {
 
+	/** El número de versión para la serialización. */
 	private static final long serialVersionUID = 1L;
+	
+	/** El panel de contenido. */
 	private JPanel contentPane;
+	
+	/** La instancia del perfil de Instagram. */
 	private static PerfilInstagram perfilInstagram;
+	
+	/** La lista de publicaciones seleccionadas en el panel. */
 	private List<Publicacion> publicacionesSeleccionadasPanel;
+	
+	/** La duración total de reproducción. */
 	private float duracionReproduccionTotal = 0;
+	
+	/** La etiqueta de información. */
 	private JLabel informacionLabel;
+	
+	/** El panel de publicaciones. */
 	private JPanel jpPublicaciones;
+	
+	/** El panel de lista seleccionadas. */
 	private JPanel listaSeleccionadasPanel;
 
+	/**
+	 * Constructor de la clase PerfilUsuario.
+	 * Inicializa el perfil de Instagram, la lista de publicaciones seleccionadas y configura la interfaz gráfica.
+	 */
 	public PerfilUsuario() {
 		perfilInstagram = PerfilInstagram.getInstance();
 		publicacionesSeleccionadasPanel = new ArrayList<>();
@@ -105,6 +132,11 @@ public class PerfilUsuario extends JFrame {
 		});
 	}
 
+	/**
+	 * Crea y muestra el menú superior de la aplicación.
+	 * Este método agrega diferentes menús desplegables al menú principal, como álbumes, reportes, estadísticas y opciones.
+	 * El menú se muestra en la parte superior de la interfaz gráfica de usuario.
+	 */
 	public void menuTop() {
 		JMenuBar menuPrincipal = new JMenuBar();
 
@@ -124,6 +156,11 @@ public class PerfilUsuario extends JFrame {
 
 	}
 
+	/**
+	 * Crea y retorna un menú desplegable para administrar los álbumes.
+	 *
+	 * @return El menú desplegable JMenu con las opciones relacionadas a los álbumes el cual incluye el boton de crear album, gestion albumes (agregar publicacion, sacar publicacion de un album, crear subalbum), eliminar album.
+	 */
 	public static JMenu menuTOPalbumes() {
 	    JMenu albumes = new JMenu("Álbumes");
 	    albumes.setFont(new Font("Open Sans", Font.PLAIN, 15));
@@ -180,7 +217,7 @@ public class PerfilUsuario extends JFrame {
 
 	    gestionaAlbum.add(gaAgregaPubli);
 
-	    JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un Álbum");
+	    JMenuItem gaSacarPubli = new JMenuItem("Sacar publicación de un álbum");
 	    gaSacarPubli.addActionListener(new ActionListener() {
 	        public void actionPerformed(ActionEvent e) {
 	            JFrame frame = new JFrame();
@@ -270,6 +307,11 @@ public class PerfilUsuario extends JFrame {
 
 
 
+	/**
+	 * Crea y devuelve el menú de reportes.
+	 *
+	 * @return El objeto JMenu que representa el menú de reportes, el cual incluye el boton de reporte de albumes en pantalla y txt, reporte de publicaciones en pantalla y txt.
+	 */
 	public JMenu menuTOPreportes() {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
@@ -324,6 +366,11 @@ public class PerfilUsuario extends JFrame {
 		return reportes;
 	}
 
+	/**
+	 * Crea y devuelve el menú de estadísticas.
+	 *
+	 * @return El objeto JMenu que representa el menú de estadísticas.
+	 */
 	public JMenu menuTOPestadisticas() {
 		JMenu estadisticas = new JMenu("Estadísticas");
 		estadisticas.setFont(new Font("Open Sans", Font.PLAIN, 15));
@@ -390,6 +437,11 @@ public class PerfilUsuario extends JFrame {
 		return estadisticas;
 	}
 	
+	/**
+	 * Crea y devuelve el menú de opciones.
+	 *
+	 * @return El objeto JMenu que representa el menú de opciones, el cual incluye el boton de cargar datos.
+	 */
 	public JMenu menuTOPopciones() {
 		JMenu opciones = new JMenu("Opciones");
 		opciones.setFont(new Font("Open Sans", Font.PLAIN, 15));
@@ -406,10 +458,18 @@ public class PerfilUsuario extends JFrame {
 		return opciones;
 	}
 
+	/**
+	 * Actualizar duracion total de reproduccion en el Label.
+	 */
 	private void actualizarDuracionTotal() {
 		informacionLabel.setText(TiempoUtilidades.duracionFormateada(duracionReproduccionTotal));
 	}
 	
+	/**
+	 * Crea el panel de publicaciones seleccionadas para reproducir.
+	 * Informa la duración de reproducción total en base a la configuración seleccionada.
+	 * Permite configurar el orden de reproducción.
+	 */
 	private void panelPublicacionesSeleccionadas() {
 		JPanel panelLateral = new JPanel();
 		panelLateral.setBackground(Color.WHITE);
@@ -508,6 +568,12 @@ public class PerfilUsuario extends JFrame {
 		contentPane.add(panelLateral, BorderLayout.WEST);
 	}
 	
+	/**
+	 * Crea y muestra la pantalla principal de la aplicación.
+	 * Esta pantalla muestra las publicaciones disponibles para seleccionar.
+	 * Permite agregar las publicaciones seleccionadas a la lista de reproducción.
+	 * También permite configurar y editar las publicaciones seleccionadas.
+	 */
 	public void pantallaPrincipal() {
 		jpPublicaciones = new JPanel();
 		jpPublicaciones.setBackground(Color.LIGHT_GRAY);

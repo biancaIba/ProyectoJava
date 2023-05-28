@@ -1,19 +1,35 @@
+/*
+ * 
+ */
 package utilidades;
 
 import java.io.File;
+import java.time.LocalDate;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import modelo.*;
-
-import java.time.LocalDate;
-
+import modelo.Album;
+import modelo.Audio;
+import modelo.Imagen;
+import modelo.PerfilInstagram;
+import modelo.Publicacion;
+import modelo.Video;
+/**
+ * Clase CargaXML.
+ */
 public class CargaXML {
+	
+	/**
+	 * Cargar publicaciones XML.
+	 *
+	 * @param perfil : instancia de perfil Instagram
+	 */
 	public void cargarPublicacionesXML(PerfilInstagram perfil) {
 		try {
 			File archivoXML = new File("src/xml/publicaciones.xml");
@@ -43,17 +59,15 @@ public class CargaXML {
 							.parseInt(elementoPublicacion.getElementsByTagName("cantMG").item(0).getTextContent());
 
 					if (elementoAudio != null) {
-						// Leer y procesar datos del audio
 						int velocidadBits = Integer
 								.parseInt(elementoAudio.getElementsByTagName("velocidadBits").item(0).getTextContent());
 						float duracion = Float
 								.parseFloat(elementoAudio.getElementsByTagName("duracion").item(0).getTextContent());
 						Audio audio = new Audio(nombrePublicacion, fechaSubidaLocalDate, cantMG, velocidadBits,
 								duracion);
-						cargaEtiqComentAlbum(elementoAudio, audio);
+						cargaEtiquetaComentarioAlbum(elementoAudio, audio);
 						perfil.agregarPublicacion(audio);
 					} else if (elementoImagen != null) {
-						// Leer y procesar datos de la imagen
 						String resolucion = elementoImagen.getElementsByTagName("resolucion").item(0).getTextContent();
 						int ancho = Integer
 								.parseInt(elementoImagen.getElementsByTagName("ancho").item(0).getTextContent());
@@ -61,10 +75,9 @@ public class CargaXML {
 								.parseInt(elementoImagen.getElementsByTagName("alto").item(0).getTextContent());
 						Imagen imagen = new Imagen(nombrePublicacion, fechaSubidaLocalDate, cantMG, resolucion, ancho,
 								alto);
-						cargaEtiqComentAlbum(elementoImagen, imagen);
+						cargaEtiquetaComentarioAlbum(elementoImagen, imagen);
 						perfil.agregarPublicacion(imagen);
 					} else if (elementoVideo != null) {
-						// Leer y procesar datos del video
 						String resolucion = elementoVideo.getElementsByTagName("resolucion").item(0).getTextContent();
 						int cantCuadros = Integer
 								.parseInt(elementoVideo.getElementsByTagName("cantCuadros").item(0).getTextContent());
@@ -72,7 +85,7 @@ public class CargaXML {
 								.parseFloat(elementoVideo.getElementsByTagName("duracion").item(0).getTextContent());
 						Video video = new Video(nombrePublicacion, fechaSubidaLocalDate, cantMG, resolucion,
 								cantCuadros, duracion);
-						cargaEtiqComentAlbum(elementoVideo, video);
+						cargaEtiquetaComentarioAlbum(elementoVideo, video);
 						perfil.agregarPublicacion(video);
 					}
 				}
@@ -82,7 +95,13 @@ public class CargaXML {
 		}
 	}
 
-	private void cargaEtiqComentAlbum(Element elementoPublicacion, Publicacion publicacion) {
+	/**
+	 * Carga etiquetas y comentarios de los álbumes en una publicación.
+	 *
+	 * @param elementoPublicacion : el elemento XML que contiene los atributos de la publicación.
+	 * @param publicacion : la publicación a la cual se agregarán las etiquetas, comentarios y álbumes.
+	 */
+	private void cargaEtiquetaComentarioAlbum(Element elementoPublicacion, Publicacion publicacion) {
 		NodeList listaEtiquetas = elementoPublicacion.getElementsByTagName("etiqueta");
 		for (int i = 0; i < listaEtiquetas.getLength(); i++) {
 			String etiqueta = listaEtiquetas.item(i).getTextContent();

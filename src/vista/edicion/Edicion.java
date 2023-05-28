@@ -13,7 +13,19 @@ import modelo.enums.EnumTipoPublicacion;
 import modelo.interfaces.IDurable;
 import modelo.interfaces.IFiltrable;
 
+/**
+ * Clase Edicion.
+ * 
+ * La clase Edicion representa el panel de edición para una publicación seleccionada.
+ * Proporciona opciones de configuración según el tipo de publicación.
+ */
 public class Edicion extends JPanel {
+	
+	/**
+	 * Crea una instancia de Edicion para una publicación dada.
+	 *
+	 * @param publicacion : la publicación a editar.
+	 */
 	public Edicion(Publicacion publicacion) {
 		super();
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
