@@ -1,26 +1,50 @@
 package vista.estadisticas;
 
-import javax.swing.JPanel;
-
-import excepciones.SinDatosExcepcion;
-
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.util.Random;
-import java.awt.FlowLayout;
-import java.util.Random;
-public class Histograma extends JPanel {
-    private static final int MARGIN = 40; 
-    private static final int AXIS_SPACE = 20; 
-    private static final int LABEL_MARGIN = 10; 
 
-    private int[] histogramData; 
-    private String[] labels; 
+import javax.swing.JPanel;
+
+import excepciones.SinDatosExcepcion;
+import utilidades.RandomUtilidades;
+
+/**
+ * Clase Histograma.
+ *
+ * La clase Histograma representa un panel que muestra un histograma gráfico.
+ */
+public class Histograma extends JPanel {
+    
+	  /** Constante que indica el margen del histograma. */
+    private static final int MARGIN = 40;
+
+    /** Constante que indica el espacio del eje en el histograma. */
+    private static final int AXIS_SPACE = 20;
+
+    /** Constante que indica el margen de las etiquetas en el histograma. */
+    private static final int LABEL_MARGIN = 10;
+
+    /** Datos del histograma. */
+    private int[] histogramData;
+
+    /** Etiquetas del histograma. */
+    private String[] labels;
+
+    /**
+     * Crea una nueva instancia de la clase Histograma.
+     */
     public Histograma() {
     	setBackground(Color.DARK_GRAY); 
     }
 
+    /**
+     * Establece los datos del histograma.
+     * @param data : los datos del histograma.
+     * @param labels : las etiquetas del histograma.
+     * @throws SinDatosExcepcion : si no se proporcionan datos para el histograma.
+     */
     public void setHistogramData(int[] data, String[] labels) throws SinDatosExcepcion{
         if (data == null || data.length == 0) {
         	throw new SinDatosExcepcion("Sin datos");
@@ -30,6 +54,10 @@ public class Histograma extends JPanel {
 	        repaint(); 
         }
     }
+    /**
+     * Método que se encarga de dibujar el componente.
+     * @param g : el objeto Graphics utilizado para dibujar.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -51,7 +79,7 @@ public class Histograma extends JPanel {
 
             int x = MARGIN + AXIS_SPACE;
             
-            Color[] barColors = generarColoresAleatorios(histogramData.length);
+            Color[] barColors = RandomUtilidades.generarColoresAleatorios(histogramData.length);
             
             for (int i = 0; i < histogramData.length; i++) {
                 int barHeight = histogramData[i] * maxBarHeight / getMaxValue(histogramData);
@@ -77,6 +105,12 @@ public class Histograma extends JPanel {
         }
     }
 
+    /**
+     * Obtiene el valor máximo de un conjunto de datos.
+     * @param data : el conjunto de datos.
+     * @return el valor máximo.
+     */
+    
     private int getMaxValue(int[] data) {
         int maxValue = Integer.MIN_VALUE;
         for (int value : data) {
@@ -86,20 +120,7 @@ public class Histograma extends JPanel {
         }
         return maxValue;
     }
-    private Color[] generarColoresAleatorios(int cantidad) {
-        Random random = new Random();
-        Color[] colores = new Color[cantidad];
-
-        for (int i = 0; i < cantidad; i++) {
-            int r = random.nextInt(256);
-            int g = random.nextInt(256);
-            int b = random.nextInt(256);
-            colores[i] = new Color(r, g, b);
-        }
-
-        return colores;
-    }
-
+    
 }
 
 

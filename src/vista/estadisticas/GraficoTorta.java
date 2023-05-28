@@ -3,26 +3,37 @@ package vista.estadisticas;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.util.List;
+import java.util.Random;
 
 import javax.swing.JPanel;
 
 import excepciones.SinDatosExcepcion;
-
-import java.util.List;
-import java.util.Random;
-
+import utilidades.randomUtilidades;
+/**
+ * Clase Grafito deTorta
+ * 
+ * La clase GraficoTorta representa un panel que muestra un gráfico de torta.
+ * Recibe una lista de valores numéricos y una lista de etiquetas para generar el gráfico.
+ */
 public class GraficoTorta extends JPanel {
     private int[] values;
     private Color[] colors;
     private List<String> labels;
     
-    	
+    /**
+     * Crea una instancia del panel de gráfico de torta con los valores y etiquetas especificados.
+     * @param values : la lista de valores numéricos para el gráfico.
+     * @param labels : la lista de etiquetas para el gráfico.
+     * @throws SinDatosExcepcion : si la lista de valores está vacía o nula.
+     * @throws IllegalArgumentException : si la cantidad de valores, colores y etiquetas no coincide.
+     */	
     public GraficoTorta(List<Integer> values, List<String> labels) throws SinDatosExcepcion {
     	if (values == null || values.size() == 0) {
     		throw new SinDatosExcepcion("Sin datos");
     	}else {
     		this.values = values.stream().mapToInt(Integer::intValue).toArray();
-    		this.colors = generarColoresAleatorios(values.size());
+    		this.colors = randomUtilidades.generarColoresAleatorios(values.size());
     		this.labels = labels;
 
     		if (values.size() != colors.length || values.size() != labels.size()) {
@@ -40,7 +51,6 @@ public class GraficoTorta extends JPanel {
             total += value;
         }
 
-        // Mostrar gráfico
         int centerX = getWidth() / 2; 
         int centerY = getHeight() / 2; 
         int radius = Math.min(centerX, centerY) - 100; 
@@ -52,7 +62,6 @@ public class GraficoTorta extends JPanel {
             g.setColor(colors[i]);
             g.fillArc(centerX - radius, centerY - radius, radius * 2, radius * 2, startAngle, arcAngle);
 
-            // Calcular posición del texto
             double angle = Math.toRadians(startAngle + arcAngle / 2.0);
             int labelX = (int) (centerX + radius * Math.cos(angle)); 
             int labelY = (int) (centerY - radius * Math.sin(angle));
@@ -63,7 +72,6 @@ public class GraficoTorta extends JPanel {
             startAngle += arcAngle;
         }
 
-        // Mostrar referencias de colores, nombres de etiquetas y porcentajes
         int referenceX = centerX + radius + 20; 
         int referenceY = centerY - radius;
         int lineHeight = 20; 
@@ -81,12 +89,10 @@ public class GraficoTorta extends JPanel {
             g.drawString(text, referenceX + 20, referenceY + i * lineHeight + 10); 
         }
 
-        // Mostrar título en varias líneas
         String titulo = "Porcentaje de veces que se repiten las etiquetas";
         String subtitulo = "en las publicaciones";
         g.setFont(new Font("Arial", Font.BOLD, 16));
 
-        // Calcular posición y dibujar el título centrado
         int y = centerY - radius - g.getFontMetrics().getHeight() - 30; 
         String[] lineasTitulo = titulo.split("\\r?\\n");
         for (String linea : lineasTitulo) {
@@ -96,20 +102,7 @@ public class GraficoTorta extends JPanel {
         }
 
     }
- 
-    private Color[] generarColoresAleatorios(int cantidad) {
-        Random random = new Random();
-        Color[] colores = new Color[cantidad];
-
-        for (int i = 0; i < cantidad; i++) {
-            int r = random.nextInt(256);
-            int g = random.nextInt(256);
-            int b = random.nextInt(256);
-            colores[i] = new Color(r, g, b);
-        }
-
-        return colores;
-    }
+    
 }
 
 

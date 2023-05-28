@@ -13,10 +13,24 @@ import javax.swing.border.LineBorder;
 import modelo.enums.EnumTipoFiltro;
 import modelo.interfaces.IFiltrable;
 
+/**
+ * Clase PanelFiltros.
+ * 
+ * La clase PanelFiltros representa un panel que permite seleccionar un filtro para una publicación.
+ */
+
 public class PanelFiltros extends JPanel {
+	
+	/**publicacion que implementa la interface filtrable. */
 	private IFiltrable publicacion;
+	
+	/** El combo box. */
 	private JComboBox comboBox;
 	
+	/**
+	 * Crea una instancia de PanelFiltros con una publicación específica.
+	 * @param publicacion : la publicación a la que se le aplicará el filtro.
+	 */
 	public PanelFiltros(IFiltrable publicacion) {
 		super();
 		this.publicacion = publicacion;
@@ -24,6 +38,9 @@ public class PanelFiltros extends JPanel {
 		cargarDatosFiltros();
 	}
 	
+	/**
+	 * Instanciar panel filtros.
+	 */
 	private void instanciarPanelFiltros() {
 		setBorder(new LineBorder(new Color(0, 0, 0)));
 		setLayout(null);
@@ -36,6 +53,9 @@ public class PanelFiltros extends JPanel {
 		add(comboBox);
 	}
 	
+	/**
+	 * Cargar datos filtros.
+	 */
 	private void cargarDatosFiltros() {
 		for (EnumTipoFiltro filtro : EnumTipoFiltro.values()) {
 			comboBox.addItem(filtro);

@@ -1,3 +1,6 @@
+/*
+ * 
+ */
 package utilidades;
 
 import java.awt.Image;
@@ -5,8 +8,17 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 import vista.reportes.ReportePublicaciones;
-
+/**
+ * Clase  IconosUtilidades.
+ */
 public class IconosUtilidades {
+	
+	/**
+	 * Obtener icono.
+	 *
+	 * @param nombreIcono : nombre del icono.
+	 * @return  imagen del icono.
+	 */
 	public static ImageIcon obtenerIcono(String nombreIcono) {
     	String ruta = String.format("/recursos/iconos/%s.png", nombreIcono);
     	try {    		
@@ -24,6 +36,14 @@ public class IconosUtilidades {
     	}
     }
 	
+	/**
+	 * Obteniene un icono.
+	 *
+	 * @param nombreIcono : nombre del icono.
+	 * @param alto : alto del icono.
+	 * @param ancho : del icono.
+	 * @return imagen del icono.
+	 */
 	public static ImageIcon obtenerIcono(String nombreIcono, int alto, int ancho) {
     	String ruta = String.format("/recursos/iconos/%s.png", nombreIcono);
     	try {    		

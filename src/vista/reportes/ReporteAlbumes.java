@@ -1,11 +1,12 @@
 package vista.reportes;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -24,26 +25,57 @@ import modelo.reportes.ReporteAlbum;
 import utilidades.FechaUtilidades;
 import utilidades.IconosUtilidades;
 
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-
+/**
+ * Clase ReporteAlbumes.
+ * 
+ * La clase ReporteAlbumes representa una ventana de diálogo que muestra una tabla de los albumes y de las publicaciones de un perfil de Instagram que estan dentro de albumes filtradas por fecha.
+ */
 public class ReporteAlbumes extends JDialog {
 
-	private static final long serialVersionUID = 1L;
-	private final JPanel contentPanel = new JPanel();
-	private final String FECHA_INICIO_DEFAULT = LocalDate.now().minusMonths(3).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	private final String FECHA_FIN_DEFAULT = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-	private static PerfilInstagram perfilInstagram;
-	private DefaultTableModel model;
-	private JTable table;
-	private JScrollPane scrollPane;
-	private JButton btnFiltrar;
-	private JLabel lblFechaInicio;
-	private JLabel lblFechaFin;
-	private JTextField txtFechaInicio;
-	private JTextField txtFechaFin;
+	   /** El serialVersionUID. */
+    private static final long serialVersionUID = 1L;
 
+    /** El panel de contenido. */
+    private final JPanel contentPanel = new JPanel();
 
+    /** Fecha de inicio predeterminada. */
+    private final String FECHA_INICIO_DEFAULT = LocalDate.now().minusMonths(3).format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+    /** Fecha de fin predeterminada. */
+    private final String FECHA_FIN_DEFAULT = LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+    /** El perfil de Instagram. */
+    private static PerfilInstagram perfilInstagram;
+
+    /** El modelo. */
+    private DefaultTableModel model;
+
+    /** La tabla. */
+    private JTable table;
+
+    /** El panel de desplazamiento. */
+    private JScrollPane scrollPane;
+
+    /** El botón Filtrar. */
+    private JButton btnFiltrar;
+
+    /** La etiqueta Fecha de inicio. */
+    private JLabel lblFechaInicio;
+
+    /** La etiqueta Fecha de fin. */
+    private JLabel lblFechaFin;
+
+    /** El campo de texto Fecha de inicio. */
+    private JTextField txtFechaInicio;
+
+    /** El campo de texto Fecha de fin. */
+    private JTextField txtFechaFin;
+
+    /**
+     * Crea una nueva instancia de ReporteAlbumes.
+     *
+     * @param perfil : el perfil de Instagram.
+     */
 	public ReporteAlbumes(PerfilInstagram perfil) {
 
 		perfilInstagram = perfil;
@@ -59,6 +91,9 @@ public class ReporteAlbumes extends JDialog {
 		cargarTabla(txtFechaInicio.getText(), txtFechaFin.getText());
 	}
 
+	/**
+     * Renderiza la tabla.
+     */
 	private void renderizarTabla() {
 		String[] columnNames = { "Nombre", "Cantidad de Publicaciones", "Cantidad de Comentarios","Subálbumes asociados"};
 		model = new DefaultTableModel(null, columnNames);
@@ -107,6 +142,12 @@ public class ReporteAlbumes extends JDialog {
 		});
 	}
 
+	/**
+     * Carga los datos en la tabla.
+     *
+     * @param fechaInicioStr : la fecha de inicio en formato de cadena.
+     * @param fechaFinStr : la fecha de fin en formato de cadena.
+     */
 	private void cargarTabla(String fechaInicioStr, String fechaFinStr) {
 		try {
 			LocalDate fechaInicio = FechaUtilidades.formatearFecha(fechaInicioStr);

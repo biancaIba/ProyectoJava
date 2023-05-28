@@ -29,22 +29,57 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JProgressBar;
 
+/**
+ * Clase Reproduccion.
+ * 
+ * Panel que muestra la reproducción de una lista de publicaciones.
+ */
 public class Reproduccion extends JPanel {
 
+	/** Panel que muestra la lista de publicaciones seleccionadas. */
 	private JPanel listaSeleccionadasPanel;
+
+	/** Etiqueta que muestra el tiempo total de reproducción. */
 	private JLabel lblTiempoTotalValor;
+
+	/** Panel de información de la publicación actualmente reproduciéndose. */
 	private JPanel panelInformacion;
+
+	/** Panel lateral que contiene la lista de reproducción y el tiempo total. */
 	private JPanel panelLateral;
+
+	/** Lista de publicaciones seleccionadas para reproducción. */
 	private List<Publicacion> publicacionesSeleccionadas;
+
+	/** Tiempo total de reproducción. */
 	private double tiempoTotal;
+
+	/** Barra de progreso de reproducción. */
 	private JProgressBar progressBar;
+
+	/** Etiqueta para el nombre de la publicación. */
 	private JLabel lblNombre;
+
+	/** Etiqueta para el valor del nombre de la publicación. */
 	private JLabel lblNombreValor;
+
+	/** Etiqueta para la fecha de la publicación. */
 	private JLabel lblFecha;
+
+	/** Etiqueta para el valor de la fecha de la publicación. */
 	private JLabel lblFechaValor;
+
+	/** Etiqueta para la cantidad de "Me gusta" de la publicación. */
 	private JLabel lblMG;
+
+	/** Etiqueta para el valor de la cantidad de "Me gusta" de la publicación. */
 	private JLabel lblMGValor;
 
+	/**
+	 * Constructor de la clase Reproduccion.
+	 *
+	 * @param publicacionesSeleccionadas : Lista de publicaciones seleccionadas para reproducción.
+	 */
 	public Reproduccion(List<Publicacion> publicacionesSeleccionadas) {
 		super();
 		this.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -64,6 +99,11 @@ public class Reproduccion extends JPanel {
 		renderizarTiempoTotal();
 	}
 
+	/**
+	 * Instancia el panel lateral que muestra la lista de reproducción.
+	 *
+	 * @return El panel lateral.
+	 */
 	public JPanel instanciarListaReproduccion() {
 
 		JPanel panelLateral = new JPanel();
@@ -106,6 +146,11 @@ public class Reproduccion extends JPanel {
 
 	}
 
+	/**
+	 * Cargar lista reproduccion.
+	 *
+	 * @param publicacionesSeleccionadas the publicaciones seleccionadas
+	 */
 	public void cargarListaReproduccion(List<Publicacion> publicacionesSeleccionadas) {
 
 		Iterator<Publicacion> iterador = publicacionesSeleccionadas.iterator();
@@ -129,6 +174,11 @@ public class Reproduccion extends JPanel {
 		}
 	}
 
+	/**
+	 * Carga el panel de información de la publicación actualmente reproduciéndose.
+	 *
+	 * @param publicacionesSeleccionadas : Lista de publicaciones seleccionadas para reproducción.
+	 */
 	public void cargarPanelDeInformacion(List<Publicacion> publicacionesSeleccionadas) {
 		Iterator<Publicacion> iterador = publicacionesSeleccionadas.iterator();
 		if (iterador.hasNext()) {
@@ -165,20 +215,34 @@ public class Reproduccion extends JPanel {
 		}
 	}
 
+	/**
+	 * Carga el tiempo total inicial de reproduccion.
+	 */
 	public void cargarTiempoTotalInicial() {
 		tiempoTotal = publicacionesSeleccionadas.stream().mapToDouble(publicacion -> publicacion.getDuracion()).sum();
 		progressBar.setMinimum(0);
 		progressBar.setMaximum((int) tiempoTotal);
 	}
 
+	/**
+	 * Disminuiye el tiempo total de reproducción en 1 segundo..
+	 */
 	public void disminuirTiempoTotal() {
 		tiempoTotal -= 1.0;
 	}
 
+	/**
+	 * Renderiza el tiempo total de reproducción en el panel.
+	 */
 	public void renderizarTiempoTotal() {
 		lblTiempoTotalValor.setText(TiempoUtilidades.duracionFormateada(tiempoTotal));
 	}
 
+	/**
+	 * Renderizalos paneles de información de la publicación actualmente reproduciéndose.
+	 *
+	  * @param publicacion : Publicación actualmente reproduciéndose.
+	 */
 	public void renderizarPanelesDeInformacion(Publicacion publicacion) {
 	    lblNombre = new JLabel("La publicacion reproduciendose es:");
 	    lblNombre.setPreferredSize(new Dimension(100, 20));
