@@ -9,7 +9,8 @@ import java.util.Random;
 import javax.swing.JPanel;
 
 import excepciones.SinDatosExcepcion;
-import utilidades.randomUtilidades;
+import utilidades.RandomUtilidades;
+
 /**
  * Clase Grafito deTorta
  * 
@@ -33,7 +34,7 @@ public class GraficoTorta extends JPanel {
     		throw new SinDatosExcepcion("Sin datos");
     	}else {
     		this.values = values.stream().mapToInt(Integer::intValue).toArray();
-    		this.colors = randomUtilidades.generarColoresAleatorios(values.size());
+    		this.colors = RandomUtilidades.generarColoresAleatorios(values.size());
     		this.labels = labels;
 
     		if (values.size() != colors.length || values.size() != labels.size()) {
