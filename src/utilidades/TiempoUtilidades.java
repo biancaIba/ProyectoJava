@@ -1,13 +1,10 @@
-/*
- * 
- */
 package utilidades;
 
 /**
- *  Clase TiempoUtilidades.
+ * Clase TiempoUtilidades.
  */
 public class TiempoUtilidades {
-	
+
 	/**
 	 * Devuelve la duración formateada a horas, minutos y segundos.
 	 *

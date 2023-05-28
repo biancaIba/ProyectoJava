@@ -1,30 +1,25 @@
-/*
- * 
- */
 package utilidades;
 
 import java.io.File;
 import java.time.LocalDate;
-
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-
 import modelo.Album;
 import modelo.Audio;
 import modelo.Imagen;
 import modelo.PerfilInstagram;
 import modelo.Publicacion;
 import modelo.Video;
+
 /**
  * Clase CargaXML.
  */
 public class CargaXML {
-	
+
 	/**
 	 * Cargar publicaciones XML.
 	 *
@@ -98,8 +93,10 @@ public class CargaXML {
 	/**
 	 * Carga etiquetas y comentarios de los álbumes en una publicación.
 	 *
-	 * @param elementoPublicacion : el elemento XML que contiene los atributos de la publicación.
-	 * @param publicacion : la publicación a la cual se agregarán las etiquetas, comentarios y álbumes.
+	 * @param elementoPublicacion : el elemento XML que contiene los atributos de la
+	 *                            publicación.
+	 * @param publicacion         : la publicación a la cual se agregarán las
+	 *                            etiquetas, comentarios y álbumes.
 	 */
 	private void cargaEtiquetaComentarioAlbum(Element elementoPublicacion, Publicacion publicacion) {
 		NodeList listaEtiquetas = elementoPublicacion.getElementsByTagName("etiqueta");

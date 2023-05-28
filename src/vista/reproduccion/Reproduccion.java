@@ -1,12 +1,8 @@
 package vista.reproduccion;
 
-import utilidades.FechaUtilidades;
 import utilidades.TiempoUtilidades;
-import vista.edicion.PanelGeneralEdicion;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
@@ -16,12 +12,10 @@ import java.awt.event.ActionListener;
 import java.util.Iterator;
 import java.util.List;
 import javax.swing.Timer;
-
 import modelo.*;
 import modelo.enums.EnumTipoPublicacion;
 import modelo.interfaces.IDurable;
 import modelo.interfaces.IFiltrable;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JLabel;
@@ -61,7 +55,8 @@ public class Reproduccion extends JPanel {
 	/**
 	 * Constructor de la clase Reproduccion.
 	 *
-	 * @param publicacionesSeleccionadas : Lista de publicaciones seleccionadas para reproducción.
+	 * @param publicacionesSeleccionadas : Lista de publicaciones seleccionadas para
+	 *                                   reproducción.
 	 */
 	public Reproduccion(List<Publicacion> publicacionesSeleccionadas) {
 		super();
@@ -160,7 +155,8 @@ public class Reproduccion extends JPanel {
 	/**
 	 * Carga el panel de información de la publicación actualmente reproduciéndose.
 	 *
-	 * @param publicacionesSeleccionadas : Lista de publicaciones seleccionadas para reproducción.
+	 * @param publicacionesSeleccionadas : Lista de publicaciones seleccionadas para
+	 *                                   reproducción.
 	 */
 	public void cargarPanelDeInformacion(List<Publicacion> publicacionesSeleccionadas) {
 		Iterator<Publicacion> iterador = publicacionesSeleccionadas.iterator();
@@ -222,23 +218,24 @@ public class Reproduccion extends JPanel {
 	}
 
 	/**
-	 * Renderizalos paneles de información de la publicación actualmente reproduciéndose.
+	 * Renderizalos paneles de información de la publicación actualmente
+	 * reproduciéndose.
 	 *
-	  * @param publicacion : Publicación actualmente reproduciéndose.
+	 * @param publicacion : Publicación actualmente reproduciéndose.
 	 */
 	public void renderizarPanelesDeInformacion(Publicacion publicacion) {
-		
+
 		PanelGeneralReproduccion panelGeneral = new PanelGeneralReproduccion(publicacion);
 		panelInformacion.add(panelGeneral);
-	    
-	    if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO
-	            || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
-	        panelInformacion.add(new PanelReproduccionDuracion((IDurable) publicacion));
-	    }
-	    if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN
-	            || publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
-	        panelInformacion.add(new PanelReproduccionFiltros((IFiltrable) publicacion));
-	    }
+
+		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.AUDIO
+				|| publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
+			panelInformacion.add(new PanelReproduccionDuracion((IDurable) publicacion));
+		}
+		if (publicacion.getTipoPublicacion() == EnumTipoPublicacion.IMAGEN
+				|| publicacion.getTipoPublicacion() == EnumTipoPublicacion.VIDEO) {
+			panelInformacion.add(new PanelReproduccionFiltros((IFiltrable) publicacion));
+		}
 	}
 
 }

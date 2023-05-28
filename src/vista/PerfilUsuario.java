@@ -255,14 +255,12 @@ public class PerfilUsuario extends JFrame {
 				frame.setAlwaysOnTop(true);
 				String nombreSubAlbum = JOptionPane.showInputDialog(frame, "Ingrese el nombre del subálbum a crear",
 						"Ingresar Sub Álbum", JOptionPane.PLAIN_MESSAGE);
-				// TODO: Verificar que el nombre ingresado no se repita en el listado de
-				// albumes.
 				if (nombreSubAlbum != null && !nombreSubAlbum.isEmpty()) {
 					String nombreAlbumPadre = JOptionPane.showInputDialog(frame, "Ingrese el nombre del álbum Padre",
 							"Ingresar Álbum Padre", JOptionPane.PLAIN_MESSAGE);
 					if (nombreAlbumPadre != null && !nombreAlbumPadre.isEmpty()) {
 						try {
-							Album albumPadre = PerfilInstagram.getInstance().buscarAlbum(nombreAlbumPadre);
+							Album albumPadre = perfilInstagram.buscarAlbum(nombreAlbumPadre);
 							Album nuevoSubAlbum = new Album(nombreSubAlbum);
 							try {
 								albumPadre.agregarSubAlbum(nuevoSubAlbum);
@@ -698,7 +696,6 @@ public class PerfilUsuario extends JFrame {
 							publicacionesSeleccionadasPanel.remove(publicacion);
 							duracionReproduccionTotal -= publicacion.getDuracion();
 
-							// Eliminar el panel de la publicación seleccionada de la lista lateral
 							Component[] components = listaSeleccionadasPanel.getComponents();
 							for (Component component : components) {
 								if (component instanceof JPanel) {
