@@ -14,6 +14,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -334,14 +335,20 @@ public class PerfilUsuario extends JFrame {
 			}
 		});
 
-		LocalDate inicio = LocalDate.parse("2023-04-20");
-		LocalDate fin = LocalDate.parse("2023-05-05");
 		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
+		
 		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// Mostrar diálogo de entrada de texto para la fecha de inicio
+		        String inicioStr = JOptionPane.showInputDialog(null, "Ingrese la fecha de inicio (dd/MM/yyyy):");
+		        LocalDate inicio = LocalDate.parse(inicioStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
+
+		        // Mostrar diálogo de entrada de texto para la fecha de fin
+		        String finStr = JOptionPane.showInputDialog(null, "Ingrese la fecha de fin (dd/MM/yyyy):");
+		        LocalDate fin = LocalDate.parse(finStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
 				try {
-					ReporteAlbum.generarReporteAlbumesEnArchivo(
-							perfilInstagram.listadoDeAlbumesFiltradoPorFecha(inicio, fin));
+					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumesFiltradoPorFecha
+							(inicio, fin),inicio,fin);
 					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
 				} catch (IOException e1) {
 					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
