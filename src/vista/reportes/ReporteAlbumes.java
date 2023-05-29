@@ -2,7 +2,9 @@ package vista.reportes;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Font;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -14,13 +16,12 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
 import modelo.Album;
@@ -28,8 +29,6 @@ import modelo.PerfilInstagram;
 import modelo.reportes.ReporteAlbum;
 import utilidades.FechaUtilidades;
 import utilidades.IconosUtilidades;
-import modelo.reportes.*;
-
 /**
  * Clase ReporteAlbumes.
  * 
@@ -188,21 +187,30 @@ public class ReporteAlbumes extends JDialog {
      * Este método crea y configura el botón "Generar TXT" de albumes que permite generar y descargar un archivo TXT con el reporte de las publicaciones.
      */
     private void descargarTxtReporteAlbum() {
-    	 JButton btnGenerarTxt = new JButton("Generar TXT");
-         btnGenerarTxt.setBounds(927, 410, 150, 23);
-         contentPanel.add(btnGenerarTxt);
+    	JButton btnGenerarTxt = new JButton("Generar TXT");
+    	btnGenerarTxt.setBounds(927, 410, 150, 23);
 
-         btnGenerarTxt.addActionListener(new ActionListener() {
-             public void actionPerformed(ActionEvent e) {
-            	 try {
-                     ReporteAlbum.generarReporteAlbumesEnArchivo(
-                             perfilInstagram.listadoDeAlbumesFiltradoPorFecha(fechaInicio, fechaFin), fechaInicio, fechaFin);
-                     JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-                 } catch (IOException e1) {
-                     JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error", JOptionPane.ERROR_MESSAGE);
-                 }
-             }
-         });
-    	
-    }
+    	btnGenerarTxt.addActionListener(new ActionListener() {
+    	    public void actionPerformed(ActionEvent e) {
+    	        try {
+    	            ReporteAlbum.generarReporteAlbumesEnArchivo(
+    	                    perfilInstagram.listadoDeAlbumesFiltradoPorFecha(fechaInicio, fechaFin), fechaInicio, fechaFin);
+
+    	            Component parentComponent = (Component) e.getSource();
+    	            JOptionPane.showMessageDialog(parentComponent, "El archivo TXT fue generado con éxito");
+    	            
+    	            Window parentWindow = SwingUtilities.getWindowAncestor(parentComponent);
+    	            parentWindow.setAlwaysOnTop(true);
+    	        } catch (IOException e1) {
+    	            Component parentComponent = (Component) e.getSource();
+    	            JOptionPane.showMessageDialog(parentComponent, "El archivo NO fue generado", "Error", JOptionPane.ERROR_MESSAGE);
+    	            
+    	            Window parentWindow = SwingUtilities.getWindowAncestor(parentComponent);
+    	            parentWindow.setAlwaysOnTop(true);
+    	        }
+    	    }
+    	});
+
+    	contentPanel.add(btnGenerarTxt);
+    }   
 }
