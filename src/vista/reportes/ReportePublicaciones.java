@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -111,6 +112,7 @@ public class ReportePublicaciones extends JDialog {
 		renderizarTabla();
 		renderizarResumen();
 	    cargarDatos();
+	    descargarTxtReportePublicacion();
 	}
     
     /**
@@ -278,6 +280,23 @@ public class ReportePublicaciones extends JDialog {
 			}	
 		}
     }
-    
+    private void descargarTxtReportePublicacion() {
+    	 JButton generaTXT = new JButton("Generar TXT Publicaciones");
+    	    generaTXT.addActionListener(new ActionListener() {
+    	        public void actionPerformed(ActionEvent e) {
+    	            try {
+    	                ReportePublicacion.generarReportePublicacionEnArchivo(
+    	                        perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
+    	                JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
+    	            } catch (IOException e1) {
+    	                JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
+    	                        JOptionPane.ERROR_MESSAGE);
+    	            }
+    	        }
+    	    });
+    	    generaTXT.setBounds(940, 520, 196, 23);
+    	    contentPanel.add(generaTXT);
+    	    
+    }
 }
 	
