@@ -319,39 +319,6 @@ public class PerfilUsuario extends JFrame {
 		JMenu reportes = new JMenu("Reportes");
 		reportes.setFont(new Font("Open Sans", Font.PLAIN, 15));
 
-		JMenuItem generaTXT = new JMenuItem("Generar TXT Publicaciones");
-		generaTXT.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					ReportePublicacion.generarReportePublicacionEnArchivo(
-							perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
-					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-
-		JMenuItem mntmGenerarTxtAlbumes = new JMenuItem("Generar TXT Albumes");
-		
-		mntmGenerarTxtAlbumes.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-		        String inicioStr = JOptionPane.showInputDialog(null, "Ingrese la fecha de inicio (dd/MM/yyyy):");
-		        LocalDate inicio = LocalDate.parse(inicioStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-		        String finStr = JOptionPane.showInputDialog(null, "Ingrese la fecha de fin (dd/MM/yyyy):");
-		        LocalDate fin = LocalDate.parse(finStr, DateTimeFormatter.ofPattern("dd/MM/yyyy"));
-				try {
-					ReporteAlbum.generarReporteAlbumesEnArchivo(perfilInstagram.listadoDeAlbumesFiltradoPorFecha
-							(inicio, fin),inicio,fin);
-					JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-							JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-
 		JMenuItem ReportePublicaciones = new JMenuItem("Reporte de publicaciones");
 		ReportePublicaciones.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -370,8 +337,6 @@ public class PerfilUsuario extends JFrame {
 
 		reportes.add(ReporteAlbumes);
 		reportes.add(ReportePublicaciones);
-		reportes.add(generaTXT);
-		reportes.add(mntmGenerarTxtAlbumes);
 
 		return reportes;
 	}
