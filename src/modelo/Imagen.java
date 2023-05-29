@@ -118,15 +118,17 @@ public class Imagen extends Publicacion implements IFiltrable {
 	}
 
 	/**
-	 * Aplicar filtro. De la interface Filtrable.
-	 *
+	 * Aplicar filtro. 
+	 * De la interface Filtrable.
+	 *Configura el filtro de la imagen.
 	 * @param filtro
 	 */
-	public void aplicarFiltro(EnumTipoFiltro filtro) {
+	public void setFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
 	}
 
 	/**
+	 * getFiltro
 	 * Obtiene el filtro.
 	 *
 	 * @return el filtro

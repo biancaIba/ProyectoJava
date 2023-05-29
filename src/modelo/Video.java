@@ -61,7 +61,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 	
 	/**
-	 * Obtiene el fin configurado en la reproducción.
+	 * getFinReproduccion
+	 * Devuelve el fin configurado en la reproducción.
 	 *
 	 * @return tiempo de detencón configurada en la reproducción [segundos]
 	 */
@@ -70,7 +71,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Obtiene la resolucion.
+	 * getResolucion
+	 * Devuelve la resolucion.
 	 *
 	 * @return la resolucion
 	 */
@@ -79,6 +81,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
+	 * setResolucion
 	 * Setea la resolucion.
 	 *
 	 * @param resolucion
@@ -88,7 +91,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Obtiene la cantidad de cuadros.
+	 * getCantidadCuadros
+	 * Devuelve la cantidad de cuadros.
 	 *
 	 * @return la cantidad de cuadros
 	 */
@@ -97,6 +101,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
+	 * setCantCuadros
 	 * Setea la cantidad de cuadros.
 	 *
 	 * @param cantCuadros
@@ -105,7 +110,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 		this.cantidadCuadros = cantCuadros;
 	}
 	/**
-	 * Obtiene la duracion actualizada según la configuración particular de la reproducción.
+	 * getDuracion
+	 * Devuelve la duracion actualizada según la configuración particular de la reproducción.
 	 *
 	 * @return duracion [segundos]
 	 */
@@ -126,7 +132,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Obtiene el tiempo de inicio configurado en la reproducción.
+	 * getInicioReproduccion
+	 * Devuelve el tiempo de inicio configurado en la reproducción.
 	 *
 	 * @return tiempo de inicio [segundos]
 	 */
@@ -135,7 +142,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Obtiene el tiempo de finalización original.
+	 * getFinOriginal
+	 * Devuelve el tiempo de finalización original.
 	 *
 	 * @return tiempo de finalización original [segundos]
 	 */
@@ -144,6 +152,7 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
+	 * actualizarDuracion
 	 * Actualiza la duracion de la reproduccion.
 	 */
 	private void actualizarDuracion() {
@@ -151,7 +160,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Avanzar. De la interface Durable.
+	 * Avanzar.
+	 * De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del video.
 	 *
 	 * @param inicioRelativo [segundos]
@@ -169,7 +179,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Detener. De la interface Durable.
+	 * Detener.
+	 * De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del video.
 	 *
 	 * @param finRelativo [segundos]
@@ -186,16 +197,18 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * Aplicar filtro. De la interface Filtrable.
-	 *
+	 * Aplicar filtro.
+	 * De la interface Filtrable.
+	 * Setea el filtro.
 	 * @param filtro
 	 */
-	public void aplicarFiltro(EnumTipoFiltro filtro) {
+	public void setFiltro(EnumTipoFiltro filtro) {
 		this.filtro = filtro;
 	}
 
 	/**
-	 * Obtiene el filtro.
+	 * getFiltro
+	 * Devuelve el filtro.
 	 *
 	 * @return el filtro
 	 */

@@ -8,16 +8,18 @@ import modelo.enums.EnumTipoFiltro;
 public interface IFiltrable {
 
 	/**
-	 * Aplicar filtro.
+	 * aplicarFiltro
+	 * Setea el filtro.
 	 *
 	 * @param filtro
 	 */
-	void aplicarFiltro(EnumTipoFiltro filtro);
+	void setFiltro(EnumTipoFiltro filtro);
 
 	/**
-	 * Obtiene el filtro.
+	 * getFiltro
+	 * Devuelve el filtro.
 	 *
-	 * @return el filtro
+	 * @return el filtro configurado
 	 */
 	EnumTipoFiltro getFiltro();
 }

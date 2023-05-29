@@ -1,12 +1,12 @@
-Nombre: 11
+Nombre: dalila
+Cantidad de publicaciones en rango de fechas: 2
+Cantidad de comentarios: 4
+
+Nombre: a21
 Cantidad de publicaciones en rango de fechas: 0
 Cantidad de comentarios: 0
 
-Nombre: yyy
-Cantidad de publicaciones en rango de fechas: 1
-Cantidad de comentarios: 2
-
-Nombre: 333
+Nombre: Subdali
 Cantidad de publicaciones en rango de fechas: 0
 Cantidad de comentarios: 0
 
