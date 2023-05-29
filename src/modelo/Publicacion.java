@@ -50,7 +50,7 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 	 */
 	public Publicacion(String nombrePublicacion, LocalDate fechaSubida, int cantMG,
 			EnumTipoPublicacion tipoPublicacion) {
-		this.nombrePublicacion = nombrePublicacion;
+		this.nombrePublicacion = nombrePublicacion.toLowerCase();
 		this.fechaSubida = fechaSubida;
 		this.cantidadMG = cantMG;
 		this.tipoPublicacion = tipoPublicacion;

@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 import modelo.Album;
@@ -127,12 +128,15 @@ public class ReporteAlbum implements Serializable {
 	 * @param listaReportesAlbumes la lista de reportes de albumes
 	 * @throws IOException señala que se ha producido una excepcion de E/S
 	 */
-	public static void generarReporteAlbumesEnArchivo(List<ReporteAlbum> listaReportesAlbumes) throws IOException  {
+	public static void generarReporteAlbumesEnArchivo(List<ReporteAlbum> listaReportesAlbumes,LocalDate inicio,LocalDate fin) throws IOException  {
 	    String nombreArchivo = "Reporte de albumes.txt";
 	    FileWriter fileWriter = new FileWriter(nombreArchivo);
 	    BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);
-
+	    bufferedWriter.write("Listado de albumes con sus publicaciones en el rango de fechas seleccionado: \n"
+	    		+ "Fecha de inicio:"+inicio+" Fecha de fin: "+fin+"\n\n");
+	   
 	    for (ReporteAlbum rep : listaReportesAlbumes) {
+	    	
 	        bufferedWriter.write("Nombre: " + rep.getNombreAlbum());
 	        bufferedWriter.newLine();
 	        bufferedWriter.write("Cantidad de publicaciones en rango de fechas: " + rep.getCantidadPublicaciones());

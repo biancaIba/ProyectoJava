@@ -33,7 +33,7 @@ public class Album implements Serializable {
 	 * @param nombreAlbum el nombre del album
 	 */
 	public Album(String nombreAlbum) {
-		this.nombreAlbum = nombreAlbum;
+		this.nombreAlbum = nombreAlbum.toLowerCase();
 		this.sublistaAlbumes = new ArrayList<Album>();
 		this.listaPublicaciones = new ArrayList<Publicacion>();
 	}
