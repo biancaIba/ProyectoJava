@@ -108,7 +108,7 @@ public class PanelGeneralReproduccion extends JPanel {
 		String fecha = FechaUtilidades.formatearFechaAString(publicacion.getFechaSubida());
 		this.lblFechaValor.setText(fecha);
 		this.lblMGValor.setText(String.valueOf(this.publicacion.getCantidadMG()));
-		this.lblDuracionValor.setText((Float.toString(this.publicacion.getDuracion())));
+		this.lblDuracionValor.setText((Float.toString(this.publicacion.calcularDuracion())));
 
 	}
 

@@ -597,7 +597,7 @@ public class PerfilUsuario extends JFrame {
 						if (cBox.isSelected()) {
 
 							publicacionesSeleccionadasPanel.add(publicacion);
-							final float[] duracionActual = { publicacion.getDuracion() };
+							final float[] duracionActual = { publicacion.calcularDuracion() };
 							duracionReproduccionTotal += duracionActual[0];
 
 							JPanel itemPanel = new JPanel();
@@ -614,7 +614,7 @@ public class PerfilUsuario extends JFrame {
 							nombrePublicacion.setBackground(Color.WHITE);
 							itemPanel.add(nombrePublicacion);
 
-							String duracion = Float.toString(publicacion.getDuracion());
+							String duracion = Float.toString(publicacion.calcularDuracion());
 							JLabel duracionPublicacion = new JLabel("Duracion: " + duracion);
 							duracionPublicacion.setFont(new Font("Open Sans", Font.PLAIN, 15));
 							duracionPublicacion.setBackground(Color.WHITE);
@@ -647,10 +647,10 @@ public class PerfilUsuario extends JFrame {
 										@Override
 										public void windowClosing(WindowEvent e) {
 											duracionReproduccionTotal = duracionReproduccionTotal - duracionActual[0]
-													+ publicacion.getDuracion();
-											duracionPublicacion.setText(Float.toString(publicacion.getDuracion()));
+													+ publicacion.calcularDuracion();
+											duracionPublicacion.setText(Float.toString(publicacion.calcularDuracion()));
 											actualizarDuracionTotal();
-											duracionActual[0] = publicacion.getDuracion();
+											duracionActual[0] = publicacion.calcularDuracion();
 											JOptionPane.showMessageDialog(null, "Los datos fueron guardados",
 													"Datos guardados", JOptionPane.INFORMATION_MESSAGE);
 										}
@@ -663,7 +663,7 @@ public class PerfilUsuario extends JFrame {
 
 						} else {
 							publicacionesSeleccionadasPanel.remove(publicacion);
-							duracionReproduccionTotal -= publicacion.getDuracion();
+							duracionReproduccionTotal -= publicacion.calcularDuracion();
 
 							Component[] components = listaSeleccionadasPanel.getComponents();
 							for (Component component : components) {

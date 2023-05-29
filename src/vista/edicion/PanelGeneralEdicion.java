@@ -63,7 +63,7 @@ public class PanelGeneralEdicion extends JPanel {
 	 * Cargar datos duración general.
 	 */
 	public void cargarDatosDuracion() {
-		Float duracion = this.publicacion.getDuracion();
+		Float duracion = this.publicacion.calcularDuracion();
 		this.lblDuracionActualValor.setText(
 				Float.toString(duracion) + " segundos (" + TiempoUtilidades.duracionFormateada(duracion) + ")");
 	}

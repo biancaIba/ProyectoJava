@@ -23,9 +23,6 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	/** La cantidad de cuadros. */
 	private int cantidadCuadros;
 	
-	/** La duracion. */
-	private float duracion;
-	
 	/** El inicio. */
 	private float inicio;
 	
@@ -53,7 +50,6 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 		super(nombrePublicacion, fechaSubida, cantMG, EnumTipoPublicacion.VIDEO);
 		this.resolucion = resolucion;
 		this.cantidadCuadros = cantCuadros;
-		this.duracion = duracion;
 		this.inicio = 0;
 		this.fin = duracion;
 		this.finReproduccion = duracion;
@@ -116,8 +112,8 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	 * @return duracion [segundos]
 	 */
 	//
-	public float getDuracion() {
-		return duracion;
+	public float calcularDuracion() {
+		return this.finReproduccion - this.inicio;
 	}
 
 	/**
@@ -152,14 +148,6 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	}
 
 	/**
-	 * actualizarDuracion
-	 * Actualiza la duracion de la reproduccion.
-	 */
-	private void actualizarDuracion() {
-		this.duracion = this.finReproduccion - this.inicio;
-	}
-
-	/**
 	 * Avanzar.
 	 * De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del video.
@@ -171,7 +159,6 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 		System.out.println("inicioRelativo " + inicioRelativo + " this.finReproduccion " + this.finReproduccion);
 		if (inicioRelativo >= 0 && inicioRelativo < this.finReproduccion) {
 			this.inicio = inicioRelativo;
-			actualizarDuracion();
 		} else {
 			throw new DuracionInvalidaExcepcion(
 					"El tiempo de inicio debe ser menor al de detención y mayor o igual a 0");
@@ -189,7 +176,6 @@ public class Video extends Publicacion implements IDurable, IFiltrable {
 	public void detener(float finRelativo) throws DuracionInvalidaExcepcion {
 		if (finRelativo > this.inicio && finRelativo <= this.fin) {
 			this.finReproduccion = finRelativo;
-			actualizarDuracion();
 		} else {
 			throw new DuracionInvalidaExcepcion(
 					"El tiempo de detención debe ser mayor al de inicio y menor o igual a la duración original");

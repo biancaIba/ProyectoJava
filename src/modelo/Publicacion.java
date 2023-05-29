@@ -65,7 +65,7 @@ public abstract class Publicacion implements Comparable<Publicacion>, Serializab
 	 * @return duracion [segundos]
 	 */
 	//
-	public abstract float getDuracion();
+	public abstract float calcularDuracion();
 
 	/**
 	 * Obtiene el nombre de la publicacion.
