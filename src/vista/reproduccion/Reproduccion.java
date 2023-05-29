@@ -174,7 +174,7 @@ public class Reproduccion extends JPanel {
 					progressBar.setValue(progressBar.getValue() + 1);
 					disminuirTiempoTotal();
 					renderizarTiempoTotal();
-					if (duracionParcial == publicacion.getDuracion()) {
+					if (duracionParcial == publicacion.calcularDuracion()) {
 						if (iterador.hasNext()) {
 							panelInformacion.removeAll();
 							publicacion = iterador.next();
@@ -198,7 +198,7 @@ public class Reproduccion extends JPanel {
 	 * Carga el tiempo total inicial de reproduccion.
 	 */
 	public void cargarTiempoTotalInicial() {
-		tiempoTotal = publicacionesSeleccionadas.stream().mapToDouble(publicacion -> publicacion.getDuracion()).sum();
+		tiempoTotal = publicacionesSeleccionadas.stream().mapToDouble(publicacion -> publicacion.calcularDuracion()).sum();
 		progressBar.setMinimum(0);
 		progressBar.setMaximum((int) tiempoTotal);
 	}

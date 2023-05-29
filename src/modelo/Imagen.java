@@ -25,9 +25,6 @@ public class Imagen extends Publicacion implements IFiltrable {
 	/** El alto. */
 	private int alto;
 
-	/** La duracion. */
-	private float duracion;
-
 	/** La duracion generica. */
 	private static float DURACION_GENERICA = 2; // [Segundos]
 
@@ -49,7 +46,6 @@ public class Imagen extends Publicacion implements IFiltrable {
 		this.resolucion = resolucion;
 		this.ancho = ancho;
 		this.alto = alto;
-		this.duracion = DURACION_GENERICA;
 		this.filtro = EnumTipoFiltro.SIN_FILTRO;
 	}
 
@@ -139,13 +135,13 @@ public class Imagen extends Publicacion implements IFiltrable {
 	}
 
 	/**
-	 * Obtiene la duracion actualizada según la configuración particular de la reproducción.
+	 * Obtiene la duracion genérica de la imagen.
 	 *
 	 * @return duracion [segundos]
 	 */
 	//
-	public float getDuracion() {
-		return duracion;
+	public float calcularDuracion() {
+		return Imagen.DURACION_GENERICA;
 	}
 
 

@@ -18,9 +18,6 @@ public class Audio extends Publicacion implements IDurable {
 	/** La velocidad en bits. */
 	private int velocidadBits;
 
-	/** La duracion. */
-	private float duracion;
-
 	/** El inicio. */
 	private float inicio;
 
@@ -44,7 +41,6 @@ public class Audio extends Publicacion implements IDurable {
 		this.velocidadBits = velocidadBits;
 		this.inicio = 0;
 		this.fin = duracion;
-		this.duracion = duracion;
 		this.finReproduccion = duracion;
 	}
 	
@@ -93,8 +89,8 @@ public class Audio extends Publicacion implements IDurable {
 	 * @return duracion [segundos]
 	 */
 	//
-	public float getDuracion() {
-		return duracion;
+	public float calcularDuracion() {
+		return this.finReproduccion - this.inicio;
 	}
 
 	/**
@@ -116,13 +112,6 @@ public class Audio extends Publicacion implements IDurable {
 	}
 
 	/**
-	 * Actualiza la duracion de la reproduccion.
-	 */
-	private void actualizarDuracion() {
-		this.duracion = this.finReproduccion - this.inicio;
-	}
-
-	/**
 	 * Avanzar. De la interface Durable.
 	 * Actualiza la duracion de la reproduccion del audio.
 	 *
@@ -132,7 +121,6 @@ public class Audio extends Publicacion implements IDurable {
 	public void avanzar(float inicioRelativo) throws DuracionInvalidaExcepcion {
 		if (inicioRelativo >= 0 && inicioRelativo < this.finReproduccion) {
 			this.inicio = inicioRelativo;
-			actualizarDuracion();
 		} else {
 			throw new DuracionInvalidaExcepcion(
 					"El tiempo de inicio debe ser menor al de detención y mayor o igual a 0");
@@ -149,7 +137,6 @@ public class Audio extends Publicacion implements IDurable {
 	public void detener(float finRelativo) throws DuracionInvalidaExcepcion {
 		if (finRelativo > this.inicio && finRelativo <= this.fin) {
 			this.finReproduccion = finRelativo;
-			actualizarDuracion();
 		} else {
 			throw new DuracionInvalidaExcepcion(
 					"El tiempo de detención debe ser mayor al de inicio y menor o igual a la duración original");
