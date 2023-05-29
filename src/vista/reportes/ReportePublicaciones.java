@@ -22,6 +22,7 @@ import utilidades.IconosUtilidades;
 
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Window;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import javax.swing.border.BevelBorder;
@@ -287,22 +288,31 @@ public class ReportePublicaciones extends JDialog {
      * filtrado por las fechas indicadas por el usuario.
      */
     private void descargarTxtReportePublicacion() {
-    	 JButton generaTXT = new JButton("Generar TXT Publicaciones");
-    	    generaTXT.addActionListener(new ActionListener() {
-    	        public void actionPerformed(ActionEvent e) {
-    	            try {
-    	                ReportePublicacion.generarReportePublicacionEnArchivo(
-    	                        perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
-    	                JOptionPane.showMessageDialog(null, "El archivo TXT fue generado con éxito");
-    	            } catch (IOException e1) {
-    	                JOptionPane.showMessageDialog(null, "El archivo NO fue generado", "Error",
-    	                        JOptionPane.ERROR_MESSAGE);
-    	            }
-    	        }
-    	    });
-    	    generaTXT.setBounds(940, 520, 196, 23);
-    	    contentPanel.add(generaTXT);
-    	    
+        JButton generaTXT = new JButton("Generar TXT Publicaciones");
+        generaTXT.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                try {
+                    ReportePublicacion.generarReportePublicacionEnArchivo(
+                            perfilInstagram.ordenarPublicacionPorCantidadYPromedioDeMg());
+                    
+                    Component parentComponent = (Component) e.getSource();
+                    
+                    JOptionPane.showMessageDialog(parentComponent, "El archivo TXT fue generado con éxito");
+
+                    Window parentWindow = SwingUtilities.getWindowAncestor(parentComponent);
+    	            parentWindow.setAlwaysOnTop(true);
+                } catch (IOException e1) {
+                	 Component parentComponent = (Component) e.getSource();
+                    JOptionPane.showMessageDialog(parentComponent, "El archivo NO fue generado", "Error",
+                            JOptionPane.ERROR_MESSAGE);
+
+                    Window parentWindow = SwingUtilities.getWindowAncestor(parentComponent);
+    	            parentWindow.setAlwaysOnTop(true);
+                }
+            }
+        });
+        generaTXT.setBounds(940, 520, 196, 23);
+        contentPanel.add(generaTXT);
     }
 }
 	
