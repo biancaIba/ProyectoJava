@@ -280,6 +280,12 @@ public class ReportePublicaciones extends JDialog {
 			}	
 		}
     }
+    /**
+     * descargaTxtReportePublicacion
+     * Descarga el archivo TXT del reporte de publicaciones.
+     * Este método crea y configura el botón "Generar TXT " de publicaciones que permite generar y descargar un archivo TXT con el reporte de las publicaciones
+     * filtrado por las fechas indicadas por el usuario.
+     */
     private void descargarTxtReportePublicacion() {
     	 JButton generaTXT = new JButton("Generar TXT Publicaciones");
     	    generaTXT.addActionListener(new ActionListener() {
